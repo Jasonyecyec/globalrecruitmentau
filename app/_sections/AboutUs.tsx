@@ -9,7 +9,7 @@ const FeatureHighlight = ({ title, description }: { title: string; description: 
       <div className="flex items-start space-x-3">
         <CheckCircle className="h-6 w-6 flex-shrink-0 text-orange-500" />
         <div>
-          <h3 className="font-semibold text-[#1E1147]">{title}</h3>
+          <h3 className="font-semibold text-secondaryColor">{title}</h3>
           <p className="text-sm text-gray-600">{description}</p>
         </div>
       </div>
