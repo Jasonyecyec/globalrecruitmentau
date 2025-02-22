@@ -5,7 +5,8 @@ import Header from '@/app/_components/Header';
 import Hero from '@/app/_sections/Hero';
 import AboutUs from "@/app/_sections/AboutUs";
 import StatsMetrics from "@/app/_sections/StatsMetrics";
-import {navigationLinks } from '@/app/_constants/homeConstants'
+import JobCategories from "@/app/_sections/JobCategories";
+import {navigationLinks, jobCategoriesList} from '@/app/_constants/homeConstants'
 
 export default function Home() {
   return (
@@ -19,6 +20,8 @@ export default function Home() {
       <AboutUs />
 
       <StatsMetrics />
+
+      <JobCategories jobCategories={jobCategoriesList} />
 
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <Image
