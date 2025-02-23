@@ -38,4 +38,50 @@ export const jobCategoriesList = [
     {icon: ShoppingBag, title: 'Retail', jobs: '4k'},
     {icon: Globe, title: 'International', jobs: '15k'},
     {icon: Users, title: 'Human Resources', jobs: '6k'},
-]   
+]  
+
+export const findJobList = [
+    {
+      title: "Mining Engineer",
+      company: "AusMine Corp",
+      location: "Perth, WA",
+      salary: "$120,000 - $150,000",
+      jobType: "Full-time"
+    },
+    {
+      title: "Registered Nurse",
+      company: "Sydney Central Hospital",
+      location: "Sydney, NSW",
+      salary: "$75,000 - $95,000",
+      jobType: "Full-time"
+    },
+    {
+      title: "Farm Manager",
+      company: "Green Pastures Pty Ltd",
+      location: "Toowoomba, QLD",
+      salary: "$80,000 - $100,000",
+      jobType: "Full-time"
+    },
+    {
+      title: "Software Engineer",
+      company: "TechInnovate Australia",
+      location: "Melbourne, VIC",
+      salary: "Not specified",
+      jobType: "Full-time"
+    },
+    {
+      title: "FIFO Chef",
+      company: "Outback Catering Services",
+      location: "Various Locations, WA",
+      salary: "Not specified",
+      jobType: "Remote"
+    },
+    {
+      title: "Environmental Scientist",
+      company: "Farm Hand",
+      location: "Brisbane, QLD",
+      salary: "Not specified",
+      jobType: "Full-time"
+    }
+  ]
+  

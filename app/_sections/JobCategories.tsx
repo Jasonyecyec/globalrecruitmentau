@@ -18,9 +18,9 @@ const JobCategories = ({jobCategories}:JobCategoriesProps) =>{
                 <h2 className="mb-10 text-center text-3xl font-bold">Featured Job Categories</h2>
 
                 <div className="overflow-x-auto pb-4">
-                    <div className="flex space-x-8" style={{ minWidth: "max-content" }}>
+                    <div className="flex space-x-8" role="list" style={{ minWidth: "max-content" }}>
                         {jobCategories.map((category, index)=>(
-                            <JobCategoryCard key={index} {...category} />
+                            <JobCategoryCard key={index} title={category.title} jobs={category.jobs} icon={category.icon} />
                         ))}
                     </div>
                 </div>
