@@ -18,7 +18,7 @@ const FeatureHighlight = ({ title, description }: { title: string; description: 
 
 const AboutUs = () => {
     return (
-        <section className="py-20 px-20 bg-white" id="about-us">
+        <section className="py-20 px-20  bg-white" id="about-us">
             <div className="container mx-auto px-4">
                 <div className="flex flex-col md:flex-row items-center gap-12">
                     <div className="md:w-1/2  flex justify-center">

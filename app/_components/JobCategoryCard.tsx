@@ -9,7 +9,7 @@ type JobCategoryCardProps = {
 
 const JobCategoryCard = ({title,jobs,icon:Icon}:JobCategoryCardProps) =>{
     return (
-        <Card className="flex flex-col items-center justify-center p-4 w-32 hover:bg-gray-100 hover:cursor-pointer duration-300 group">
+        <Card role="listitem" className="flex flex-col items-center justify-center p-2 w-32 hover:bg-gray-100 hover:cursor-pointer duration-300 group">
             <p><Icon className="text-black"/> </p>
             <p className="text-center text-sm font-semibold mt-2 text-gray-500 group-hover:text-secondaryColor duration-300">{title}</p>
             <p className="text-center text-xs text-gray-500"><span className="">{jobs}</span> Jobs</p>

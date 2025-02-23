@@ -45,7 +45,7 @@ const StatsCounter = ({label,value, icon:Icon}:StatsCounterProps) =>{
 const StatsMetrics = () =>{
     return(
         <section id="stats-metrics" className="py-16 px-20 bg-[#f9fafb]">
-            <div className="container mx-auto px-4">
+            <div className="container mx-auto max-w-6xl px-4">
                 <h2 className="text-3xl font-bold text-center mb-12">Our Global Impact</h2>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
