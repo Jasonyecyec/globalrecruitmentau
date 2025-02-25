@@ -8,12 +8,12 @@ import StatsMetrics from "@/app/_sections/StatsMetrics";
 import JobCategories from "@/app/_sections/JobCategories";
 import FindJobs from "@/app/_sections/FindJobs";
 import FeaturedIndustries from "@/app/_sections/FeaturedIndustries";
-import {navigationLinks, jobCategoriesList,findJobList } from '@/app/_constants/homeConstants'
+import {navigationLinks, jobCategoriesList,findJobList,featuredIndustriesList } from '@/app/_constants/homeConstants'
 
 export default function Home() {
   return (
     // <div className=" grid grid-rows-[20px_1fr_20px] min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] ">
-      <div className="">
+    <div className="">
 
       <Header navigation={navigationLinks} />
 
@@ -27,7 +27,7 @@ export default function Home() {
       
       <FindJobs jobList={findJobList}/>
 
-      <FeaturedIndustries/>
+      <FeaturedIndustries featuredIndustries={featuredIndustriesList}/>
 
       <p className="mt-[40rem]">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem, quos maxime optio ut ipsum repudiandae doloremque ad laborum eos reprehenderit?</p>
       <Footer />

@@ -1,34 +1,39 @@
 import React from "react";
-import {Card} from '@/components/ui/card';
-import {Search, MapPin} from 'lucide-react';
+import { StaticImageData } from "next/image";
+import {Button} from '@/components/ui/button'
+import FeaturedIndustriesCard from "@/app/_components/FeaturedIndustriesCard";
 
-type FeaturedIndustriesCardProps = {
+type FeaturedIndustriesList = {
     icon: React.ComponentType<{className: string}>
     title: string,
     description: string
+    image: StaticImageData
 }
 
-const FeaturedIndustriesCard = ({icon:Icon,title, description}:FeaturedIndustriesCardProps)=>{
-    return(
-        <Card className="flex flex-col p-4 items-center justify-center">
-            <span><Icon className=""/></span>
-            <p className="font-semibold text-lg">{title}</p>
-            <p>{description}</p>
-        </Card>
-    )
+type FeaturedIndustriesProps = {
+    featuredIndustries: FeaturedIndustriesList[]
 }
 
-
-const FeaturedIndustries = ()=>{
+const FeaturedIndustries = ({featuredIndustries}: FeaturedIndustriesProps)=>{
     return(
         <section className="py-16 bg-white" id="featured-industries">
-            <div className="mx-auto max-w-6xl border border-red-200">
+            <div className="mx-auto max-w-6xl px-4">
                 <h2 className="mb-10 text-center text-3xl font-bold">Featured Industries</h2>
                 
-           
+                <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center ">
+                    {featuredIndustries?.map((industries, index)=>(
+                        <FeaturedIndustriesCard icon={industries.icon} 
+                                                title={industries.title}
+                                                description={industries.description}
+                                                image={industries.image}/>
 
-                <div className="flex items-center space-x-5">
-                    <FeaturedIndustriesCard icon={Search} title="test" description="test"/>
+                    ))}
+                </div>
+
+                <div className="mt-10 text-center">
+                    <Button variant="outline" className="border-[#1E1147] text-[#1E1147] hover:bg-[#1E1147] hover:text-white">
+                        Explore All Industries
+                    </Button>
                 </div>
             </div>
         </section>

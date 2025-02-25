@@ -4,7 +4,6 @@ import {
     GraduationCap,
     HeartPulse,
     LineChart,
-    Wrench,
     CheckCircle,
     Search,
     MapPin,
@@ -14,8 +13,25 @@ import {
     HardHat,
     Utensils,
     Tractor,
-    ShoppingBag
+    ShoppingBag,
+    Pickaxe,
+    Sprout,
+    Wrench,
+    BookCopy,
+    Laptop,
+    CircleDollarSign,
+    Factory
   } from "lucide-react"
+  
+  import MiningAndResources from '@/public/img/featured_industries/mining_and_resource.jpg'
+  import FarmAndAgriculture from '@/public/img/featured_industries/farm_and_agriculture.jpg'
+  import Healthcare from '@/public/img/featured_industries/healthcare.jpg'
+  import Construction from '@/public/img/featured_industries/construction.jpg'
+  import Education from '@/public/img/featured_industries/education.jpg'
+  import InforationTechnology from '@/public/img/featured_industries/information_technology.jpg'
+  import FinancialService from '@/public/img/featured_industries/financial_service.jpg'
+  import Manufacturing from '@/public/img/featured_industries/manufacturing.jpg'
+
 
 export const navigationLinks = [
     {name: 'Home', path: '/'},
@@ -84,4 +100,105 @@ export const findJobList = [
       jobType: "Full-time"
     }
   ]
+  
+  export const featuredIndustriesList = [
+    {
+      title: "Mining and Resources",
+      icon: Pickaxe,
+      description: "Australia's leading sector, including coal, iron ore, and minerals",
+      image: MiningAndResources
+    },
+    {
+      title: "Farm & Agriculture",
+      icon: Sprout,
+      description: "Farm hands, seasonal workers, and agricultural specialists across Australia",
+      image: FarmAndAgriculture
+    },
+    {
+      title: "Healthcare",
+      icon: HeartPulse,
+      description: "Growing industry with increasing demand for services",
+      image:Healthcare
+    },
+    {
+      title: "Construction",
+      icon: Wrench,
+      description: "Booming sector with numerous infrastructure projects",
+      image: Construction
+    },
+    {
+      title: "Education",
+      icon: BookCopy,
+      description: "Major export industry and employer in Australia",
+      image: Education
+    },
+    {
+      title: "Information Technology",
+      icon: Laptop,
+      description: "Rapidly growing industry with high demand for skilled professionals",
+      image: InforationTechnology
+    },
+    {
+      title: "Financial Services",
+      icon: CircleDollarSign,
+      description: "Strong sector including banking, insurance, and investment",
+      image: FinancialService
+    },
+    {
+      title: "Manufacturing",
+      icon: Factory,
+      description: "Diverse industry producing goods for domestic and international markets",
+      image: Manufacturing
+    },
+    // {
+    //   title: "Retail Trade",
+    //   icon: Briefcase,
+    //   description: "Large employer across various types of stores and online platforms",
+    //   image: FarmAndAgriculture
+    // },
+    // {
+    //   title: "Tourism & Hospitality",
+    //   icon: Briefcase,
+    //   description: "Significant contributor to the economy, attracting domestic and international visitors",
+    //   image: FarmAndAgriculture
+    // },
+    // {
+    //   title: "Energy & Utilities",
+    //   icon: Briefcase,
+    //   description: "Essential services including electricity, gas, and water supply",
+    //   image: FarmAndAgriculture
+    // },
+    // {
+    //   title: "Telecommunications",
+    //   icon: Briefcase,
+    //   description: "Evolving industry with ongoing infrastructure development",
+    //   image: FarmAndAgriculture
+    // },
+    // {
+    //   title: "Professional Services",
+    //   icon: Briefcase,
+    //   description: "Wide range of services including legal, accounting, and consulting",
+    //   image: FarmAndAgriculture
+    // },
+    // {
+    //   title: "Media & Entertainment",
+    //   icon: Briefcase,
+    //   description: "Dynamic sector covering film, television, music, and digital media",
+    //   image: FarmAndAgriculture
+    // },
+    // {
+    //   title: "Transport & Logistics",
+    //   icon: Briefcase,
+    //   description: "Critical industry supporting Australia's supply chains",
+    //   image: FarmAndAgriculture
+    // },
+    // {
+    //   title: "Renewable Energy",
+    //   icon: Briefcase,
+    //   description: "Growing sector focused on sustainable energy solutions",
+    //   image: FarmAndAgriculture
+    // }
+  ]
+  
+  
   
