@@ -16,8 +16,7 @@ type HeaderProps = {
 const Header =  ({navigation}: HeaderProps)=>{
     return(
         <div className="sticky z-50 top-0 w-full bg-white border">
-             <div className="container h-16 flex items-center justify-between pl-48 pr-20">
-
+             <div className="container h-16 flex items-center justify-between px-5 sm:pl-48 sm:pr-20">
                  {/* Logo */}
                 <Link href="/" className=" flex items-center space-x-2">
                     <div className="relative  bg-red-200">
@@ -26,7 +25,7 @@ const Header =  ({navigation}: HeaderProps)=>{
                 </Link>
 
                 {/* Links */}
-                <nav className="flex space-x-6 text-sm font-medium text-gray-600">
+                <nav className="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
                     {navigation.map((item, index)=>(
                         <Link href={item.path} key={index}>    
                             {item.name} 

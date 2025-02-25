@@ -44,6 +44,7 @@ const FindJobs = ({jobList}:FindJobsProps) => {
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {jobList?.map((jobs, index)=>(
                             <JobCard 
+                                key={index}
                                 title={jobs.title}
                                 company={jobs.company}
                                 location={jobs.location}
