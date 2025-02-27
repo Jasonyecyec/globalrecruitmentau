@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import TestimonialCard from "@/app/_components/TestimonialCard";
+import { StaticImageData } from "next/image";
 
 type GlobalSuccessStoriesList = {
     id: number,
@@ -10,7 +11,7 @@ type GlobalSuccessStoriesList = {
     origin: string,
     company: string,
     location: string,
-    image: string, 
+    image: StaticImageData, 
     quote: string
 }
 
@@ -109,7 +110,7 @@ const GlobalSuccessStories = ({globalSuccessStoriesList}: GlobalSuccessStoriesPr
                          <button 
                             onClick={()=>scroll('left')}
                             aria-label="scroll-left" 
-                            className="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full shadow-lg p-2 z-10 hover:bg-gray-100 transition-all duration-300">
+                            className="absolute border left-0 top-1/2 -translate-y-1/2 bg-white rounded-full shadow-lg p-2 z-10 hover:bg-gray-100 transition-all duration-300">
                             <ChevronLeft size={24} className="text-mainColor" />
                         </button>
                     )}
@@ -119,7 +120,7 @@ const GlobalSuccessStories = ({globalSuccessStoriesList}: GlobalSuccessStoriesPr
                          onMouseDown={handleMouseDown}
                          style={{scrollbarWidth:'none'}}
                          className="overflow-x-auto flex space-x-5  cursor-grab scrollbar-hide scroll-smooth">
-                        <div className="flex space-x-7   px-12">
+                        <div className="flex space-x-7  py-3 px-12">
                             {globalSuccessStoriesList?.map((item,index)=>(
                                 <TestimonialCard key={index} 
                                                 origin={item.origin}
@@ -139,7 +140,7 @@ const GlobalSuccessStories = ({globalSuccessStoriesList}: GlobalSuccessStoriesPr
                          <button 
                             onClick={()=>scroll('right')}
                             aria-label="scroll-right"
-                            className="absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full shadow-lg p-2 z-10 hover:bg-gray-100 transition-all duration-300">
+                            className="absolute border right-0 top-1/2 -translate-y-1/2 bg-white rounded-full shadow-lg p-2 z-10 hover:bg-gray-100 transition-all duration-300">
                             <ChevronRight size={24} className="text-mainColor" />
                         </button>
                      )}

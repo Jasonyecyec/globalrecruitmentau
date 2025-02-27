@@ -10,6 +10,9 @@ import FindJobs from "@/app/_sections/FindJobs";
 import FeaturedIndustries from "@/app/_sections/FeaturedIndustries";
 import HowItWork from "@/app/_sections/HowItWork";
 import GlobalSuccessStories from "@/app/_sections/GlobalSuccessStories";
+import ReadyToGlobal  from "@/app/_sections/ReadyToGlobal";
+import Contact from "@/app/_sections/Contact";
+
 import {navigationLinks, 
         jobCategoriesList,
         findJobList,
@@ -40,6 +43,9 @@ export default function Home() {
 
       <GlobalSuccessStories globalSuccessStoriesList={testimonialList}/>
 
+      <ReadyToGlobal />
+
+      <Contact />
       <Footer />
     </div>
   );

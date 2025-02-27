@@ -23,6 +23,7 @@ import {
     Factory
   } from "lucide-react"
   
+  // Featured Industries
   import MiningAndResources from '@/public/img/featured_industries/mining_and_resource.jpg'
   import FarmAndAgriculture from '@/public/img/featured_industries/farm_and_agriculture.jpg'
   import Healthcare from '@/public/img/featured_industries/healthcare.jpg'
@@ -31,6 +32,18 @@ import {
   import InforationTechnology from '@/public/img/featured_industries/information_technology.jpg'
   import FinancialService from '@/public/img/featured_industries/financial_service.jpg'
   import Manufacturing from '@/public/img/featured_industries/manufacturing.jpg'
+
+  // User Success
+  import UserSuccess1 from '@/public/img/user_success/user_success1.jpg'
+  import UserSuccess2 from '@/public/img/user_success/user_success2.jpg'
+  import UserSuccess3 from '@/public/img/user_success/user_success3.jpg'
+  import UserSuccess4 from '@/public/img/user_success/user_success4.jpg'
+  import UserSuccess5 from '@/public/img/user_success/user_success5.jpg'
+  import UserSuccess6 from '@/public/img/user_success/user_success6.jpg'
+  import UserSuccess7 from '@/public/img/user_success/user_success7.jpg'
+  import UserSuccess8 from '@/public/img/user_success/user_success8.jpg'
+  import UserSuccess9 from '@/public/img/user_success/user_success9.jpg'
+  import UserSuccess10 from '@/public/img/user_success/user_success10.jpg'
 
 
 export const navigationLinks = [
@@ -248,7 +261,7 @@ export const findJobList = [
       location: "Melbourne, Australia",
       origin: "India",
       quote: "RPG helped me land my dream job in Australia's thriving tech scene. The transition from India was smooth thanks to their guidance.",
-      image: "/images/rahul-sharma.jpg"
+      image: UserSuccess1
     },
     {
       id: 2,
@@ -258,7 +271,7 @@ export const findJobList = [
       location: "Sydney, Australia",
       origin: "United Kingdom",
       quote: "Moving from London to Sydney for a marketing role was a big step. RPG's support made the international transition seamless.",
-      image: "/images/emma-thompson.jpg"
+      image: UserSuccess2
     },
     {
       id: 3,
@@ -268,7 +281,7 @@ export const findJobList = [
       location: "Brisbane, Australia",
       origin: "Brazil",
       quote: "RPG understood my unique skills and helped me find a perfect fit in Australia's growing data science field.",
-      image: "/images/carlos-mendez.jpg"
+      image: UserSuccess3
     },
     {
       id: 4,
@@ -278,7 +291,7 @@ export const findJobList = [
       location: "Perth, Australia",
       origin: "Japan",
       quote: "I never thought I could work for a top design firm in Australia. Thanks to RPG, I'm now living my dream in Perth!",
-      image: "/images/yuki-tanaka.jpg"
+      image: UserSuccess4
     },
     {
       id: 5,
@@ -288,7 +301,7 @@ export const findJobList = [
       location: "Adelaide, Australia",
       origin: "Singapore",
       quote: "RPG's expertise in the Australian job market helped me secure a position in Adelaide's financial sector. Their guidance was invaluable.",
-      image: "/images/sarah-chen.jpg"
+      image: UserSuccess5
     },
     {
       id: 6,
@@ -298,7 +311,7 @@ export const findJobList = [
       location: "Gold Coast, Australia",
       origin: "Egypt",
       quote: "Working remotely from the Gold Coast for an Australian company was a dream come true. RPG made it happen!",
-      image: "/images/mohammed-al-fayed.jpg"
+      image: UserSuccess6
     },
     {
       id: 7,
@@ -308,7 +321,7 @@ export const findJobList = [
       location: "Cairns, Australia",
       origin: "Italy",
       quote: "Moving from Italy to manage a resort in Cairns was an exciting challenge. RPG's support throughout the process was exceptional.",
-      image: "/images/isabella-rossi.jpg"
+      image: UserSuccess7
     },
     {
       id: 8,
@@ -318,7 +331,7 @@ export const findJobList = [
       location: "Perth, Australia",
       origin: "Ireland",
       quote: "RPG's expertise in the Australian mining industry helped me land a fantastic role in Perth. I couldn't be happier with my new life Down Under!",
-      image: "/images/liam-oconnor.jpg"
+      image: UserSuccess8
     },
     {
       id: 9,
@@ -328,7 +341,7 @@ export const findJobList = [
       location: "Darwin, Australia",
       origin: "India",
       quote: "Transitioning from India to Australia's healthcare system was daunting, but RPG's guidance made it achievable. I'm thrilled with my new role in Darwin!",
-      image: "/images/priya-patel.jpg"
+      image: UserSuccess9
     },
     {
       id: 10,
@@ -338,7 +351,7 @@ export const findJobList = [
       location: "Barossa Valley, Australia",
       origin: "Germany",
       quote: "RPG helped me fulfill my dream of managing a vineyard in Australia. Their agricultural industry knowledge was impressive!",
-      image: "/images/hans-schmidt.jpg"
+      image: UserSuccess10
     }
   ]
   
