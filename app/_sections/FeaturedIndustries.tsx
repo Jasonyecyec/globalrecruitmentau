@@ -22,10 +22,12 @@ const FeaturedIndustries = ({featuredIndustries}: FeaturedIndustriesProps)=>{
                 
                 <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center ">
                     {featuredIndustries?.map((industries, index)=>(
-                        <FeaturedIndustriesCard icon={industries.icon} 
-                                                title={industries.title}
-                                                description={industries.description}
-                                                image={industries.image}/>
+                        <FeaturedIndustriesCard 
+                            key={index}
+                            icon={industries.icon} 
+                            title={industries.title}
+                            description={industries.description}
+                            image={industries.image}/>
 
                     ))}
                 </div>

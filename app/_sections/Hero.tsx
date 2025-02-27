@@ -6,12 +6,8 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen  bg-heroImg bg-no-repeat bg-cover text-white"  id="hero"
         // style={{ backgroundImage: `theme('heroImg')` }}
->
-        {/* <div className="w-full min-h-screen bg-cover">
-            <p>TEST</p>
-        </div> */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1E1147]/70 to-orange-300/50"></div>
-
+    >
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1E1147]/70 to-orange-300/50"></div>
 
          {/* <div className="absolute inset-0 bg-black opacity-50"></div> */}
         <div className="px-20 md:px-0 relative mx-auto max-w-5xl ">
