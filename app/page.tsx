@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Footer from "@/app/_components/Footer";
+import Footer from "@/app/_sections/Footer";
 import Navbar from "@/app/_components/Navbar";
 import Header from '@/app/_components/Header';
 import Hero from '@/app/_sections/Hero';
@@ -8,7 +8,17 @@ import StatsMetrics from "@/app/_sections/StatsMetrics";
 import JobCategories from "@/app/_sections/JobCategories";
 import FindJobs from "@/app/_sections/FindJobs";
 import FeaturedIndustries from "@/app/_sections/FeaturedIndustries";
-import {navigationLinks, jobCategoriesList,findJobList,featuredIndustriesList } from '@/app/_constants/homeConstants'
+import HowItWork from "@/app/_sections/HowItWork";
+import GlobalSuccessStories from "@/app/_sections/GlobalSuccessStories";
+import ReadyToGlobal  from "@/app/_sections/ReadyToGlobal";
+import Contact from "@/app/_sections/Contact";
+
+import {navigationLinks, 
+        jobCategoriesList,
+        findJobList,
+        featuredIndustriesList,
+        howItWorksList,
+        testimonialList} from '@/app/_constants/homeConstants'
 
 export default function Home() {
   return (
@@ -29,7 +39,13 @@ export default function Home() {
 
       <FeaturedIndustries featuredIndustries={featuredIndustriesList}/>
 
-      <p className="mt-[40rem]">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem, quos maxime optio ut ipsum repudiandae doloremque ad laborum eos reprehenderit?</p>
+      <HowItWork howItWorklist={howItWorksList}/>
+
+      <GlobalSuccessStories globalSuccessStoriesList={testimonialList}/>
+
+      <ReadyToGlobal />
+
+      <Contact />
       <Footer />
     </div>
   );
