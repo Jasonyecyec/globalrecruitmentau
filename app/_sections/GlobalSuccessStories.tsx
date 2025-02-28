@@ -4,19 +4,17 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import TestimonialCard from "@/app/_components/TestimonialCard";
 import { StaticImageData } from "next/image";
 
-type GlobalSuccessStoriesList = {
-    id: number,
-    name: string,
-    position: string,
-    origin: string,
-    company: string,
-    location: string,
-    image: StaticImageData, 
-    quote: string
-}
-
 type GlobalSuccessStoriesProps = {
-    globalSuccessStoriesList : GlobalSuccessStoriesList[]
+    globalSuccessStoriesList : {
+        id: number,
+        name: string,
+        position: string,
+        origin: string,
+        company: string,
+        location: string,
+        image: StaticImageData, 
+        quote: string
+    }[],
 }
 
 const GlobalSuccessStories = ({globalSuccessStoriesList}: GlobalSuccessStoriesProps) => {

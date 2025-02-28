@@ -5,16 +5,14 @@ import {Card} from '@/components/ui/card'
 import {Search, MapPin} from 'lucide-react';
 import JobCard from "@/app/_components/JobCard";
 
-type FindJobListItems = {
-    title:string,
-    company:string,
-    location:string,
-    salary:string,
-    jobType:string,
-}
-
 type FindJobsProps = {
-    jobList: FindJobListItems[]
+    jobList: {
+        title:string,
+        company:string,
+        location:string,
+        salary:string,
+        jobType:string,
+    }[],
 }
 
 

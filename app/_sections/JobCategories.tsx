@@ -1,14 +1,12 @@
 import React from "react";
 import JobCategoryCard from "@/app/_components/JobCategoryCard";
 
-type JobCategoriesItems = {
-    icon: React.ComponentType<{className: string}>
-    title: string,
-    jobs: string
-}
-
 type JobCategoriesProps = {
-    jobCategories: JobCategoriesItems[]
+    jobCategories: {
+        icon: React.ComponentType<{className: string}>
+        title: string,
+        jobs: string
+    }[],
 }
 
 const JobCategories = ({jobCategories}:JobCategoriesProps) =>{

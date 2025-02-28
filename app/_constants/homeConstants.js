@@ -354,7 +354,37 @@ export const findJobList = [
       image: UserSuccess10
     }
   ]
-  
-  
-  
-  
+
+  export const faqList = [
+    {
+      item: 1,
+      question: "How do I create an international account?",
+      answer: "Simply click on the 'Sign Up' button and follow the steps to create your global account. You can specify your location, job preferences, and upload your resume during the process."
+    },
+    { 
+      item: 2,
+      question: "What happens after I submit my job application?",
+      answer: "After submitting your application, you'll receive a confirmation email. Our team will review your application and forward it to the employer if it meets the job requirements. The employer will then decide whether to proceed with your application."
+    },
+    {
+      item: 3,
+      question: "What makes RPG different from other international job boards?",
+      answer: "RPG specializes in cross-border recruitment, offering personalized matching, cultural insights, and a global network of employers. We provide comprehensive support throughout the entire job search and hiring process, from application to onboarding."
+    },
+    {
+      item: 4,
+      question: "How will I be notified if an employer wants to interview me?",
+      answer: "If an employer is interested in interviewing you, you'll receive an email notification and a message in your RPG account. The notification will include details on how to schedule or confirm your interview."
+    },
+    {
+      item: 5,
+      question: "How long does it typically take to hear back about my application?",
+      answer: "Response times can vary depending on the employer and position. On average, you can expect to hear back within 1-2 weeks. If you haven't received a response after 2 weeks, you can check your application status in your account dashboard."
+    },
+    {
+      item: 6,
+      question: "How does RPG ensure the legitimacy of job postings?",
+      answer: "We have a rigorous vetting process for employers and job postings. Our team verifies company information, reviews job descriptions, and monitors user feedback to maintain the quality and legitimacy of listings on our platform."
+    },
+    
+  ]

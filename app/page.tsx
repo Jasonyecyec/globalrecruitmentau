@@ -12,13 +12,15 @@ import HowItWork from "@/app/_sections/HowItWork";
 import GlobalSuccessStories from "@/app/_sections/GlobalSuccessStories";
 import ReadyToGlobal  from "@/app/_sections/ReadyToGlobal";
 import Contact from "@/app/_sections/Contact";
+import FAQ from '@/app/_sections/FAQ'
 
 import {navigationLinks, 
         jobCategoriesList,
         findJobList,
         featuredIndustriesList,
         howItWorksList,
-        testimonialList} from '@/app/_constants/homeConstants'
+        testimonialList,
+        faqList} from '@/app/_constants/homeConstants'
 
 export default function Home() {
   return (
@@ -45,7 +47,10 @@ export default function Home() {
 
       <ReadyToGlobal />
 
+      <FAQ faqList={faqList}/>
+
       <Contact />
+      
       <Footer />
     </div>
   );
