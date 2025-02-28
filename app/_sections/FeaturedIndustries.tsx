@@ -3,15 +3,13 @@ import { StaticImageData } from "next/image";
 import {Button} from '@/components/ui/button'
 import FeaturedIndustriesCard from "@/app/_components/FeaturedIndustriesCard";
 
-type FeaturedIndustriesList = {
-    icon: React.ComponentType<{className: string}>
-    title: string,
-    description: string
-    image: StaticImageData
-}
-
 type FeaturedIndustriesProps = {
-    featuredIndustries: FeaturedIndustriesList[]
+    featuredIndustries : {
+        icon: React.ComponentType<{className: string}>
+        title: string,
+        description: string
+        image: StaticImageData
+    }[]
 }
 
 const FeaturedIndustries = ({featuredIndustries}: FeaturedIndustriesProps)=>{

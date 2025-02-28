@@ -31,16 +31,6 @@ const Hero = () => {
                         </Button>
                     </div>
                 </div>
-
-                {/* <div className="relative hidden md:block">
-                    <Image
-                        src="/placeholder.svg?height=400&width=600"
-                        alt="Global workplace"
-                        width={600}
-                        height={400}
-                        className="rounded-lg shadow-2xl"
-                    />
-                </div> */}
             </div>
         </div>
 

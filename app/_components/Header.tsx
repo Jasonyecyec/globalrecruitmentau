@@ -3,13 +3,11 @@ import Link from "next/link";
 import Image from "next/image";
 import {Button} from '@/components/ui/button';
 
-type NavigationItems = {
-    name: string;
-    path: string;
-}
-
 type HeaderProps = {
-    navigation: NavigationItems [];
+    navigation: {
+        name:string,
+        path:string,
+    }[],
 }
 
 
@@ -35,8 +33,13 @@ const Header =  ({navigation}: HeaderProps)=>{
 
                 {/* Login & Signup */}
                 <div className="flex space-x-4">
-                    <Button variant="outline" className="border duration-300 text-sm "> Log In</Button>
-                    <Button  className="bg-mainColor hover:bg-orange-500 duration-300 text-sm"> Sign Up</Button>
+                    <Link href="/login">
+                        <Button variant="outline" className="border duration-300 text-sm "> Log In</Button>
+                    </Link>
+
+                    <Link href="signup">
+                        <Button  className="bg-mainColor hover:bg-orange-500 duration-300 text-sm"> Sign Up</Button>
+                    </Link>
                 </div>
             </div>
         </div>
