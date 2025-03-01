@@ -33,7 +33,7 @@ const Header =  ({navigation}: HeaderProps)=>{
 
                 {/* Login & Signup */}
                 <div className="flex space-x-4">
-                    <Link href="/login">
+                    <Link href="/signin">
                         <Button variant="outline" className="border duration-300 text-sm "> Log In</Button>
                     </Link>
 
