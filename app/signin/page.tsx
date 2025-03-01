@@ -1,5 +1,7 @@
+'use client'
+
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Input} from "@/components/ui/input"
 import {Label} from '@/components/ui/label'
 import {Separator } from '@/components/ui/separator'
@@ -7,10 +9,13 @@ import { Eye, EyeOff, Lock, Mail } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import RPGLogo from '@/public/img/recruitmentglobal_logo.jpg'
+import { useState } from "react"
 
 export default function SignIn() {
+    const [showPassword, setShowPassword] = useState<boolean>(false)
+
   return (
-        <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4 md: p-24" id="login">
+        <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4" id="login">
             <Card className="w-full max-w-md shadow-lg">
                 <CardHeader className="space-y-2">
                     <CardTitle className="flex flex-col items-center text-center font-bold text-secondaryColor text-xl">
@@ -20,7 +25,7 @@ export default function SignIn() {
                                 alt="Recruitment Placement Global"
                                 width={280}
                                 height={80}
-                                className="object-contain h-32 w-32"
+                                className="object-contain h-28 w-28"
                             />
                         </Link>
                     
@@ -49,8 +54,10 @@ export default function SignIn() {
 
                                 <div className="relative">
                                     <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400"/>
-                                    <Input id="password" type="password" required  className="pl-8 pr-8"/>
-                                    <button type="button"className="absolute right-3 top-3 text-gray-400"><Eye className="h-4 w-4"/></button>
+                                    <Input id="password" type={showPassword ? "text" : "password"} required  className="pl-8 pr-8"/>
+                                    <button onClick={()=> setShowPassword(!showPassword)} type="button"className="absolute right-3 top-3 text-gray-400">
+                                        {showPassword ? <EyeOff className="h-4 w-4"/> :  <Eye className="h-4 w-4"/>}
+                                    </button>
                                 </div>
                             </div>
 
@@ -69,9 +76,15 @@ export default function SignIn() {
                         <Button variant="outline" className="text-gray-600 w-full border-gray-300">
                             Continue with Google
                         </Button>
-                        
-        
                     </CardContent>
+
+                    <CardFooter className="flex justify-center">
+                        <p className="text-sm">Don't have an account? 
+                            <Link href="/signup" className="ml-1 font-medium text-gray-600 transition-all duration-250 hover:text-mainColor ">
+                                Sign Up
+                            </Link>
+                        </p>
+                    </CardFooter>
             </Card>
         </div>
     )
