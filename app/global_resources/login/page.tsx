@@ -8,7 +8,7 @@ import Image from "next/image"
 import Link from "next/link"
 import RPGLogo from '@/public/img/recruitmentglobal_logo.jpg'
 
-export default function SignIn() {
+export default function Login() {
   return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4 md: p-24" id="login">
             <Card className="w-full max-w-md shadow-lg">
