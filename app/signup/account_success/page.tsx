@@ -27,7 +27,7 @@ import Image from "next/image";
 const AccountSuccess = ()=>{
 
     // const userType = useState<string>('applicant')
-    const userType = "applicant"
+    const userType: "employer" | "applicant" = "applicant";
 
     return(
         <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
@@ -36,7 +36,7 @@ const AccountSuccess = ()=>{
             <div className="flex justify-center">
               <CheckCircle className="h-16 w-16 text-mainColor" />
             </div>
-            <CardTitle className="text-2xl font-bold text-mainColor">
+            <CardTitle className="text-2xl font-bold text-secondaryColor">
               {userType === "applicant" ? "Profile Created!" : "Account Created!"}
             </CardTitle>
             <CardDescription>
@@ -76,19 +76,19 @@ const AccountSuccess = ()=>{
                 ) : (
                   <>
                     <li className="flex items-start">
-                      <span className="bg-main/20 text-mainColor rounded-full p-1 mr-2 mt-0.5">
+                      <span className="bg-mainColor text-white rounded-full p-1 mr-2 mt-0.5">
                         <Check className="h-3 w-3" />
                       </span>
                       Complete your company profile
                     </li>
                     <li className="flex items-start">
-                      <span className="bg-mainColor text-mainColor rounded-full p-1 mr-2 mt-0.5">
+                      <span className="bg-mainColor text-white rounded-full p-1 mr-2 mt-0.5">
                         <Check className="h-3 w-3" />
                       </span>
                       Post your first job listing
                     </li>
                     <li className="flex items-start">
-                      <span className="bg-main/20 text-mainColor rounded-full p-1 mr-2 mt-0.5">
+                      <span className="bg-mainColor text-white rounded-full p-1 mr-2 mt-0.5">
                         <Check className="h-3 w-3" />
                       </span>
                       Start searching for candidates
@@ -99,7 +99,7 @@ const AccountSuccess = ()=>{
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-2">
-            <Button asChild className="w-full bg-main hover:bg-main/90 text-white">
+            <Button asChild className="w-full bg-mainColor hover:bg-main/90 text-white">
               <Link href="/dashboard">Go to Dashboard</Link>
             </Button>
             {userType === "applicant" ? (

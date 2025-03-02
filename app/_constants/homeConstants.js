@@ -47,11 +47,11 @@ import {
 
 
 export const navigationLinks = [
-    {name: 'Home', path: '/'},
-    {name: 'About Us', path:'/'},
-    {name: 'Find Jobs', path:'/'},
+    {name: 'Home', path: '#hero'},
+    {name: 'About Us', path:'#about-us'},
+    {name: 'Find Jobs', path:'#find-dream-jobs'},
     {name: 'Services', path:'/'},
-    {name: 'Contact Us', path: '/'}
+    {name: 'Contact Us', path: '#contact'}
 ]
 
 export const jobCategoriesList = [
