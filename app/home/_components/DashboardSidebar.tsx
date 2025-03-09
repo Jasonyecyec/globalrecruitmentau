@@ -17,9 +17,8 @@ import {
   LayoutDashboard,
   Briefcase,
   ClipboardList,
-  User,
-  Settings,
-  LogOut,
+  ChevronRight,
+  Building2,
 } from "lucide-react";
 import Link from "next/link";
 import RPGLogo from "@/public/img/recruitmentglobal_logo.jpg";
@@ -81,36 +80,69 @@ export default function DashboardSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Account</SidebarGroupLabel>
+          <SidebarGroupLabel>Recent Searches</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Profile">
-                  <User className="h-4 w-4" />
-                  <span>Profile</span>
+                <SidebarMenuButton asChild>
+                  <Link href="#">
+                    <span>Frontend Developer</span>
+                    <ChevronRight className="ml-auto h-4 w-4" />
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Settings">
-                  <Settings className="h-4 w-4" />
-                  <span>Settings</span>
+                <SidebarMenuButton asChild>
+                  <Link href="#">
+                    <span>UX Designer</span>
+                    <ChevronRight className="ml-auto h-4 w-4" />
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="#">
+                    <span>Product Manager</span>
+                    <ChevronRight className="ml-auto h-4 w-4" />
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Top Companies</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="#">
+                    <Building2 className="h-4 w-4" />
+                    <span>TechCorp Inc.</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="#">
+                    <Building2 className="h-4 w-4" />
+                    <span>DesignHub</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="#">
+                    <Building2 className="h-4 w-4" />
+                    <span>DataSystems</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Logout">
-              <LogOut className="h-4 w-4" />
-              <span>Logout</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
 
       <SidebarRail />
     </Sidebar>
