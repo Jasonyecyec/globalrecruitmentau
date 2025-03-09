@@ -26,8 +26,6 @@ import { User, Settings, LogOut } from "lucide-react";
 import Link from "next/link";
 
 export default function UserNav() {
-  const [openModal, setIsOpenModal] = useState<boolean>(false);
-
   return (
     <>
       {/* User Navigation Menu */}

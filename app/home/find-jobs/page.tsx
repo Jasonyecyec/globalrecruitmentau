@@ -10,6 +10,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import { Job } from "@/app/_types/jobs";
 import {
   Select,
   SelectTrigger,
@@ -17,8 +18,8 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import JobCard from "../_components/JobCard";
+import JobDetails from "../_components/JobDetails";
 
 import {
   Filter,
@@ -46,6 +47,25 @@ const jobs = [
       "We are looking for an experienced Frontend Developer to join our team...",
     skills: ["React", "TypeScript", "Tailwind CSS"],
     saved: true,
+    aboutCompany:
+      "TechCorp Inc. is a leading technology company specializing in web and mobile application development. We create innovative solutions for businesses across various industries.",
+    companySize: "201-500 employees",
+    companyIndustry: "Information Technology",
+    companyWebsite: "https://techcorp-example.com",
+    responsibilities: [
+      "Design, develop, and maintain web applications using React and TypeScript",
+      "Collaborate with UX/UI designers to implement responsive and intuitive user interfaces",
+      "Write clean, efficient, and maintainable code following best practices",
+      "Participate in code reviews and contribute to technical discussions",
+      "Troubleshoot and debug issues in existing applications",
+    ],
+    qualifications: [
+      "Bachelor's degree in Computer Science or related field",
+      "3+ years of experience with modern JavaScript frameworks (React preferred)",
+      "Strong understanding of HTML, CSS, and responsive design principles",
+      "Experience with RESTful APIs and asynchronous request handling",
+      "Familiarity with version control systems (Git)",
+    ],
   },
   {
     id: 2,
@@ -60,6 +80,25 @@ const jobs = [
       "Join our creative team to design beautiful and functional interfaces...",
     skills: ["Figma", "Adobe XD", "User Research"],
     saved: false,
+    aboutCompany:
+      "DesignHub is a creative agency focused on delivering exceptional user experiences through thoughtful design. We work with startups and established companies to create intuitive digital products.",
+    companySize: "51-200 employees",
+    companyIndustry: "Design Services",
+    companyWebsite: "https://designhub-example.com",
+    responsibilities: [
+      "Create wireframes, prototypes, and high-fidelity designs for web and mobile applications",
+      "Conduct user research and usability testing to inform design decisions",
+      "Collaborate with product managers and developers to implement designs",
+      "Develop and maintain design systems and style guides",
+      "Stay current with UX/UI trends and best practices",
+    ],
+    qualifications: [
+      "Bachelor's degree in Design, HCI, or related field",
+      "2+ years of experience in UX/UI design for digital products",
+      "Proficiency with design tools like Figma and Adobe Creative Suite",
+      "Strong portfolio demonstrating user-centered design process",
+      "Experience with responsive design and accessibility standards",
+    ],
   },
   {
     id: 3,
@@ -74,6 +113,25 @@ const jobs = [
       "Looking for a skilled Backend Engineer to help scale our infrastructure...",
     skills: ["Node.js", "Python", "AWS"],
     saved: false,
+    aboutCompany:
+      "DataSystems specializes in building scalable backend solutions for data-intensive applications. We help businesses manage and analyze large datasets efficiently.",
+    companySize: "101-500 employees",
+    companyIndustry: "Software Development",
+    companyWebsite: "https://datasystems-example.com",
+    responsibilities: [
+      "Design and implement scalable backend services and APIs",
+      "Optimize database performance and query efficiency",
+      "Implement security best practices and data protection measures",
+      "Collaborate with frontend developers to integrate services",
+      "Monitor and troubleshoot production systems",
+    ],
+    qualifications: [
+      "Bachelor's degree in Computer Science or related field",
+      "4+ years of experience in backend development",
+      "Proficiency in Node.js, Python, or similar languages",
+      "Experience with cloud platforms (AWS, Azure, or GCP)",
+      "Knowledge of database systems and data modeling",
+    ],
   },
   {
     id: 4,
@@ -88,6 +146,25 @@ const jobs = [
       "Lead product development and strategy for our flagship application...",
     skills: ["Product Strategy", "Agile", "User Stories"],
     saved: false,
+    aboutCompany:
+      "InnovateCo develops cutting-edge software products that solve real-world problems. We focus on creating intuitive solutions that improve productivity and efficiency.",
+    companySize: "51-200 employees",
+    companyIndustry: "Software Products",
+    companyWebsite: "https://innovateco-example.com",
+    responsibilities: [
+      "Define product vision, strategy, and roadmap based on market research",
+      "Gather and prioritize product requirements from stakeholders",
+      "Create detailed user stories and acceptance criteria",
+      "Work closely with design and engineering teams throughout development",
+      "Analyze product metrics and user feedback to guide improvements",
+    ],
+    qualifications: [
+      "Bachelor's degree in Business, Computer Science, or related field",
+      "3+ years of experience in product management",
+      "Strong understanding of software development lifecycle",
+      "Experience with agile methodologies and project management tools",
+      "Excellent communication and presentation skills",
+    ],
   },
   {
     id: 5,
@@ -102,93 +179,30 @@ const jobs = [
       "Help us build and maintain our cloud infrastructure and CI/CD pipelines...",
     skills: ["Kubernetes", "Docker", "Terraform"],
     saved: true,
+    aboutCompany:
+      "CloudTech specializes in cloud infrastructure and DevOps solutions. We help companies automate their deployment processes and optimize their cloud resources.",
+    companySize: "51-200 employees",
+    companyIndustry: "Cloud Services",
+    companyWebsite: "https://cloudtech-example.com",
+    responsibilities: [
+      "Design and implement CI/CD pipelines for software delivery",
+      "Manage and optimize cloud infrastructure on AWS, Azure, or GCP",
+      "Implement infrastructure as code using Terraform or similar tools",
+      "Monitor system performance and troubleshoot issues",
+      "Collaborate with development teams to improve deployment processes",
+    ],
+    qualifications: [
+      "Bachelor's degree in Computer Science or related field",
+      "3+ years of experience in DevOps or SRE roles",
+      "Experience with containerization technologies (Docker, Kubernetes)",
+      "Knowledge of infrastructure as code tools (Terraform, CloudFormation)",
+      "Familiarity with monitoring and logging systems",
+    ],
   },
 ];
 
-type JobCardProps = {
-  job: (typeof jobs)[0];
-  isSelected: boolean;
-  onSelect: () => void;
-  onToggleSave: () => void;
-};
-
-function JobCard({ job, isSelected, onSelect, onToggleSave }: JobCardProps) {
-  return (
-    <Card
-      className={`cursor-pointer transition-all hover:border-primary ${
-        isSelected ? "border-primary" : ""
-      }`}
-      onClick={onSelect}
-    >
-      <CardHeader className="flex flex-row items-start justify-between pb-2">
-        <div className="flex items-center space-x-4">
-          <Avatar className="h-10 w-10 rounded-md">
-            <AvatarImage src={job.logo} alt={job.company} />
-            <AvatarFallback className="rounded-md">
-              {job.company.substring(0, 2)}
-            </AvatarFallback>
-          </Avatar>
-          <div>
-            <CardTitle className="text-lg">{job.title}</CardTitle>
-            <CardDescription className="flex items-center">
-              <Building2 className="mr-1 h-3 w-3" />
-              {job.company}
-            </CardDescription>
-          </div>
-        </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8 text-muted-foreground hover:text-primary"
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleSave();
-          }}
-        >
-          {job.saved ? (
-            <StarIcon className="h-4 w-4 fill-primary text-primary" />
-          ) : (
-            <Star className="h-4 w-4" />
-          )}
-          <span className="sr-only">Save job</span>
-        </Button>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-wrap gap-2 mb-2">
-          <Badge variant="outline" className="flex items-center">
-            <MapPin className="mr-1 h-3 w-3" />
-            {job.location}
-          </Badge>
-          <Badge variant="outline" className="flex items-center">
-            <Briefcase className="mr-1 h-3 w-3" />
-            {job.type}
-          </Badge>
-          <Badge variant="outline" className="flex items-center">
-            <Clock className="mr-1 h-3 w-3" />
-            {job.posted}
-          </Badge>
-        </div>
-        <p className="text-sm text-muted-foreground line-clamp-2 mt-2">
-          {job.description}
-        </p>
-        <div className="flex flex-wrap gap-1 mt-3">
-          {job.skills.map((skill) => (
-            <Badge key={skill} variant="secondary" className="text-xs">
-              {skill}
-            </Badge>
-          ))}
-        </div>
-      </CardContent>
-      <CardFooter className="flex justify-between pt-2">
-        <div className="text-sm font-medium">{job.salary}</div>
-        <Button size="sm">Apply Now</Button>
-      </CardFooter>
-    </Card>
-  );
-}
-
 export default function FindJobs() {
-  const [selectedJob, setSelectedJob] = useState(jobs[0]);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [savedJobs, setSavedJobs] = useState(jobs.filter((job) => job.saved));
 
   const toggleSaveJob = (jobId: number) => {
@@ -261,18 +275,18 @@ export default function FindJobs() {
           <JobCard
             key={job.id}
             job={job}
-            isSelected={selectedJob.id === job.id}
+            isSelected={selectedJob?.id === job.id}
             onSelect={() => setSelectedJob(job)}
             onToggleSave={() => toggleSaveJob(job.id)}
           />
         ))}
       </main>
 
-      <aside className="hidden md:block border-2 ">
-        {/*MAKE COMPONENT */}
-        <div className="sticky top-10 border-2">
-          <p>Developer</p>
-        </div>
+      <aside className="hidden md:block relative">
+        <JobDetails
+          job={selectedJob}
+          onToggleSave={() => selectedJob && toggleSaveJob(selectedJob.id)}
+        />
       </aside>
     </div>
   );
