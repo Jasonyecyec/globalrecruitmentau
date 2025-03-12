@@ -23,17 +23,10 @@ import {
 import Link from "next/link";
 import RPGLogo from "@/public/img/recruitmentglobal_logo.jpg";
 import Image from "next/image";
+import { useRouter, usePathname } from "next/navigation";
 
-export default function DashboardSidebar() {
-  const {
-    state,
-    open,
-    setOpen,
-    openMobile,
-    setOpenMobile,
-    isMobile,
-    toggleSidebar,
-  } = useSidebar();
+export default function HomeSidebar() {
+  const pathname = usePathname();
 
   return (
     <Sidebar variant="sidebar" side="left" collapsible="icon">
@@ -56,13 +49,23 @@ export default function DashboardSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton isActive tooltip="Dashboard">
-                  <LayoutDashboard className="h-4 w-4" />
-                  <span>Dashboard</span>
+                <SidebarMenuButton
+                  isActive={pathname === "/home"}
+                  tooltip="Dashboard"
+                  asChild
+                >
+                  <Link href="/home">
+                    <LayoutDashboard className="h-4 w-4" />
+                    <span>Dashboard</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Jobs" asChild>
+                <SidebarMenuButton
+                  isActive={pathname === "/home/find-jobs"}
+                  tooltip="Jobs"
+                  asChild
+                >
                   <Link href="/home/find-jobs">
                     <Briefcase className="h-4 w-4" />
                     <span>Find Jobs</span>
@@ -70,9 +73,15 @@ export default function DashboardSidebar() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Applications">
-                  <ClipboardList className="h-4 w-4" />
-                  <span>Applications</span>
+                <SidebarMenuButton
+                  isActive={pathname === "/home/applications"}
+                  tooltip="Applications"
+                  asChild
+                >
+                  <Link href="/home/applications">
+                    <ClipboardList className="h-4 w-4" />
+                    <span>Applications</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

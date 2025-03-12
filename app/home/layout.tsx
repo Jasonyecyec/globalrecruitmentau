@@ -4,7 +4,7 @@ import {
   SidebarTrigger,
   SidebarInset,
 } from "@/components/ui/sidebar";
-import DashboardSidebar from "./_components/DashboardSidebar";
+import HomeSidebar from "./_components/HomeSidebar";
 import UserNav from "./_components/UserNav";
 import {
   LayoutDashboard,
@@ -24,7 +24,7 @@ export default function HomeLayout({
   const notification = 4;
   return (
     <SidebarProvider>
-      <DashboardSidebar />
+      <HomeSidebar />
       <SidebarInset>
         <header className="sticky top-0 z-50 w-full border-b bg-background">
           <div className="container flex h-14 items-center px-2 sm:px-6">

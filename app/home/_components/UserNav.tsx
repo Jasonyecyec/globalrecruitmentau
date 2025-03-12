@@ -74,10 +74,10 @@ export default function UserNav() {
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle>Are you want to logout?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
+                  You will be signed out of your account and redirected to the
+                  homepage. You can log back in anytime.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -87,7 +87,7 @@ export default function UserNav() {
                   asChild
                   className="bg-red-500 text-white hover:bg-red-600"
                 >
-                  <Link href="/"> Continue </Link>
+                  <Link href="/"> Confirm </Link>
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
