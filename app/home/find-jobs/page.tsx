@@ -11,6 +11,8 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Job } from "@/app/_types/jobs";
+import { jobs } from "@/app/_constants/homeConstants";
+
 import {
   Select,
   SelectTrigger,
@@ -32,174 +34,6 @@ import {
   StarIcon,
 } from "lucide-react";
 import { useState } from "react";
-
-const jobs = [
-  {
-    id: 1,
-    title: "Senior Frontend Developer",
-    company: "TechCorp Inc.",
-    location: "San Francisco, CA",
-    salary: "$120,000 - $150,000",
-    type: "Full-time",
-    posted: "2 days ago",
-    logo: "/placeholder.svg?height=40&width=40",
-    description:
-      "We are looking for an experienced Frontend Developer to join our team...",
-    skills: ["React", "TypeScript", "Tailwind CSS"],
-    saved: true,
-    aboutCompany:
-      "TechCorp Inc. is a leading technology company specializing in web and mobile application development. We create innovative solutions for businesses across various industries.",
-    companySize: "201-500 employees",
-    companyIndustry: "Information Technology",
-    companyWebsite: "https://techcorp-example.com",
-    responsibilities: [
-      "Design, develop, and maintain web applications using React and TypeScript",
-      "Collaborate with UX/UI designers to implement responsive and intuitive user interfaces",
-      "Write clean, efficient, and maintainable code following best practices",
-      "Participate in code reviews and contribute to technical discussions",
-      "Troubleshoot and debug issues in existing applications",
-    ],
-    qualifications: [
-      "Bachelor's degree in Computer Science or related field",
-      "3+ years of experience with modern JavaScript frameworks (React preferred)",
-      "Strong understanding of HTML, CSS, and responsive design principles",
-      "Experience with RESTful APIs and asynchronous request handling",
-      "Familiarity with version control systems (Git)",
-    ],
-  },
-  {
-    id: 2,
-    title: "UX/UI Designer",
-    company: "DesignHub",
-    location: "Remote",
-    salary: "$90,000 - $110,000",
-    type: "Full-time",
-    posted: "1 day ago",
-    logo: "/placeholder.svg?height=40&width=40",
-    description:
-      "Join our creative team to design beautiful and functional interfaces...",
-    skills: ["Figma", "Adobe XD", "User Research"],
-    saved: false,
-    aboutCompany:
-      "DesignHub is a creative agency focused on delivering exceptional user experiences through thoughtful design. We work with startups and established companies to create intuitive digital products.",
-    companySize: "51-200 employees",
-    companyIndustry: "Design Services",
-    companyWebsite: "https://designhub-example.com",
-    responsibilities: [
-      "Create wireframes, prototypes, and high-fidelity designs for web and mobile applications",
-      "Conduct user research and usability testing to inform design decisions",
-      "Collaborate with product managers and developers to implement designs",
-      "Develop and maintain design systems and style guides",
-      "Stay current with UX/UI trends and best practices",
-    ],
-    qualifications: [
-      "Bachelor's degree in Design, HCI, or related field",
-      "2+ years of experience in UX/UI design for digital products",
-      "Proficiency with design tools like Figma and Adobe Creative Suite",
-      "Strong portfolio demonstrating user-centered design process",
-      "Experience with responsive design and accessibility standards",
-    ],
-  },
-  {
-    id: 3,
-    title: "Backend Engineer",
-    company: "DataSystems",
-    location: "New York, NY",
-    salary: "$130,000 - $160,000",
-    type: "Full-time",
-    posted: "3 days ago",
-    logo: "/placeholder.svg?height=40&width=40",
-    description:
-      "Looking for a skilled Backend Engineer to help scale our infrastructure...",
-    skills: ["Node.js", "Python", "AWS"],
-    saved: false,
-    aboutCompany:
-      "DataSystems specializes in building scalable backend solutions for data-intensive applications. We help businesses manage and analyze large datasets efficiently.",
-    companySize: "101-500 employees",
-    companyIndustry: "Software Development",
-    companyWebsite: "https://datasystems-example.com",
-    responsibilities: [
-      "Design and implement scalable backend services and APIs",
-      "Optimize database performance and query efficiency",
-      "Implement security best practices and data protection measures",
-      "Collaborate with frontend developers to integrate services",
-      "Monitor and troubleshoot production systems",
-    ],
-    qualifications: [
-      "Bachelor's degree in Computer Science or related field",
-      "4+ years of experience in backend development",
-      "Proficiency in Node.js, Python, or similar languages",
-      "Experience with cloud platforms (AWS, Azure, or GCP)",
-      "Knowledge of database systems and data modeling",
-    ],
-  },
-  {
-    id: 4,
-    title: "Product Manager",
-    company: "InnovateCo",
-    location: "Chicago, IL",
-    salary: "$110,000 - $140,000",
-    type: "Full-time",
-    posted: "5 days ago",
-    logo: "/placeholder.svg?height=40&width=40",
-    description:
-      "Lead product development and strategy for our flagship application...",
-    skills: ["Product Strategy", "Agile", "User Stories"],
-    saved: false,
-    aboutCompany:
-      "InnovateCo develops cutting-edge software products that solve real-world problems. We focus on creating intuitive solutions that improve productivity and efficiency.",
-    companySize: "51-200 employees",
-    companyIndustry: "Software Products",
-    companyWebsite: "https://innovateco-example.com",
-    responsibilities: [
-      "Define product vision, strategy, and roadmap based on market research",
-      "Gather and prioritize product requirements from stakeholders",
-      "Create detailed user stories and acceptance criteria",
-      "Work closely with design and engineering teams throughout development",
-      "Analyze product metrics and user feedback to guide improvements",
-    ],
-    qualifications: [
-      "Bachelor's degree in Business, Computer Science, or related field",
-      "3+ years of experience in product management",
-      "Strong understanding of software development lifecycle",
-      "Experience with agile methodologies and project management tools",
-      "Excellent communication and presentation skills",
-    ],
-  },
-  {
-    id: 5,
-    title: "DevOps Engineer",
-    company: "CloudTech",
-    location: "Remote",
-    salary: "$125,000 - $155,000",
-    type: "Contract",
-    posted: "1 week ago",
-    logo: "/placeholder.svg?height=40&width=40",
-    description:
-      "Help us build and maintain our cloud infrastructure and CI/CD pipelines...",
-    skills: ["Kubernetes", "Docker", "Terraform"],
-    saved: true,
-    aboutCompany:
-      "CloudTech specializes in cloud infrastructure and DevOps solutions. We help companies automate their deployment processes and optimize their cloud resources.",
-    companySize: "51-200 employees",
-    companyIndustry: "Cloud Services",
-    companyWebsite: "https://cloudtech-example.com",
-    responsibilities: [
-      "Design and implement CI/CD pipelines for software delivery",
-      "Manage and optimize cloud infrastructure on AWS, Azure, or GCP",
-      "Implement infrastructure as code using Terraform or similar tools",
-      "Monitor system performance and troubleshoot issues",
-      "Collaborate with development teams to improve deployment processes",
-    ],
-    qualifications: [
-      "Bachelor's degree in Computer Science or related field",
-      "3+ years of experience in DevOps or SRE roles",
-      "Experience with containerization technologies (Docker, Kubernetes)",
-      "Knowledge of infrastructure as code tools (Terraform, CloudFormation)",
-      "Familiarity with monitoring and logging systems",
-    ],
-  },
-];
 
 export default function FindJobs() {
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
@@ -245,7 +79,7 @@ export default function FindJobs() {
           </div>
         </div>
 
-        <div className="grid gap-4">
+        <div className="grid gap-4 mb-5">
           <div className="flex flex-col gap-2 sm:flex-row items-center">
             <div className="relative flex-1">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -270,6 +104,7 @@ export default function FindJobs() {
             </Button>
           </div>
         </div>
+
         {/* JOB LIST COMPONENT */}
         {jobs.map((job) => (
           <JobCard
@@ -284,7 +119,7 @@ export default function FindJobs() {
 
       <aside className="hidden md:block relative">
         <JobDetails
-          job={selectedJob}
+          job={selectedJob == null ? jobs[0] : selectedJob}
           onToggleSave={() => selectedJob && toggleSaveJob(selectedJob.id)}
         />
       </aside>
