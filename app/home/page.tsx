@@ -39,7 +39,6 @@ import {
   Users,
 } from "lucide-react";
 import { Pie, PieChart } from "recharts";
-import { getUsers } from "@/lib/api";
 import { User } from "@/app/_types/user";
 
 const chartData = [
@@ -77,8 +76,6 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function Home() {
-  //   const users: User[] = await getUsers();
-
   return (
     <div className="container p-4 sm:px-6 md:py-8">
       <div className="flex flex-col gap-4">
