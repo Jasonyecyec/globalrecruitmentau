@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,9 +17,30 @@ import Image from "next/image";
 import Link from "next/link";
 import RPGLogo from "@/public/img/recruitmentglobal_logo.jpg";
 import { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { LoginFormSchema, loginSchema } from "@/schemas/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginUser } from "@/lib/api/auth";
 
 const SignInForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormSchema>({
+    resolver: zodResolver(loginSchema),
+  });
+
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const handleLogin: SubmitHandler<LoginFormSchema> = async (formData) => {
+    try {
+      const data = await loginUser(formData);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div
@@ -47,7 +68,7 @@ const SignInForm = () => {
         </CardHeader>
 
         <CardContent className="w-full">
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit(handleLogin)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
@@ -58,8 +79,16 @@ const SignInForm = () => {
                   type="email"
                   required
                   className="pl-8"
+                  {...register("email")}
                 />
               </div>
+              {errors.email && (
+                <p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.email.message}
+                  </p>
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -80,6 +109,7 @@ const SignInForm = () => {
                   type={showPassword ? "text" : "password"}
                   required
                   className="pl-8 pr-8"
+                  {...register("password")}
                 />
                 <button
                   onClick={() => setShowPassword(!showPassword)}
@@ -93,19 +123,19 @@ const SignInForm = () => {
                   )}
                 </button>
               </div>
+
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
             <Button
               type="submit"
               className="w-full bg-mainColor text-white font-semibold hover:bg-orange-400 transition-all duration-300"
-              asChild
             >
-              <Link
-                href="/home/find-jobs"
-                className="w-full bg-mainColor text-white font-semibold hover:bg-orange-400 transition-all duration-300"
-              >
-                Login
-              </Link>
+              Login
             </Button>
           </form>
 
