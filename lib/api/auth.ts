@@ -9,3 +9,16 @@ export const loginUser = async ({ email, password }: LoginFormSchema) => {
     throw error;
   }
 };
+
+export const signupUser = async (data: FormData) => {
+  try {
+    const response = await api.post("/auth/signup", data, {
+      // headers: {
+      //   "Content-Type": "multipart/form-data",
+      // },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

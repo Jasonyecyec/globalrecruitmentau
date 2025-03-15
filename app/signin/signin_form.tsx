@@ -94,10 +94,8 @@ const SignInForm = () => {
                 />
               </div>
               {errors.email && (
-                <p>
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.email.message}
-                  </p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
                 </p>
               )}
             </div>
@@ -145,7 +143,11 @@ const SignInForm = () => {
               type="submit"
               className="w-full bg-mainColor text-white font-semibold hover:bg-orange-400 transition-all duration-300"
             >
-              {isLoading ? <LoaderCircle className="h-10 text-3xl" /> : "Login"}
+              {isLoading ? (
+                <LoaderCircle className="h-10 text-3xl animate-spin" />
+              ) : (
+                "Login"
+              )}
             </Button>
           </form>
 
