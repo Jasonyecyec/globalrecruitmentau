@@ -1,9 +1,16 @@
-import React from "react";
+import { fetchCompanies } from "@/lib/api/company";
+import React, { Suspense } from "react";
 
-export default function Applications() {
+export default async function Applications() {
+  const companies = await fetchCompanies();
+  console.log(companies);
+
   return (
     <div>
       <p>Job Applications</p>
+      {/* {companies.map((item, index) => (
+        <p key={index}>{item.name}</p>
+      ))} */}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useActionState } from "react";
+import React, { Suspense, useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, LoaderCircle, Router } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import RPGLogo from "@/public/img/recruitmentglobal_logo.jpg";
@@ -21,8 +21,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { LoginFormSchema, loginSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUser } from "@/lib/api/auth";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const SignInForm = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -32,13 +35,21 @@ const SignInForm = () => {
   });
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleLogin: SubmitHandler<LoginFormSchema> = async (formData) => {
+    setIsLoading(true);
     try {
       const data = await loginUser(formData);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
+
+      if (data.token) {
+        toast.success("Login successfully!");
+        router.push("/home");
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Invalid credentials.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -90,7 +101,6 @@ const SignInForm = () => {
                 </p>
               )}
             </div>
-
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
@@ -130,12 +140,12 @@ const SignInForm = () => {
                 </p>
               )}
             </div>
-
             <Button
+              disabled={isLoading}
               type="submit"
               className="w-full bg-mainColor text-white font-semibold hover:bg-orange-400 transition-all duration-300"
             >
-              Login
+              {isLoading ? <LoaderCircle className="h-10 text-3xl" /> : "Login"}
             </Button>
           </form>
 

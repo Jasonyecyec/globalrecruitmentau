@@ -17,11 +17,14 @@ const Hero = () => {
         <div className="grid md:grid-cols-2 items-center">
           <div className="pt-24">
             <h1 className="mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
-              Connecting Global Talent with Opportunity
+              {/* Connecting Global Talent with Opportunity */}
+              Global Recruitment Made Simple
             </h1>
             <p className="mb-8 text-lg md:text-xl">
-              Your trusted partner in finding the perfect match between
-              exceptional candidates and leading Australian companies.
+              {/* Your trusted partner in finding the perfect match between
+              exceptional candidates and leading Australian companies. */}
+              Your trusted partner for global recruitment, connecting
+              exceptional talent with top employers worldwide.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">

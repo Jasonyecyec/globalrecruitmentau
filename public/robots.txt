@@ -1,0 +1,17 @@
+# *
+User-agent: *
+Allow: /
+
+# *
+User-agent: *
+Disallow: /signin
+
+# *
+User-agent: *
+Disallow: /signup
+
+# Host
+Host: https://globalrecruitment.site
+
+# Sitemaps
+Sitemap: https://globalrecruitment.site/sitemap.xml
