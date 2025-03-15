@@ -17,6 +17,8 @@ export const metadata: Metadata = {
   title: "Global Recruitment - Jobs Worldwide",
   description:
     "Find global recruitment services and jobs worldwide. Connect with top talent and employers across 100+ countries.",
+  keywords:
+    "global recruitment, international jobs, job opportunities 2025, recruitment services, worldwide employment",
 };
 
 export default function RootLayout({
@@ -29,9 +31,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Toaster richColors position="top-right" />
-
         {children}
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );
