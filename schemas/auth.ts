@@ -17,8 +17,8 @@ const ACCEPTED_FILE_TYPE = [
 const baseSignupSchema = z.object({
   first_name: z.string().min(1, "First name is required."),
   last_name: z.string().min(1, "Last name is required"),
-  email: z.string().email(),
-  contact_number: z.string(),
+  email: z.string().email().min(1, "Email is required"),
+  contact_number: z.string().min(1, "Contact number is required"),
   password: z.string().min(8, "Password must be atleast 8 characters"),
   confirm_password: z.string(),
   user_type: z.string(),

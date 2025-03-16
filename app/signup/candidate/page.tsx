@@ -26,16 +26,19 @@ import {
   Phone,
   FileText,
   BadgeCheck,
+  LoaderCircle,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Path, SubmitHandler, useForm } from "react-hook-form";
 import { SignupFormSchema, signupSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupUser } from "@/lib/api/auth";
+import { toast } from "sonner";
 import { Item } from "@radix-ui/react-accordion";
 
 const Candidate = () => {
   const [step, setStep] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -43,6 +46,7 @@ const Candidate = () => {
     trigger,
   } = useForm<SignupFormSchema>({
     resolver: zodResolver(signupSchema),
+    mode: "onChange",
   });
   const router = useRouter();
   const totalSteps: number = 4;
@@ -50,9 +54,32 @@ const Candidate = () => {
 
   const handleNextStep = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log("trigger");
-    const isValid = await trigger(["first_name", "last_name"]);
-    console.log(isValid);
+    let fieldsToValidate: Array<Path<SignupFormSchema>> = [];
+
+    switch (step) {
+      case 1:
+        fieldsToValidate = [
+          "first_name",
+          "last_name",
+          "contact_number",
+          "email",
+        ];
+        break;
+
+      case 2:
+        fieldsToValidate = ["password", "confirm_password"];
+
+        break;
+      case 3:
+        fieldsToValidate = [];
+        break;
+
+      case 4:
+        fieldsToValidate = [];
+        break;
+    }
+    const isValid = await trigger(fieldsToValidate);
+    console.log("Validation result:", isValid, errors);
 
     if (isValid) {
       setStep((prev) => prev + 1);
@@ -67,32 +94,38 @@ const Candidate = () => {
   const progressBar = ["Basic info", "Security", "Profile", "Preference"];
 
   const handleForm: SubmitHandler<SignupFormSchema> = async (data) => {
+    setIsLoading(true);
+    const formData = new FormData();
+    formData.append("first_name", data.first_name);
+    formData.append("last_name", data.last_name);
+    formData.append("email", data.email);
+    formData.append("contact_number", data.contact_number);
+    formData.append("password", data.password);
+    formData.append("user_type", data.user_type);
+    if (data.resume_path) {
+      formData.append("resume_path", data.resume_path);
+    } else {
+      formData.append("resume_path", "");
+    }
+
+    if (data.linked_profile) {
+      formData.append("linked_profile", data.linked_profile);
+    }
+
+    if (data.portfolio_link) {
+      formData.append("portfolio_link", data.portfolio_link);
+    }
+
     try {
-      const formData = new FormData();
-      formData.append("first_name", data.first_name);
-      formData.append("last_name", data.last_name);
-      formData.append("email", data.email);
-      formData.append("contact_number", data.contact_number);
-      formData.append("password", data.password);
-      formData.append("user_type", data.user_type);
-      if (data.resume_path) {
-        formData.append("resume_path", data.resume_path);
-      } else {
-        formData.append("resume_path", "");
-      }
-
-      if (data.linked_profile) {
-        formData.append("linked_profile", data.linked_profile);
-      }
-
-      if (data.portfolio_link) {
-        formData.append("portfolio_link", data.portfolio_link);
-      }
-
       const result = await signupUser(formData);
-      console.log(result);
-    } catch (error) {
-      console.log(error);
+
+      if (result.message) {
+        router.push("/signup/account_success");
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Error sign up.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -161,17 +194,17 @@ const Candidate = () => {
                     <div className="relative">
                       <Input
                         id="first_name"
-                        // required
                         className=""
                         placeholder="First name"
                         {...register("first_name", { required: true })}
                       />
+
+                      {errors.first_name && (
+                        <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+                          {errors.first_name.message}
+                        </p>
+                      )}
                     </div>
-                    {errors.first_name && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.first_name.message}
-                      </p>
-                    )}
                   </div>
 
                   <div className="space-y-1">
@@ -186,7 +219,7 @@ const Candidate = () => {
                       />
 
                       {errors.last_name && (
-                        <p className="text-red-500 text-sm mt-1">
+                        <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
                           {errors.last_name.message}
                         </p>
                       )}
@@ -207,6 +240,12 @@ const Candidate = () => {
                         step={1}
                         {...register("contact_number")}
                       />
+
+                      {errors.contact_number && (
+                        <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+                          {errors.contact_number.message}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -222,6 +261,12 @@ const Candidate = () => {
                         placeholder="Email"
                         {...register("email")}
                       />
+
+                      {errors.email && (
+                        <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+                          {errors.email.message}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -242,6 +287,12 @@ const Candidate = () => {
                       className="pl-8"
                       {...register("password")}
                     />
+
+                    {errors.password && (
+                      <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+                        {errors.password.message}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -257,6 +308,11 @@ const Candidate = () => {
                       className="pl-8"
                       {...register("confirm_password")}
                     />
+                    {errors.confirm_password && (
+                      <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+                        {errors.confirm_password.message}
+                      </p>
+                    )}
                   </div>
                 </div>
               </>
@@ -480,10 +536,16 @@ const Candidate = () => {
               ) : (
                 <Button
                   type="submit"
-                  className="bg-mainColor hover:bg-main/90 text-white"
+                  className="bg-mainColor hover:bg-main/90 text-white w-40"
                 >
-                  Complete Profile
-                  <BadgeCheck className="h-4 w-4" />
+                  {isLoading ? (
+                    <LoaderCircle className="h-10 text-3xl animate-spin" />
+                  ) : (
+                    <>
+                      Complete Profile
+                      <BadgeCheck className="h-4 w-4" />
+                    </>
+                  )}
                 </Button>
               )}
             </div>
@@ -494,10 +556,9 @@ const Candidate = () => {
           <p className="text-center text-sm text-gray-600">
             Already have an account?
             <Link href="/signin">
-              {" "}
               <span className="font-medium hover:text-mainColor transition-all duration-250">
                 Login
-              </span>{" "}
+              </span>
             </Link>
           </p>
         </CardFooter>

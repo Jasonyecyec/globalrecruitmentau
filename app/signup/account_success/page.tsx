@@ -113,9 +113,9 @@ const AccountSuccess = () => {
             asChild
             className="w-full bg-mainColor hover:bg-main/90 text-white"
           >
-            <Link href="/home">Go to Dashboard</Link>
+            <Link href="/">Go to Home</Link>
           </Button>
-          {userType === "applicant" ? (
+          {/* {userType === "applicant" ? (
             <Button
               asChild
               variant="outline"
@@ -137,7 +137,7 @@ const AccountSuccess = () => {
                 Post a Job
               </Link>
             </Button>
-          )}
+          )} */}
         </CardFooter>
       </Card>
     </div>
