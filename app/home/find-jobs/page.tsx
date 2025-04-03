@@ -2,37 +2,15 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Job } from "@/app/_types/jobs";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Job } from "@/lib/types/jobs";
 import { jobs } from "@/app/_constants/homeConstants";
 
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import JobCard from "../_components/JobCard";
 import JobDetails from "../_components/JobDetails";
 
-import {
-  Filter,
-  Search,
-  MapPin,
-  Briefcase,
-  Building2,
-  Clock,
-  Star,
-  StarIcon,
-} from "lucide-react";
+import { Filter, Search, MapPin, Briefcase, Building2, Clock, Star, StarIcon } from "lucide-react";
 import { useState } from "react";
 
 export default function FindJobs() {
@@ -40,9 +18,7 @@ export default function FindJobs() {
   const [savedJobs, setSavedJobs] = useState(jobs.filter((job) => job.saved));
 
   const toggleSaveJob = (jobId: number) => {
-    const updatedJobs = jobs.map((job) =>
-      job.id === jobId ? { ...job, saved: !job.saved } : job
-    );
+    const updatedJobs = jobs.map((job) => (job.id === jobId ? { ...job, saved: !job.saved } : job));
 
     setSavedJobs(updatedJobs.filter((job) => job.saved));
   };
@@ -52,12 +28,9 @@ export default function FindJobs() {
       <main className="flex flex-col gap-4">
         <div className="flex flex-col gap-4 md:flex-row md:items-center">
           <div className="flex-1 space-y-1">
-            <h1 className="text-2xl font-bold tracking-tight">
-              Find Your Next Opportunity
-            </h1>
+            <h1 className="text-2xl font-bold tracking-tight">Find Your Next Opportunity</h1>
             <p className="text-muted-foreground">
-              Browse through thousands of job listings tailored to your skills
-              and experience.
+              Browse through thousands of job listings tailored to your skills and experience.
             </p>
           </div>
 
@@ -83,20 +56,12 @@ export default function FindJobs() {
           <div className="flex flex-col gap-2 sm:flex-row items-center">
             <div className="relative flex-1">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search jobs, skills, or companies"
-                className="pl-8"
-              />
+              <Input type="search" placeholder="Search jobs, skills, or companies" className="pl-8" />
             </div>
 
             <div className="relative flex-1 sm:max-w-[260px]">
               <MapPin className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Location or Remote"
-                className="pl-8"
-              />
+              <Input type="text" placeholder="Location or Remote" className="pl-8" />
             </div>
 
             <Button type="submit" className="shrink-0 h-9">

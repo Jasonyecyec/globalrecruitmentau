@@ -1,20 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -39,7 +26,7 @@ import {
   Users,
 } from "lucide-react";
 import { Pie, PieChart } from "recharts";
-import { User } from "@/app/_types/user";
+import { User } from "@/lib/types/user";
 
 const chartData = [
   { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
@@ -82,9 +69,7 @@ export default function Home() {
         <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-            <p className="text-muted-foreground">
-              Welcome back, John! Here's an overview of your job search activity
-            </p>
+            <p className="text-muted-foreground">Welcome back, John! Here's an overview of your job search activity</p>
           </div>
 
           <div className="flex items-center gap-2">
@@ -162,23 +147,13 @@ export default function Home() {
       <div className="grid gap-6 md:grid-cols-2  mt-4">
         <Card className="flex flex-col">
           <CardHeader className="items-start pb-0">
-            <CardTitle className="text-xl font-semibold">
-              Application Status
-            </CardTitle>
-            <CardDescription>
-              Current status of your job applications
-            </CardDescription>
+            <CardTitle className="text-xl font-semibold">Application Status</CardTitle>
+            <CardDescription>Current status of your job applications</CardDescription>
           </CardHeader>
           <CardContent className="flex-1 pb-0">
-            <ChartContainer
-              config={chartConfig}
-              className="mx-auto aspect-square max-h-[200px]"
-            >
+            <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[200px]">
               <PieChart width={730} height={100}>
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent hideLabel />}
-                />
+                <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
                 <Pie data={chartData} dataKey="visitors" nameKey="browser" />
               </PieChart>
             </ChartContainer>
@@ -212,9 +187,7 @@ export default function Home() {
         <Card className="md:col-span-1">
           <CardHeader>
             <CardTitle>Application Metrics</CardTitle>
-            <CardDescription>
-              Key performance indicators for your job search
-            </CardDescription>
+            <CardDescription>Key performance indicators for your job search</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
@@ -224,32 +197,20 @@ export default function Home() {
                   <div className="text-sm font-medium">38%</div>
                 </div>
                 <div className="h-2 w-full bg-blue-100 rounded-full">
-                  <div
-                    className="h-2 bg-blue-500 rounded-full"
-                    style={{ width: "38%" }}
-                  ></div>
+                  <div className="h-2 bg-blue-500 rounded-full" style={{ width: "38%" }}></div>
                 </div>
-                <div className="text-xs text-muted-foreground mt-1">
-                  9 responses from 24 applications
-                </div>
+                <div className="text-xs text-muted-foreground mt-1">9 responses from 24 applications</div>
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <div className="text-sm font-medium">
-                    Interview Conversion
-                  </div>
+                  <div className="text-sm font-medium">Interview Conversion</div>
                   <div className="text-sm font-medium">44%</div>
                 </div>
                 <div className="h-2 w-full bg-purple-100 rounded-full">
-                  <div
-                    className="h-2 bg-purple-500 rounded-full"
-                    style={{ width: "44%" }}
-                  ></div>
+                  <div className="h-2 bg-purple-500 rounded-full" style={{ width: "44%" }}></div>
                 </div>
-                <div className="text-xs text-muted-foreground mt-1">
-                  4 interviews from 9 responses
-                </div>
+                <div className="text-xs text-muted-foreground mt-1">4 interviews from 9 responses</div>
               </div>
 
               <div>
@@ -258,14 +219,9 @@ export default function Home() {
                   <div className="text-sm font-medium">50%</div>
                 </div>
                 <div className="h-2 w-full bg-green-100 rounded-full">
-                  <div
-                    className="h-2 bg-green-500 rounded-full"
-                    style={{ width: "50%" }}
-                  ></div>
+                  <div className="h-2 bg-green-500 rounded-full" style={{ width: "50%" }}></div>
                 </div>
-                <div className="text-xs text-muted-foreground mt-1">
-                  2 offers from 4 interviews
-                </div>
+                <div className="text-xs text-muted-foreground mt-1">2 offers from 4 interviews</div>
               </div>
             </div>
           </CardContent>
@@ -287,14 +243,10 @@ export default function Home() {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
-                    <div className="font-medium">
-                      Applied for Senior Frontend Developer
-                    </div>
+                    <div className="font-medium">Applied for Senior Frontend Developer</div>
                     <div className="text-xs text-muted-foreground">2h ago</div>
                   </div>
-                  <div className="text-sm text-muted-foreground">
-                    TechCorp Inc.
-                  </div>
+                  <div className="text-sm text-muted-foreground">TechCorp Inc.</div>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -315,16 +267,10 @@ export default function Home() {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
-                    <div className="font-medium">
-                      Completed skills assessment
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      Yesterday
-                    </div>
+                    <div className="font-medium">Completed skills assessment</div>
+                    <div className="text-xs text-muted-foreground">Yesterday</div>
                   </div>
-                  <div className="text-sm text-muted-foreground">
-                    Frontend Development
-                  </div>
+                  <div className="text-sm text-muted-foreground">Frontend Development</div>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -334,13 +280,9 @@ export default function Home() {
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
                     <div className="font-medium">Scheduled interview</div>
-                    <div className="text-xs text-muted-foreground">
-                      Yesterday
-                    </div>
+                    <div className="text-xs text-muted-foreground">Yesterday</div>
                   </div>
-                  <div className="text-sm text-muted-foreground">
-                    DataSystems - Backend Engineer
-                  </div>
+                  <div className="text-sm text-muted-foreground">DataSystems - Backend Engineer</div>
                 </div>
               </div>
             </div>
@@ -355,9 +297,7 @@ export default function Home() {
         <Card className="md:col-span-1">
           <CardHeader>
             <CardTitle>Job Market Insights</CardTitle>
-            <CardDescription>
-              Trends in your industry and location
-            </CardDescription>
+            <CardDescription>Trends in your industry and location</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
@@ -376,9 +316,7 @@ export default function Home() {
                 <div className="text-sm font-medium">Salary Trends</div>
                 <div className="flex items-center space-x-2">
                   <LineChart className="h-4 w-4 text-green-500" />
-                  <span className="text-sm">
-                    +5% for Frontend roles in your area
-                  </span>
+                  <span className="text-sm">+5% for Frontend roles in your area</span>
                 </div>
                 <div className="grid grid-cols-3 gap-2 mt-2">
                   <div className="rounded-md border p-2 text-center">
@@ -400,9 +338,7 @@ export default function Home() {
                 <div className="text-sm font-medium">Job Posting Volume</div>
                 <div className="flex items-center space-x-2">
                   <BarChart3 className="h-4 w-4 text-blue-500" />
-                  <span className="text-sm">
-                    152 new jobs in your field this week
-                  </span>
+                  <span className="text-sm">152 new jobs in your field this week</span>
                 </div>
                 <div className="grid grid-cols-4 gap-1 mt-2">
                   <div className="flex flex-col items-center">

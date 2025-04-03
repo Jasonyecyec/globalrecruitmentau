@@ -1,23 +1,9 @@
 import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Job } from "@/app/_types/jobs";
+import { Job } from "@/lib/types/jobs";
 import { Badge } from "@/components/ui/badge";
-import {
-  MapPin,
-  Briefcase,
-  Building2,
-  Clock,
-  Star,
-  StarIcon,
-} from "lucide-react";
+import { MapPin, Briefcase, Building2, Clock, Star, StarIcon } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 
 type JobCardProps = {
@@ -27,26 +13,18 @@ type JobCardProps = {
   onToggleSave: () => void;
 };
 
-export default function JobCard({
-  job,
-  isSelected,
-  onSelect,
-  onToggleSave,
-}: JobCardProps) {
+export default function JobCard({ job, isSelected, onSelect, onToggleSave }: JobCardProps) {
   return (
     <Card
       className={`cursor-pointer transition-all hover:border-gray-500 hover:shadow-md ${
         isSelected ? "border-gray-500 shadow-md" : ""
       }`}
-      onClick={onSelect}
-    >
+      onClick={onSelect}>
       <CardHeader className="flex flex-row items-start justify-between pb-2">
         <div className="flex items-center space-x-4 ">
           <Avatar className="h-10 w-10 bg-gray-100 rounded-md">
             <AvatarImage src={job.logo} alt={job.company} className="" />
-            <AvatarFallback className="rounded-md">
-              {job.company.substring(0, 2)}
-            </AvatarFallback>
+            <AvatarFallback className="rounded-md">{job.company.substring(0, 2)}</AvatarFallback>
           </Avatar>
 
           <div>
@@ -65,13 +43,8 @@ export default function JobCard({
           onClick={(e) => {
             e.stopPropagation();
             onToggleSave();
-          }}
-        >
-          {job.saved ? (
-            <StarIcon className="h-4 w-4 fill-primary text-primary" />
-          ) : (
-            <Star className="h-4 w-4" />
-          )}
+          }}>
+          {job.saved ? <StarIcon className="h-4 w-4 fill-primary text-primary" /> : <Star className="h-4 w-4" />}
           <span className="sr-only">Save job</span>
         </Button>
       </CardHeader>
@@ -91,9 +64,7 @@ export default function JobCard({
             {job.posted}
           </Badge>
         </div>
-        <p className="text-sm text-muted-foreground line-clamp-2 mt-2">
-          {job.description}
-        </p>
+        <p className="text-sm text-muted-foreground line-clamp-2 mt-2">{job.description}</p>
         <div className="flex flex-wrap gap-1 mt-3">
           {job.skills.map((skill) => (
             <Badge key={skill} variant="secondary" className="text-xs">

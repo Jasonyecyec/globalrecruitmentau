@@ -1,18 +1,35 @@
 import { z } from "zod";
 
+export const forgotPasswordSchema = z.object({
+  email: z.string().email("Provide a valid email."),
+});
+
+export const verifyOTPSchema = z.object({
+  otp: z.string().min(6, {
+    message: "Your one-time password must be 6 digits.",
+  }),
+});
+
+export type VerifyOTPFormSchema = z.infer<typeof verifyOTPSchema>;
+
+export const baseResetPasswordSchema = z.object({
+  new_password: z.string().min(8, "Password must be atleast 8 characters"),
+  confirm_password: z.string(),
+});
+
+export const resetPasswordSchema = baseResetPasswordSchema.refine(
+  (data) => data.new_password === data.confirm_password,
+  {
+    message: "Password does not match.",
+    path: ["confirm_password"],
+  }
+);
 export const loginSchema = z.object({
-  email: z.string().email(),
+  email: z.string().email("Provide a valid email."),
   password: z.string().min(8, "Password must be atleast 8 characters"),
 });
 
 export type LoginFormSchema = z.infer<typeof loginSchema>;
-
-// custom type for File
-const ACCEPTED_FILE_TYPE = [
-  "application/pdf", // PDF
-  "application/msword", // DOC
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // DOCX
-];
 
 const baseSignupSchema = z.object({
   first_name: z.string().min(1, "First name is required."),
@@ -27,12 +44,9 @@ const baseSignupSchema = z.object({
   portfolio_link: z.string().nullable(),
 });
 
-export const signupSchema = baseSignupSchema.refine(
-  (data) => data.password === data.confirm_password,
-  {
-    message: "Password does not match.",
-    path: ["confirm_password"],
-  }
-);
+export const signupSchema = baseSignupSchema.refine((data) => data.password === data.confirm_password, {
+  message: "Password does not match.",
+  path: ["confirm_password"],
+});
 
 export type SignupFormSchema = z.infer<typeof signupSchema>;
