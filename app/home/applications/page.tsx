@@ -1,9 +1,8 @@
-import { fetchCompanies } from "@/services/company";
-import React, { Suspense } from "react";
+import React from "react";
 
 export default async function Applications() {
-  const companies = await fetchCompanies();
-  console.log(companies);
+  // const companies = await fetchCompanies();
+  // console.log(companies);
 
   return (
     <div>
