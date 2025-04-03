@@ -1,13 +1,6 @@
 "use client";
 import React, { FormEvent, useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
 import RPGLogo from "@/public/img/recruitmentglobal_logo.jpg";
@@ -18,21 +11,12 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-import {
-  Lock,
-  Mail,
-  ChevronRight,
-  ChevronLeft,
-  Phone,
-  FileText,
-  BadgeCheck,
-  LoaderCircle,
-} from "lucide-react";
+import { Lock, Mail, ChevronRight, ChevronLeft, Phone, FileText, BadgeCheck, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Path, SubmitHandler, useForm } from "react-hook-form";
 import { SignupFormSchema, signupSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signupUser } from "@/lib/api/auth";
+import { signupUser } from "@/services/auth";
 import { toast } from "sonner";
 import { Item } from "@radix-ui/react-accordion";
 
@@ -58,12 +42,7 @@ const Candidate = () => {
 
     switch (step) {
       case 1:
-        fieldsToValidate = [
-          "first_name",
-          "last_name",
-          "contact_number",
-          "email",
-        ];
+        fieldsToValidate = ["first_name", "last_name", "contact_number", "email"];
         break;
 
       case 2:
@@ -143,9 +122,7 @@ const Candidate = () => {
                 className="object-contain  h-28 w-28"
               />
             </Link>
-            <span className="text-xl text-secondaryColor font-bold text-center">
-              Create an Account
-            </span>
+            <span className="text-xl text-secondaryColor font-bold text-center">Create an Account</span>
           </CardTitle>
 
           <CardDescription className="text-center">
@@ -159,12 +136,7 @@ const Candidate = () => {
             <Progress value={progress} className="text-mainColor h-[2.5px] " />
             <div className="flex justify-between text-xs text-gray-400 mt-2 px-1">
               {progressBar.map((item, index) => (
-                <span
-                  key={index}
-                  className={
-                    step === index + 1 ? "font-medium text-secondaryColor" : ""
-                  }
-                >
+                <span key={index} className={step === index + 1 ? "font-medium text-secondaryColor" : ""}>
                   {item}
                 </span>
               ))}
@@ -178,16 +150,11 @@ const Candidate = () => {
               if (e.key === "Enter") e.preventDefault();
             }}
             onSubmit={handleSubmit(handleForm)}
-            className="space-y-4"
-          >
+            className="space-y-4">
             {step === 1 && (
               <>
                 <div className="grid grid-cols-2 gap-4">
-                  <input
-                    type="hidden"
-                    value="jobseeker"
-                    {...register("user_type")}
-                  />
+                  <input type="hidden" value="jobseeker" {...register("user_type")} />
 
                   <div className="space-y-1">
                     <Label htmlFor="first_name">First name</Label>
@@ -200,9 +167,7 @@ const Candidate = () => {
                       />
 
                       {errors.first_name && (
-                        <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
-                          {errors.first_name.message}
-                        </p>
+                        <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">{errors.first_name.message}</p>
                       )}
                     </div>
                   </div>
@@ -210,18 +175,10 @@ const Candidate = () => {
                   <div className="space-y-1">
                     <Label htmlFor="last_name">Last name</Label>
                     <div className="relative">
-                      <Input
-                        id="last_name"
-                        required
-                        className=""
-                        placeholder="Last name"
-                        {...register("last_name")}
-                      />
+                      <Input id="last_name" required className="" placeholder="Last name" {...register("last_name")} />
 
                       {errors.last_name && (
-                        <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
-                          {errors.last_name.message}
-                        </p>
+                        <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">{errors.last_name.message}</p>
                       )}
                     </div>
                   </div>
@@ -242,9 +199,7 @@ const Candidate = () => {
                       />
 
                       {errors.contact_number && (
-                        <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
-                          {errors.contact_number.message}
-                        </p>
+                        <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">{errors.contact_number.message}</p>
                       )}
                     </div>
                   </div>
@@ -263,9 +218,7 @@ const Candidate = () => {
                       />
 
                       {errors.email && (
-                        <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
-                          {errors.email.message}
-                        </p>
+                        <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">{errors.email.message}</p>
                       )}
                     </div>
                   </div>
@@ -289,9 +242,7 @@ const Candidate = () => {
                     />
 
                     {errors.password && (
-                      <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
-                        {errors.password.message}
-                      </p>
+                      <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">{errors.password.message}</p>
                     )}
                   </div>
                 </div>
@@ -309,9 +260,7 @@ const Candidate = () => {
                       {...register("confirm_password")}
                     />
                     {errors.confirm_password && (
-                      <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
-                        {errors.confirm_password.message}
-                      </p>
+                      <p className="text-red-500 text-xs mt-1 pl-1 font-semibold">{errors.confirm_password.message}</p>
                     )}
                   </div>
                 </div>
@@ -327,13 +276,10 @@ const Candidate = () => {
                 <div className="border-2 border-dashed border-gray-300 rounded-md p-6 text-center hover:border-mainColor transition-colors">
                   <FileText className="h-6 w-6 mx-auto text-gray-400 mb-2" />
                   <div className="space-y-1">
-                    <p className="text-xs text-gray-500">
-                      PDF, DOCX or TXT (Max 5mb)
-                    </p>
+                    <p className="text-xs text-gray-500">PDF, DOCX or TXT (Max 5mb)</p>
                     <label
                       htmlFor="resume_path"
-                      className="relative cursor-pointer text-xs bg-mainColor hover:bg-mainColor/90 text-white py-2 px-4 rounded-md font-medium inline-block"
-                    >
+                      className="relative cursor-pointer text-xs bg-mainColor hover:bg-mainColor/90 text-white py-2 px-4 rounded-md font-medium inline-block">
                       <span>Browse files</span>
                       <input
                         id="resume_path"
@@ -392,10 +338,7 @@ const Candidate = () => {
                       "Human Resources",
                       "Product Management",
                     ].map((category, index) => (
-                      <div
-                        key={category}
-                        className="flex items-center space-x-2"
-                      >
+                      <div key={category} className="flex items-center space-x-2">
                         <Checkbox
                           id={`category-${category}`}
                           //   onCheckedChange={(checked) => {
@@ -412,8 +355,7 @@ const Candidate = () => {
                         />
                         <label
                           htmlFor={`category-${category}`}
-                          className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
+                          className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                           {category}
                         </label>
                       </div>
@@ -432,8 +374,7 @@ const Candidate = () => {
                     />
                     <label
                       htmlFor="others"
-                      className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
+                      className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Others
                     </label>
                     <input type="text" className="ml-1 border-b-[2px] w-36" />
@@ -470,16 +411,12 @@ const Candidate = () => {
                     //   checked={formData.relocate}
                     //   onCheckedChange={(checked) => handleCheckboxChange("relocate", checked as boolean)}
                   />
-                  <Label htmlFor="relocate">
-                    I am willing to relocate for the right opportunity
-                  </Label>
+                  <Label htmlFor="relocate">I am willing to relocate for the right opportunity</Label>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="salaryExpectation">
-                      Salary Expectation (Monthly)
-                    </Label>
+                    <Label htmlFor="salaryExpectation">Salary Expectation (Monthly)</Label>
                     <Input
                       id="salaryExpectation"
                       name="salaryExpectation"
@@ -507,8 +444,7 @@ const Candidate = () => {
                 <Button
                   onClick={handlePrevStep}
                   className="border items-center justify-center flex border-mainColor text-gray-500 hover:text-mainColor h-8"
-                  variant="outline"
-                >
+                  variant="outline">
                   <ChevronLeft className=" h-4 w-4" />
                   Back
                 </Button>
@@ -519,25 +455,18 @@ const Candidate = () => {
                     router.back();
                   }}
                   className="border border-mainColor text-gray-500 hover:text-secondaryColor h-8"
-                  variant="outline"
-                >
+                  variant="outline">
                   Cancel
                 </Button>
               )}
 
               {step !== 4 ? (
-                <Button
-                  onClick={handleNextStep}
-                  className="bg-mainColor text-white h-8 hover:bg-orange-400"
-                >
+                <Button onClick={handleNextStep} className="bg-mainColor text-white h-8 hover:bg-orange-400">
                   Next
                   <ChevronRight className="h-4 w-4" />
                 </Button>
               ) : (
-                <Button
-                  type="submit"
-                  className="bg-mainColor hover:bg-main/90 text-white w-40"
-                >
+                <Button type="submit" className="bg-mainColor hover:bg-main/90 text-white w-40">
                   {isLoading ? (
                     <LoaderCircle className="h-10 text-3xl animate-spin" />
                   ) : (
@@ -556,9 +485,7 @@ const Candidate = () => {
           <p className="text-center text-sm text-gray-600">
             Already have an account?
             <Link href="/signin">
-              <span className="font-medium hover:text-mainColor transition-all duration-250">
-                Login
-              </span>
+              <span className="font-medium hover:text-mainColor transition-all duration-250">Login</span>
             </Link>
           </p>
         </CardFooter>

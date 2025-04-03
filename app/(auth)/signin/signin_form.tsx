@@ -2,14 +2,7 @@
 
 import React, { Suspense, useActionState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, Lock, Mail, LoaderCircle, Router } from "lucide-react";
@@ -20,7 +13,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { LoginFormSchema, loginSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginUser } from "@/lib/api/auth";
+import { loginUser } from "@/services/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
@@ -54,10 +47,7 @@ const SignInForm = () => {
   };
 
   return (
-    <div
-      className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4"
-      id="login"
-    >
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4" id="login">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-2">
           <CardTitle className="flex flex-col items-center text-center font-bold text-secondaryColor text-xl">
@@ -93,19 +83,14 @@ const SignInForm = () => {
                   {...register("email")}
                 />
               </div>
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.email.message}
-                </p>
-              )}
+              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
                 <Link
                   href="/forgot-password"
-                  className="text-sm text-gray-400 hover:text-orange-600 transition-all duration-300"
-                >
+                  className="text-sm text-gray-400 hover:text-orange-600 transition-all duration-300">
                   Forgot password?
                 </Link>
               </div>
@@ -122,32 +107,18 @@ const SignInForm = () => {
                 <button
                   onClick={() => setShowPassword(!showPassword)}
                   type="button"
-                  className="absolute right-3 top-3 text-gray-400"
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
+                  className="absolute right-3 top-3 text-gray-400">
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
 
-              {errors.password && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.password.message}
-                </p>
-              )}
+              {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
             </div>
             <Button
               disabled={isLoading}
               type="submit"
-              className="w-full bg-mainColor text-white font-semibold hover:bg-orange-400 transition-all duration-300"
-            >
-              {isLoading ? (
-                <LoaderCircle className="h-10 text-3xl animate-spin" />
-              ) : (
-                "Login"
-              )}
+              className="w-full bg-mainColor text-white font-semibold hover:bg-orange-400 transition-all duration-300">
+              {isLoading ? <LoaderCircle className="h-10 text-3xl animate-spin" /> : "Login"}
             </Button>
           </form>
 
@@ -156,16 +127,11 @@ const SignInForm = () => {
               <div className="w-full border-t border-gray-300" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">
-                Or continue with
-              </span>
+              <span className="px-2 bg-white text-gray-500">Or continue with</span>
             </div>
           </div>
 
-          <Button
-            variant="outline"
-            className="text-gray-600 w-full border-gray-300"
-          >
+          <Button variant="outline" className="text-gray-600 w-full border-gray-300">
             Continue with Google
           </Button>
         </CardContent>
@@ -175,8 +141,7 @@ const SignInForm = () => {
             Don't have an account?
             <Link
               href="/signup"
-              className="ml-1 font-medium text-gray-600 transition-all duration-250 hover:text-mainColor "
-            >
+              className="ml-1 font-medium text-gray-600 transition-all duration-250 hover:text-mainColor ">
               Sign Up
             </Link>
           </p>

@@ -1,13 +1,6 @@
 import React from "react";
-import { Job } from "@/app/_types/jobs";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Job } from "@/lib/types/jobs";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -41,23 +34,12 @@ export default function JobDetails({ job, onToggleSave }: JobDetailsProps) {
           <div className="flex justify-between items-start">
             <Avatar className="h-12 w-12 rounded-md bg-gray-100">
               <AvatarImage src={job?.logo} alt={job?.company} />
-              <AvatarFallback className="rounded-md">
-                {job?.company.substring(0, 2)}
-              </AvatarFallback>
+              <AvatarFallback className="rounded-md">{job?.company.substring(0, 2)}</AvatarFallback>
             </Avatar>
 
             <div className="flex space-x-2">
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8"
-                onClick={onToggleSave}
-              >
-                {job?.saved ? (
-                  <StarIcon className="h-4 w-4 fill-primary text-primary" />
-                ) : (
-                  <Star className="h-4 w-4" />
-                )}
+              <Button variant="outline" size="icon" className="h-8 w-8" onClick={onToggleSave}>
+                {job?.saved ? <StarIcon className="h-4 w-4 fill-primary text-primary" /> : <Star className="h-4 w-4" />}
                 <span className="sr-only">Save job</span>
               </Button>
               <Button variant="outline" size="icon" className="h-8 w-8">
@@ -83,18 +65,14 @@ export default function JobDetails({ job, onToggleSave }: JobDetailsProps) {
             <TabsContent value="overview" className="pt-4 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col space-y-1">
-                  <span className="text-xs text-muted-foreground">
-                    Location
-                  </span>
+                  <span className="text-xs text-muted-foreground">Location</span>
                   <span className="flex items-center text-sm">
                     <MapPin className="mr-1 h-3 w-3" />
                     {job?.location}
                   </span>
                 </div>
                 <div className="flex flex-col space-y-1">
-                  <span className="text-xs text-muted-foreground">
-                    Job Type
-                  </span>
+                  <span className="text-xs text-muted-foreground">Job Type</span>
                   <span className="flex items-center text-sm">
                     <Clock className="mr-1 h-3 w-3" />
                     {job?.type}
@@ -118,32 +96,24 @@ export default function JobDetails({ job, onToggleSave }: JobDetailsProps) {
               <Separator />
               <div>
                 <h3 className="font-medium mb-2">Job Description</h3>
-                <p className="text-sm text-muted-foreground">
-                  {job?.description}
-                </p>
+                <p className="text-sm text-muted-foreground">{job?.description}</p>
               </div>
             </TabsContent>
             <TabsContent value="company" className="pt-4 space-y-4">
               <div>
                 <h3 className="font-medium mb-2">About {job?.company}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {job?.aboutCompany}
-                </p>
+                <p className="text-sm text-muted-foreground">{job?.aboutCompany}</p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col space-y-1">
-                  <span className="text-xs text-muted-foreground">
-                    Company Size
-                  </span>
+                  <span className="text-xs text-muted-foreground">Company Size</span>
                   <span className="flex items-center text-sm">
                     <Users className="mr-1 h-3 w-3" />
                     {job?.companySize}
                   </span>
                 </div>
                 <div className="flex flex-col space-y-1">
-                  <span className="text-xs text-muted-foreground">
-                    Industry
-                  </span>
+                  <span className="text-xs text-muted-foreground">Industry</span>
                   <span className="flex items-center text-sm">
                     <Building2 className="mr-1 h-3 w-3" />
                     {job?.companyIndustry}
@@ -155,8 +125,7 @@ export default function JobDetails({ job, onToggleSave }: JobDetailsProps) {
                     href={job?.companyWebsite}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center text-sm text-primary hover:underline"
-                  >
+                    className="flex items-center text-sm text-primary hover:underline">
                     <Globe className="mr-1 h-3 w-3" />
                     {job?.companyWebsite}
                     <ExternalLink className="ml-1 h-3 w-3" />
@@ -197,9 +166,7 @@ export default function JobDetails({ job, onToggleSave }: JobDetailsProps) {
         </CardContent>
 
         <CardFooter className="flex flex-col space-y-2 pt-0">
-          <Button className="w-full bg-mainColor hover:bg-orange-400 transition-all duration-250">
-            Apply Now
-          </Button>
+          <Button className="w-full bg-mainColor hover:bg-orange-400 transition-all duration-250">Apply Now</Button>
         </CardFooter>
       </Card>
 

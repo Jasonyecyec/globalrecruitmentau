@@ -1,4 +1,4 @@
-import { fetchCompanies } from "@/lib/api/company";
+import { fetchCompanies } from "@/services/company";
 import React, { Suspense } from "react";
 
 export default async function Applications() {
