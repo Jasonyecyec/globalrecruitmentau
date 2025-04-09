@@ -98,8 +98,8 @@ export default function Home() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-muted-foreground">+2 from last week</p>
+            <div className="text-2xl font-bold">0</div>
+            <p className="text-xs text-muted-foreground">0 from last week</p>
           </CardContent>
         </Card>
 
@@ -111,8 +111,8 @@ export default function Home() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">4</div>
-            <p className="text-xs text-muted-foreground">+1 from last week</p>
+            <div className="text-2xl font-bold">0</div>
+            <p className="text-xs text-muted-foreground">0 from last week</p>
           </CardContent>
         </Card>
 
@@ -124,8 +124,8 @@ export default function Home() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">24</div>
-            <p className="text-xs text-muted-foreground">+5 from last week</p>
+            <div className="text-2xl font-bold">0</div>
+            <p className="text-xs text-muted-foreground">0 from last week</p>
           </CardContent>
         </Card>
 
@@ -137,8 +137,8 @@ export default function Home() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">132</div>
-            <p className="text-xs text-muted-foreground">+12% from last week</p>
+            <div className="text-2xl font-bold">0</div>
+            <p className="text-xs text-muted-foreground">0 from last week</p>
           </CardContent>
         </Card>
       </div>
@@ -166,19 +166,19 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-4 w-full">
               <div className="flex items-center justify-center">
                 <div className="mr-2 h-3 w-3 rounded-full bg-blue-500" />
-                <span className="text-sm">Applied: 12</span>
+                <span className="text-sm">Applied: 0</span>
               </div>
               <div className="flex items-center justify-center">
                 <div className="mr-2 h-3 w-3 rounded-full bg-yellow-500" />
-                <span className="text-sm">In Review: 5</span>
+                <span className="text-sm">In Review: 0</span>
               </div>
               <div className="flex items-center justify-center">
                 <div className="mr-2 h-3 w-3 rounded-full bg-purple-500" />
-                <span className="text-sm">Interview: 4</span>
+                <span className="text-sm">Interview: 0</span>
               </div>
               <div className="flex items-center justify-center">
                 <div className="mr-2 h-3 w-3 rounded-full bg-green-500" />
-                <span className="text-sm">Offer: 2</span>
+                <span className="text-sm">Offer: 0</span>
               </div>
             </div>
           </CardFooter>
@@ -194,23 +194,23 @@ export default function Home() {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <div className="text-sm font-medium">Response Rate</div>
-                  <div className="text-sm font-medium">38%</div>
+                  <div className="text-sm font-medium">0%</div>
                 </div>
                 <div className="h-2 w-full bg-blue-100 rounded-full">
-                  <div className="h-2 bg-blue-500 rounded-full" style={{ width: "38%" }}></div>
+                  <div className="h-2 bg-blue-500 rounded-full" style={{ width: "0%" }}></div>
                 </div>
-                <div className="text-xs text-muted-foreground mt-1">9 responses from 24 applications</div>
+                <div className="text-xs text-muted-foreground mt-1">0 responses from 0 applications</div>
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <div className="text-sm font-medium">Interview Conversion</div>
-                  <div className="text-sm font-medium">44%</div>
+                  <div className="text-sm font-medium">0%</div>
                 </div>
                 <div className="h-2 w-full bg-purple-100 rounded-full">
-                  <div className="h-2 bg-purple-500 rounded-full" style={{ width: "44%" }}></div>
+                  <div className="h-2 bg-purple-500 rounded-full" style={{ width: "0%" }}></div>
                 </div>
-                <div className="text-xs text-muted-foreground mt-1">4 interviews from 9 responses</div>
+                <div className="text-xs text-muted-foreground mt-1">0 interviews from 0 responses</div>
               </div>
 
               <div>
@@ -219,9 +219,9 @@ export default function Home() {
                   <div className="text-sm font-medium">50%</div>
                 </div>
                 <div className="h-2 w-full bg-green-100 rounded-full">
-                  <div className="h-2 bg-green-500 rounded-full" style={{ width: "50%" }}></div>
+                  <div className="h-2 bg-green-500 rounded-full" style={{ width: "0%" }}></div>
                 </div>
-                <div className="text-xs text-muted-foreground mt-1">2 offers from 4 interviews</div>
+                <div className="text-xs text-muted-foreground mt-1">0 offers from 0 interviews</div>
               </div>
             </div>
           </CardContent>
