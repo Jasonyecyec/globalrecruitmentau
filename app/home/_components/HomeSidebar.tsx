@@ -13,13 +13,7 @@ import {
   SidebarGroupLabel,
   useSidebar,
 } from "@/components/ui/sidebar";
-import {
-  LayoutDashboard,
-  Briefcase,
-  ClipboardList,
-  ChevronRight,
-  Building2,
-} from "lucide-react";
+import { LayoutDashboard, Briefcase, ClipboardList, ChevronRight, Building2, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import RPGLogo from "@/public/img/recruitmentglobal_logo.jpg";
 import Image from "next/image";
@@ -49,11 +43,7 @@ export default function HomeSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={pathname === "/home"}
-                  tooltip="Dashboard"
-                  asChild
-                >
+                <SidebarMenuButton isActive={pathname === "/home"} tooltip="Dashboard" asChild>
                   <Link href="/home">
                     <LayoutDashboard className="h-4 w-4" />
                     <span>Dashboard</span>
@@ -61,11 +51,7 @@ export default function HomeSidebar() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={pathname === "/home/find-jobs"}
-                  tooltip="Jobs"
-                  asChild
-                >
+                <SidebarMenuButton isActive={pathname === "/home/find-jobs"} tooltip="Jobs" asChild>
                   <Link href="/home/find-jobs">
                     <Briefcase className="h-4 w-4" />
                     <span>Find Jobs</span>
@@ -73,14 +59,19 @@ export default function HomeSidebar() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={pathname === "/home/applications"}
-                  tooltip="Applications"
-                  asChild
-                >
+                <SidebarMenuButton isActive={pathname === "/home/applications"} tooltip="Applications" asChild>
                   <Link href="/home/applications">
                     <ClipboardList className="h-4 w-4" />
                     <span>Applications</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton isActive={pathname === "/home/messages"} tooltip="Applications" asChild>
+                  <Link href="/home/messages">
+                    <MessageSquare className="h-4 w-4" />
+                    <span>Messages</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
