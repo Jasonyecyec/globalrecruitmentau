@@ -84,6 +84,11 @@ const Footer = () => {
                   LinkedIn
                 </Link>
               </li>
+
+              <li className="pt-4 text-gray-300">
+                <p className="font-semibold">admin@recruitmentglobal.com</p>
+                <p className="font-semibold">+61 415 902 882</p>
+              </li>
             </ul>
           </div>
         </div>
