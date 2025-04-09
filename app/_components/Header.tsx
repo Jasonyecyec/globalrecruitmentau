@@ -17,11 +17,7 @@ const Header = ({ navigation }: HeaderProps) => {
         {/* Logo */}
         <Link href="/" className=" flex items-center space-x-2">
           <div className="relative  bg-red-200">
-            <img
-              src="/img/recruitmentglobal_logo.jpg"
-              alt="Global Recruitment Logo"
-              className="h-12 bg-red-200"
-            />
+            <img src="/img/recruitmentglobal_logo.jpg" alt="Global Recruitment Logo" className="h-12 bg-red-200" />
           </div>
         </Link>
 
@@ -35,20 +31,19 @@ const Header = ({ navigation }: HeaderProps) => {
         </nav>
 
         {/* Login & Signup */}
-        <div className="flex space-x-4">
-          <Link href="/signin">
-            <Button variant="outline" className="border duration-300 text-sm ">
-              {" "}
-              Log In
-            </Button>
-          </Link>
+        <div className="spacy-y-2">
+          <div className="flex space-x-4">
+            <Link href="/signin">
+              <Button variant="outline" className="border duration-300 text-sm ">
+                {" "}
+                Log In
+              </Button>
+            </Link>
 
-          <Link href="signup">
-            <Button className="bg-mainColor hover:bg-orange-500 duration-300 text-sm">
-              {" "}
-              Sign Up
-            </Button>
-          </Link>
+            <Link href="signup">
+              <Button className="bg-mainColor hover:bg-orange-500 duration-300 text-sm"> Sign Up</Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
