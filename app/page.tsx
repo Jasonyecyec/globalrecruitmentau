@@ -13,44 +13,44 @@ import Contact from "@/app/_sections/Contact";
 import FAQ from "@/app/_sections/FAQ";
 
 import {
-  navigationLinks,
-  jobCategoriesList,
-  findJobList,
-  featuredIndustriesList,
-  howItWorksList,
-  testimonialList,
-  faqList,
+	jobCategoriesList,
+	findJobList,
+	featuredIndustriesList,
+	howItWorksList,
+	testimonialList,
+	faqList,
 } from "@/app/_constants/homeConstants";
+import ChoosePath from "./_sections/ChoosePath";
 
 export default function Home() {
-  return (
-    // <div className=" grid grid-rows-[20px_1fr_20px] min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] ">
-    <div className="">
-      <Header navigation={navigationLinks} />
+	return (
+		<div>
+			<Header />
 
-      <Hero />
+			<Hero />
 
-      <AboutUs />
+			<AboutUs />
 
-      <StatsMetrics />
+			<StatsMetrics />
 
-      <JobCategories jobCategories={jobCategoriesList} />
+			{/* <JobCategories jobCategories={jobCategoriesList} /> */}
+			<ChoosePath />
 
-      <FindJobs jobList={findJobList} />
+			<FindJobs jobList={findJobList} />
 
-      <FeaturedIndustries featuredIndustries={featuredIndustriesList} />
+			<FeaturedIndustries featuredIndustries={featuredIndustriesList} />
 
-      <HowItWork howItWorklist={howItWorksList} />
+			<HowItWork howItWorklist={howItWorksList} />
 
-      <GlobalSuccessStories globalSuccessStoriesList={testimonialList} />
+			<GlobalSuccessStories globalSuccessStoriesList={testimonialList} />
 
-      <ReadyToGlobal />
+			<ReadyToGlobal />
 
-      <FAQ faqList={faqList} />
+			<FAQ faqList={faqList} />
 
-      <Contact />
+			<Contact />
 
-      <Footer />
-    </div>
-  );
+			<Footer />
+		</div>
+	);
 }
