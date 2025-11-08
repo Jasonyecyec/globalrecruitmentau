@@ -53,7 +53,7 @@ const addOns = [
 ];
 
 export default function Pricing() {
-	const [selectedAddOns, setSelectedAddOns] = useState<Record<number, boolean>>(
+	const [selectedAddOns, setSelectedAddOns] = useState<Record<string, boolean>>(
 		{},
 	);
 
@@ -70,7 +70,7 @@ export default function Pricing() {
 			<div className="max-w-7xl mx-auto">
 				{/* Pricing Hero */}
 				<div className="text-center mb-16">
-					<h2 className="text-4xl md:text-5xl font-bold text-secondaryColor mb-4">
+					<h2 className="text-4xl md:text-5xl font-bold text-secondaryColor100 mb-4">
 						Flexible Plans for Global Hiring
 					</h2>
 					<p className="text-lg text-foreground/70 max-w-2xl mx-auto">
@@ -86,16 +86,16 @@ export default function Pricing() {
 							key={index}
 							className={`rounded-lg border-2 p-8 transition-all ${
 								plan.highlighted
-									? "border-primary bg-white shadow-xl scale-105"
-									: "border-border bg-background hover:border-primary/50"
+									? "border-mainColor bg-white shadow-xl scale-105"
+									: "border-border bg-[#f8f8f8] hover:border-mainColor100/50"
 							}`}
 						>
 							{plan.highlighted && (
-								<div className="mb-4 inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-semibold">
+								<div className="mb-4 inline-block px-3 py-1 bg-mainColor100/10 text-mainColor100 rounded-full text-sm font-semibold">
 									Recommended
 								</div>
 							)}
-							<h3 className="text-2xl font-bold text-secondary mb-2">
+							<h3 className="text-2xl font-bold text-secondaryColor100 mb-2">
 								{plan.name}
 							</h3>
 							<p className="text-foreground/60 mb-6">{plan.description}</p>
@@ -103,7 +103,7 @@ export default function Pricing() {
 							{/* Pricing */}
 							<div className="mb-6">
 								<div className="flex items-baseline gap-1">
-									<span className="text-4xl font-bold text-primary">
+									<span className="text-4xl font-bold text-mainColor100">
 										{plan.price}
 									</span>
 									<span className="text-foreground/60 text-sm">
@@ -116,9 +116,9 @@ export default function Pricing() {
 							<ul className="space-y-3 mb-8">
 								{plan.features.map((feature, i) => (
 									<li key={i} className="flex gap-3 items-start">
-										<div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+										<div className="w-5 h-5 rounded-full bg-mainColor100/20 flex items-center justify-center flex-shrink-0 mt-0.5">
 											<svg
-												className="w-3 h-3 text-primary"
+												className="w-3 h-3 text-mainColor100"
 												fill="currentColor"
 												viewBox="0 0 20 20"
 											>
@@ -138,8 +138,8 @@ export default function Pricing() {
 							<Button
 								className={`w-full mb-6 py-2 ${
 									plan.highlighted
-										? "bg-primary hover:bg-primary/90 text-white"
-										: "bg-secondary hover:bg-secondary/90 text-white"
+										? "bg-mainColor100 hover:bg-mainColor100/90 text-white"
+										: "bg-secondaryColor100 hover:bg-secondaryColor100/90 text-white"
 								}`}
 							>
 								{plan.cta}
@@ -159,14 +159,14 @@ export default function Pricing() {
 											type="checkbox"
 											checked={selectedAddOns[`${index}-${i}`] || false}
 											onChange={() => toggleAddOn(index, i)}
-											className="w-4 h-4 rounded border-foreground/20 accent-primary"
+											className="w-4 h-4 rounded border-foreground/20 accent-mainColor100"
 										/>
 										<div className="flex-1">
 											<span className="text-sm text-foreground">
 												{addon.name}
 											</span>
 										</div>
-										<span className="text-sm font-semibold text-primary">
+										<span className="text-sm font-semibold text-mainColor100">
 											{addon.price}
 										</span>
 									</label>

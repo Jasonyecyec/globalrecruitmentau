@@ -122,11 +122,12 @@ html {
 	}
 }
 
-/* Custom theme extensions for Tailwind 4 */
 @theme {
-	/* Custom Colors - your mainColor and secondaryColor */
+	/* Custom Colors */
 	--color-mainColor: #ffa855;
+	--color-mainColor100: #ff6b35;
 	--color-secondaryColor: #1b1464;
+	--color-secondaryColor100: #6366f1;
 
 	/* Background Images */
 	--background-image-heroImg: url(/img/hero_perth1.png);

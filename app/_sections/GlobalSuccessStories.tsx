@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import TestimonialCard from "@/app/_components/TestimonialCard";
 import { StaticImageData } from "next/image";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 type GlobalSuccessStoriesProps = {
