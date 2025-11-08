@@ -8,7 +8,7 @@ export const navigationLinks = [
 	{ name: "About Us", path: "#about-us" },
 	{ name: "Find Jobs", path: "#find-dream-jobs" },
 	{ name: "Blogs", path: "/blog" },
-	{ name: "Contact Us", path: "#contact" },
+	{ name: "Contact Us", path: "/contact" },
 ];
 
 const Header = () => {

@@ -4,8 +4,8 @@ import Link from "next/link";
 export default function ExploreMore() {
 	return (
 		<div className="max-w-6xl mx-auto mt-20">
-			<div className="bg-gradient-to-r from-mainColor100/5 via-accent/5 to-secondaryColor100/5 rounded-2xl p-12 mb-20 border border-border/50">
-				<h3 className="text-2xl font-bold text-secondaryColor mb-12 text-center">
+			<div className="bg-gradient-to-r from-mainColor/40 via-accent/40 to-secondaryColor100/40 rounded-2xl p-12 mb-20 border border-border/50">
+				<h3 className="text-2xl font-bold text-secondaryColor100 mb-12 text-center">
 					Explore More
 				</h3>
 				<div className="grid md:grid-cols-4 gap-6">
