@@ -77,7 +77,7 @@ const journeys = [
 
 export default function ChoosePath() {
 	return (
-		<section className="w-full py-24 px-4 bg-gradient-to-b from-background via-white to-background">
+		<section className="w-full py-20 px-4 bg-gradient-to-b from-background via-white to-background">
 			<div className="max-w-6xl mx-auto">
 				<div className="text-center mb-16">
 					<h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -133,7 +133,7 @@ export default function ChoosePath() {
 													key={i}
 													className="flex gap-4 items-start group/step"
 												>
-													<div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-lg flex-shrink-0 group-hover/step:scale-110 transition-transform shadow-md">
+													<div className="w-12 h-12 rounded-full bg-gradient-to-br from-secondaryColor to-accent flex items-center justify-center text-white font-bold text-lg flex-shrink-0 group-hover/step:scale-110 transition-transform shadow-md">
 														{step.number}
 													</div>
 													<div className="pt-1">
@@ -161,7 +161,7 @@ export default function ChoosePath() {
 													key={i}
 													className="flex gap-3 items-center text-sm text-foreground/85"
 												>
-													<CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0" />
+													<CheckCircle2 className="w-5 h-5 text-mainColor flex-shrink-0" />
 													<span className="font-medium">{benefit}</span>
 												</li>
 											))}
@@ -182,76 +182,7 @@ export default function ChoosePath() {
 						);
 					})}
 				</div>
-
-				{/* Quick Links Section */}
-				<div className="bg-gradient-to-r from-primary/5 via-accent/5 to-secondary/5 rounded-2xl p-12 mb-20 border border-border/50">
-					<h3 className="text-2xl font-bold text-secondary mb-12 text-center">
-						Explore More
-					</h3>
-					<div className="grid md:grid-cols-4 gap-6">
-						<Link
-							href="/blog"
-							className="p-6 bg-white rounded-xl border border-border hover:border-primary hover:shadow-lg transition group/link"
-						>
-							<TrendingUp className="w-8 h-8 text-primary mx-auto mb-4 group-hover/link:scale-110 transition" />
-							<h4 className="font-semibold text-foreground mb-2 text-center">
-								Insights & Tips
-							</h4>
-							<p className="text-sm text-foreground/70 text-center">
-								Read latest hiring trends and career advice
-							</p>
-						</Link>
-
-						<Link
-							href="/success-stories"
-							className="p-6 bg-white rounded-xl border border-border hover:border-primary hover:shadow-lg transition group/link"
-						>
-							<Globe className="w-8 h-8 text-accent mx-auto mb-4 group-hover/link:scale-110 transition" />
-							<h4 className="font-semibold text-foreground mb-2 text-center">
-								Success Stories
-							</h4>
-							<p className="text-sm text-foreground/70 text-center">
-								See how others found their dream roles
-							</p>
-						</Link>
-
-						<Link
-							href="/pricing"
-							className="p-6 bg-white rounded-xl border border-border hover:border-primary hover:shadow-lg transition group/link"
-						>
-							<Zap className="w-8 h-8 text-primary mx-auto mb-4 group-hover/link:scale-110 transition" />
-							<h4 className="font-semibold text-foreground mb-2 text-center">
-								Pricing
-							</h4>
-							<p className="text-sm text-foreground/70 text-center">
-								Simple, transparent plans for all needs
-							</p>
-						</Link>
-
-						<Link
-							href="/contact"
-							className="p-6 bg-white rounded-xl border border-border hover:border-primary hover:shadow-lg transition group/link"
-						>
-							<Briefcase className="w-8 h-8 text-secondary mx-auto mb-4 group-hover/link:scale-110 transition" />
-							<h4 className="font-semibold text-foreground mb-2 text-center">
-								Get in Touch
-							</h4>
-							<p className="text-sm text-foreground/70 text-center">
-								Have questions? Our team is here to help
-							</p>
-						</Link>
-					</div>
-				</div>
 			</div>
 		</section>
-		// <section className="bg-white py-16">
-		// 	<div className="mx-auto max-w-6xl px-4 text-center">
-		// 		<h2 className="mb-6 text-3xl font-bold">Choose Your Path</h2>
-		// 		<p className="mb-12 text-gray-600">
-		// 			Whether you're a job seeker or an employer, we have tailored solutions
-		// 			to meet your needs.
-		// 		</p>
-		// 	</div>
-		// </section>
 	);
 }

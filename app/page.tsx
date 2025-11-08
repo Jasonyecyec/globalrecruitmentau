@@ -11,7 +11,8 @@ import GlobalSuccessStories from "@/app/_sections/GlobalSuccessStories";
 import ReadyToGlobal from "@/app/_sections/ReadyToGlobal";
 import Contact from "@/app/_sections/Contact";
 import FAQ from "@/app/_sections/FAQ";
-
+import ChoosePath from "@/app/_sections/ChoosePath";
+import Pricing from "@/app/_sections/Pricing";
 import {
 	jobCategoriesList,
 	findJobList,
@@ -20,7 +21,7 @@ import {
 	testimonialList,
 	faqList,
 } from "@/app/_constants/homeConstants";
-import ChoosePath from "./_sections/ChoosePath";
+import ExploreMore from "@/app/_sections/ExploreMore";
 
 export default function Home() {
 	return (
@@ -46,9 +47,13 @@ export default function Home() {
 
 			<ReadyToGlobal />
 
+			<Pricing />
+
 			<FAQ faqList={faqList} />
 
-			<Contact />
+			{/* <Contact /> */}
+
+			<ExploreMore />
 
 			<Footer />
 		</div>
