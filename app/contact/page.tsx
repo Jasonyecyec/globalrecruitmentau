@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
 	Select,
@@ -13,6 +12,8 @@ import {
 import { Mail, Phone, MapPin } from "lucide-react";
 import Header from "@/app/_components/Header";
 import Footer from "@/app/_sections/Footer";
+import { useContactSubmit } from "@/lib/hooks/use-contact";
+import { toast } from "sonner";
 
 const offices = [
 	{
@@ -68,7 +69,11 @@ export default function Contact() {
 		message: "",
 	});
 
-	const [submitted, setSubmitted] = useState(false);
+	const [feedback, setFeedback] = useState<{
+		type: "success" | "error";
+		message: string;
+	} | null>(null);
+	const { mutateAsync: submitContact, isPending } = useContactSubmit();
 
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -87,19 +92,44 @@ export default function Contact() {
 		}));
 	};
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		setSubmitted(true);
-		setTimeout(() => {
-			setFormData({
-				name: "",
-				email: "",
-				inquiryType: "employer-support",
-				subject: "",
-				message: "",
+		setFeedback(null);
+
+		try {
+			const response = await submitContact({
+				name: formData.name,
+				email: formData.email,
+				inquiry_type: formData.inquiryType,
+				subject: formData.subject,
+				message: formData.message,
 			});
-			setSubmitted(false);
-		}, 3000);
+
+			if (response.success) {
+				setFeedback({
+					type: "success",
+					message:
+						"Thanks for reaching out—our team will get back to you within 24 hours.",
+				});
+
+				setFormData({
+					name: "",
+					email: "",
+					inquiryType: "employer-support",
+					subject: "",
+					message: "",
+				});
+
+				toast.success(response.message || "Message sent successfully!");
+			}
+		} catch (error) {
+			const errorMessage =
+				error instanceof Error
+					? error.message
+					: "Something went wrong while sending your message. Please try again.";
+
+			setFeedback({ type: "error", message: errorMessage });
+		}
 	};
 
 	return (
@@ -287,26 +317,40 @@ export default function Contact() {
 										<Button
 											type="submit"
 											className="bg-secondaryColor hover:bg-secondaryColor/90 text-white font-semibold px-8 py-3"
-											disabled={submitted}
+											disabled={isPending}
 										>
-											{submitted ? "Sending..." : "Send Message"}
+											{isPending ? "Sending..." : "Send Message"}
 										</Button>
-										{submitted && (
-											<div className="flex items-center gap-2 text-green-600">
-												<svg
-													className="w-5 h-5"
-													fill="currentColor"
-													viewBox="0 0 20 20"
-												>
-													<path
-														fillRule="evenodd"
-														d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-														clipRule="evenodd"
-													/>
-												</svg>
-												<span className="text-sm font-semibold">
-													Message sent successfully!
-												</span>
+										{feedback && (
+											<div
+												className={`flex items-center gap-2 text-sm font-semibold ${
+													feedback.type === "success"
+														? "text-green-600"
+														: "text-red-600"
+												}`}
+											>
+												{feedback.type === "success" ? (
+													<svg
+														className="w-5 h-5"
+														fill="currentColor"
+														viewBox="0 0 20 20"
+													>
+														<path
+															fillRule="evenodd"
+															d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+															clipRule="evenodd"
+														/>
+													</svg>
+												) : (
+													<svg
+														className="w-5 h-5"
+														fill="currentColor"
+														viewBox="0 0 20 20"
+													>
+														<path d="M10 .75a9.25 9.25 0 1 0 0 18.5 9.25 9.25 0 0 0 0-18.5Zm0 13.375a1.125 1.125 0 1 1 0 2.25 1.125 1.125 0 0 1 0-2.25Zm1-1.875H9V5.375h2Z" />
+													</svg>
+												)}
+												<span>{feedback.message}</span>
 											</div>
 										)}
 									</div>
