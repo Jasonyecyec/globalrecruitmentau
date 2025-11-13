@@ -6,23 +6,23 @@ import {
 	SidebarTrigger,
 	SidebarInset,
 } from "@/components/ui/sidebar";
-import HomeSidebar from "./_components/HomeSidebar";
-import UserNav from "./_components/UserNav";
+import EmployerSidebar from "./_components/EmployerSidebar";
+import UserNav from "../home/_components/UserNav";
 import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/stores/user.store";
 
-export default function HomeLayout({
+export default function EmployerLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
 	const { user } = useUserStore();
 
-	const notification = 4;
+	const notification = 8;
 	return (
 		<SidebarProvider>
-			<HomeSidebar />
+			<EmployerSidebar />
 			<SidebarInset>
 				<header className="sticky top-0 z-50 w-full border-b bg-background">
 					<div className=" flex h-14 items-center px-2 sm:px-6">

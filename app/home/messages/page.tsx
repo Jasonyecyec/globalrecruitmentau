@@ -1,283 +1,374 @@
 "use client";
 import React, { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Briefcase, Info, MessageSquare, Send } from "lucide-react";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import {
+	Search,
+	Send,
+	Paperclip,
+	MoreVertical,
+	MessageSquare,
+	Info,
+} from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-// Sample conversations data
 const conversations = [
-  {
-    id: 1,
-    company: "TechCorp Inc.",
-    jobTitle: "Senior Frontend Developer",
-    logo: "/placeholder.svg?height=40&width=40",
-    lastMessage: "Thanks for your interest in the position. Would you be available for an interview next week?",
-    timestamp: "2 hours ago",
-    unread: true,
-    messages: [
-      {
-        id: 1,
-        sender: "admin",
-        text: "Hello John, I noticed you applied for the Senior Frontend Developer position at TechCorp Inc. I'd like to discuss your application.",
-        timestamp: "Yesterday, 2:30 PM",
-      },
-      {
-        id: 2,
-        sender: "admin",
-        text: "Your experience with React and TypeScript looks impressive. Would you be available for a technical interview next week?",
-        timestamp: "Yesterday, 2:32 PM",
-      },
-      {
-        id: 3,
-        sender: "user",
-        text: "Hi, thank you for reaching out! Yes, I'm very interested in the position and would be happy to schedule an interview.",
-        timestamp: "Yesterday, 3:15 PM",
-      },
-      {
-        id: 4,
-        sender: "admin",
-        text: "Great! How does Tuesday at 2:00 PM EST sound? We'll be conducting the interview via Zoom.",
-        timestamp: "Yesterday, 3:45 PM",
-      },
-      {
-        id: 5,
-        sender: "user",
-        text: "Tuesday at 2:00 PM works perfectly for me. Should I prepare anything specific for the interview?",
-        timestamp: "Yesterday, 4:00 PM",
-      },
-      {
-        id: 6,
-        sender: "admin",
-        text: "Thanks for your interest in the position. Would you be available for an interview next week?",
-        timestamp: "2 hours ago",
-      },
-    ],
-  },
-  {
-    id: 2,
-    company: "DesignHub",
-    jobTitle: "UX/UI Designer",
-    logo: "/placeholder.svg?height=40&width=40",
-    lastMessage: "We've reviewed your portfolio and would like to discuss a potential fit for our team.",
-    timestamp: "Yesterday",
-    unread: false,
-    messages: [
-      {
-        id: 1,
-        sender: "admin",
-        text: "Hello John, we've reviewed your application for the UX/UI Designer position at DesignHub.",
-        timestamp: "2 days ago, 10:15 AM",
-      },
-      {
-        id: 2,
-        sender: "admin",
-        text: "We've reviewed your portfolio and would like to discuss a potential fit for our team.",
-        timestamp: "Yesterday, 9:30 AM",
-      },
-    ],
-  },
+	{
+		id: 1,
+		company: "TechCorp Inc.",
+		position: "Senior Frontend Developer",
+		avatar: "https://github.com/shadcn.png",
+		lastMessage:
+			"Thanks for your interest. Would you be available for an interview next week?",
+		timestamp: "2 hours ago",
+		unread: 2,
+		online: true,
+		messages: [
+			{
+				id: 1,
+				senderType: "employer",
+				message:
+					"Hello! We reviewed your application for the Senior Frontend Developer position.",
+				timestamp: "Yesterday, 2:30 PM",
+			},
+			{
+				id: 2,
+				senderType: "employer",
+				message:
+					"Your experience with React and TypeScript looks impressive. Would you be available for a technical interview?",
+				timestamp: "Yesterday, 2:32 PM",
+			},
+			{
+				id: 3,
+				senderType: "jobseeker",
+				message:
+					"Hi! Thank you for reaching out. Yes, I'm very interested in the position and would be happy to schedule an interview.",
+				timestamp: "Yesterday, 3:15 PM",
+			},
+			{
+				id: 4,
+				senderType: "employer",
+				message:
+					"Great! How does Tuesday at 2:00 PM sound? We'll conduct the interview via Zoom.",
+				timestamp: "Yesterday, 3:45 PM",
+			},
+			{
+				id: 5,
+				senderType: "jobseeker",
+				message:
+					"Tuesday at 2:00 PM works perfectly for me. Should I prepare anything specific?",
+				timestamp: "Yesterday, 4:00 PM",
+			},
+			{
+				id: 6,
+				senderType: "employer",
+				message:
+					"Thanks for your interest. Would you be available for an interview next week?",
+				timestamp: "2 hours ago",
+			},
+		],
+	},
+	{
+		id: 2,
+		company: "DesignHub",
+		position: "UX/UI Designer",
+		avatar: "https://github.com/shadcn.png",
+		lastMessage:
+			"We've reviewed your portfolio and would like to discuss next steps.",
+		timestamp: "Yesterday",
+		unread: 0,
+		online: false,
+		messages: [
+			{
+				id: 1,
+				senderType: "employer",
+				message:
+					"Hello! We've reviewed your application for the UX/UI Designer position.",
+				timestamp: "2 days ago, 10:15 AM",
+			},
+			{
+				id: 2,
+				senderType: "employer",
+				message:
+					"We've reviewed your portfolio and would like to discuss next steps.",
+				timestamp: "Yesterday, 9:30 AM",
+			},
+		],
+	},
+	{
+		id: 3,
+		company: "StartupXYZ",
+		position: "React Developer",
+		avatar: "https://github.com/shadcn.png",
+		lastMessage: "Looking forward to speaking with you soon!",
+		timestamp: "2 days ago",
+		unread: 0,
+		online: true,
+		messages: [
+			{
+				id: 1,
+				senderType: "employer",
+				message: "Hi! We're impressed with your React experience.",
+				timestamp: "3 days ago, 11:00 AM",
+			},
+			{
+				id: 2,
+				senderType: "jobseeker",
+				message:
+					"Thank you! I'm excited about the opportunity to work with your team.",
+				timestamp: "3 days ago, 2:30 PM",
+			},
+			{
+				id: 3,
+				senderType: "employer",
+				message: "Looking forward to speaking with you soon!",
+				timestamp: "2 days ago, 9:00 AM",
+			},
+		],
+	},
 ];
 
 export default function Messages() {
-  const [activeConversation, setActiveConversation] = useState(conversations[0]);
-  const [newMessage, setNewMessage] = useState("");
-  const [userConversations, setUserConversations] = useState(conversations);
+	const [selectedConversation, setSelectedConversation] = useState(
+		conversations[0],
+	);
+	const [searchQuery, setSearchQuery] = useState("");
+	const [messageInput, setMessageInput] = useState("");
 
-  const handleSendMessage = () => {
-    if (!newMessage.trim()) return;
+	const handleSendMessage = () => {
+		if (messageInput.trim()) {
+			// Handle send message logic here
+			setMessageInput("");
+		}
+	};
 
-    const updatedConversations = userConversations.map((conv) => {
-      if (conv.id === activeConversation.id) {
-        const updatedMessages = [
-          ...conv.messages,
-          {
-            id: conv.messages.length + 1,
-            sender: "user",
-            text: newMessage,
-            timestamp: "Just now",
-          },
-        ];
-        return {
-          ...conv,
-          messages: updatedMessages,
-          lastMessage: newMessage,
-          timestamp: "Just now",
-        };
-      }
-      return conv;
-    });
+	const filteredConversations = conversations.filter((conv) =>
+		conv.company.toLowerCase().includes(searchQuery.toLowerCase()),
+	);
 
-    setUserConversations(updatedConversations);
-    setActiveConversation(
-      updatedConversations.find((conv) => conv.id === activeConversation.id) || updatedConversations[0]
-    );
-    setNewMessage("");
-  };
+	return (
+		<div className="p-4 sm:px-6 md:py-8">
+			<div className="flex flex-col gap-4 mb-4">
+				<div>
+					<h1 className="text-2xl font-bold tracking-tight">Messages</h1>
+					<p className="text-muted-foreground">
+						Communicate with employers about job opportunities
+					</p>
+				</div>
+			</div>
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
+			{conversations.length === 0 ? (
+				<EmptyMessagesState />
+			) : (
+				<div className="grid md:grid-cols-[340px_1fr] gap-4 h-[calc(100vh-200px)]">
+					{/* CONVERSATIONS LIST */}
+					<Card className="flex flex-col">
+						<CardHeader className="pb-3">
+							<div className="flex items-center justify-between">
+								<CardTitle className="text-lg">Conversations</CardTitle>
+								{conversations.filter((c) => c.unread > 0).length > 0 && (
+									<Badge className="bg-mainColor">
+										{conversations.filter((c) => c.unread > 0).length}
+									</Badge>
+								)}
+							</div>
+							<div className="relative mt-2">
+								<Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+								<Input
+									type="search"
+									placeholder="Search conversations..."
+									className="pl-8"
+									value={searchQuery}
+									onChange={(e) => setSearchQuery(e.target.value)}
+								/>
+							</div>
+						</CardHeader>
+						<Separator />
+						<ScrollArea className="flex-1">
+							<div className="space-y-1 p-2">
+								{filteredConversations.map((conversation) => (
+									<div
+										key={conversation.id}
+										className={`flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-accent transition-colors ${
+											selectedConversation.id === conversation.id
+												? "bg-accent"
+												: ""
+										}`}
+										onClick={() => setSelectedConversation(conversation)}
+									>
+										<div className="relative">
+											<Avatar className="h-10 w-10 rounded-md">
+												<AvatarImage src={conversation.avatar} />
+												<AvatarFallback className="rounded-md">
+													{conversation.company
+														.split(" ")
+														.map((n) => n[0])
+														.join("")}
+												</AvatarFallback>
+											</Avatar>
+											{conversation.online && (
+												<div className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 border-2 border-background" />
+											)}
+										</div>
+										<div className="flex-1 min-w-0">
+											<div className="flex items-center justify-between gap-2">
+												<p className="font-semibold text-sm truncate">
+													{conversation.company}
+												</p>
+												<span className="text-xs text-muted-foreground shrink-0">
+													{conversation.timestamp}
+												</span>
+											</div>
+											<p className="text-xs text-muted-foreground truncate">
+												{conversation.position}
+											</p>
+											<div className="flex items-center gap-2 mt-1">
+												<p className="text-sm text-muted-foreground truncate flex-1">
+													{conversation.lastMessage}
+												</p>
+												{conversation.unread > 0 && (
+													<Badge className="bg-mainColor h-5 min-w-5 flex items-center justify-center p-1 text-xs">
+														{conversation.unread}
+													</Badge>
+												)}
+											</div>
+										</div>
+									</div>
+								))}
+							</div>
+						</ScrollArea>
+					</Card>
 
-  return (
-    <div className="container p-4 sm:px-6 md:py-8">
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-          <div className="space-y-1">
-            <h1 className="text-2xl font-bold tracking-tight">Messages</h1>
-            <p className="text-muted-foreground">
-              Communicate with employers about your job applications and opportunities.
-            </p>
-          </div>
-        </div>
+					{/* CHAT AREA */}
+					<Card className="flex flex-col">
+						<CardHeader className="pb-3">
+							<div className="flex items-center justify-between">
+								<div className="flex items-center gap-3">
+									<div className="relative">
+										<Avatar className="h-10 w-10 rounded-md">
+											<AvatarImage src={selectedConversation.avatar} />
+											<AvatarFallback className="rounded-md">
+												{selectedConversation.company
+													.split(" ")
+													.map((n) => n[0])
+													.join("")}
+											</AvatarFallback>
+										</Avatar>
+										{selectedConversation.online && (
+											<div className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 border-2 border-background" />
+										)}
+									</div>
+									<div>
+										<p className="font-semibold">
+											{selectedConversation.company}
+										</p>
+										<p className="text-xs text-muted-foreground">
+											{selectedConversation.position}
+										</p>
+									</div>
+								</div>
+								<Button variant="ghost" size="icon">
+									<MoreVertical className="h-4 w-4" />
+								</Button>
+							</div>
+						</CardHeader>
+						<Separator />
 
-        <Tabs defaultValue="inbox" className="w-full">
-          <TabsList>
-            <TabsTrigger value="inbox" className="relative">
-              Inbox
-              {userConversations.some((conv) => conv.unread) && (
-                <Badge className="ml-2 bg-primary text-primary-foreground">
-                  {userConversations.filter((conv) => conv.unread).length}
-                </Badge>
-              )}
-            </TabsTrigger>
-            <TabsTrigger value="archived">Archived</TabsTrigger>
-          </TabsList>
+						{/* MESSAGES */}
+						<ScrollArea className="flex-1 p-4">
+							<div className="space-y-4">
+								{selectedConversation.messages.map((msg) => (
+									<div
+										key={msg.id}
+										className={`flex ${msg.senderType === "jobseeker" ? "justify-end" : "justify-start"}`}
+									>
+										<div
+											className={`max-w-[75%] rounded-lg p-3 ${
+												msg.senderType === "jobseeker"
+													? "bg-mainColor text-white"
+													: "bg-accent"
+											}`}
+										>
+											<p className="text-sm">{msg.message}</p>
+											<p
+												className={`text-xs mt-1 ${
+													msg.senderType === "jobseeker"
+														? "text-white/70"
+														: "text-muted-foreground"
+												}`}
+											>
+												{msg.timestamp}
+											</p>
+										</div>
+									</div>
+								))}
+							</div>
+						</ScrollArea>
 
-          <TabsContent value="inbox" className="mt-4">
-            {userConversations.length > 0 ? (
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-[300px_1fr]">
-                {/* Conversation List */}
-                <div className="border rounded-lg overflow-hidden">
-                  <div className="bg-muted/50 p-3 border-b">
-                    <h3 className="font-medium">Conversations</h3>
-                  </div>
-                  <ScrollArea className="h-[calc(100vh-250px)]">
-                    {userConversations.map((conversation) => (
-                      <div
-                        key={conversation.id}
-                        className={`p-3 border-b cursor-pointer hover:bg-muted/50 transition-colors ${
-                          activeConversation?.id === conversation.id ? "bg-muted/50" : ""
-                        }`}
-                        onClick={() => setActiveConversation(conversation)}>
-                        <div className="flex items-start gap-3">
-                          <Avatar className="h-10 w-10 rounded-md flex-shrink-0">
-                            <AvatarImage src={conversation.logo} alt={conversation.company} />
-                            <AvatarFallback className="rounded-md">
-                              {conversation.company.substring(0, 2)}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex justify-between items-start">
-                              <h4 className="font-medium truncate">{conversation.company}</h4>
-                              <span className="text-xs text-muted-foreground whitespace-nowrap ml-2">
-                                {conversation.timestamp}
-                              </span>
-                            </div>
-                            <p className="text-sm text-muted-foreground truncate">{conversation.jobTitle}</p>
-                            <div className="text-sm truncate flex items-center gap-2">
-                              <span className="truncate">{conversation.lastMessage}</span>
-                              {conversation.unread && <Badge className="ml-2 h-2 w-2 rounded-full p-0 bg-primary" />}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </ScrollArea>
-                </div>
-
-                {/* Chat Window */}
-                {activeConversation && (
-                  <Card className="flex flex-col h-[calc(100vh-250px)]">
-                    <CardHeader className="border-b p-4">
-                      <div className="flex items-center gap-3">
-                        <Avatar className="h-10 w-10 rounded-md">
-                          <AvatarImage src={activeConversation.logo} alt={activeConversation.company} />
-                          <AvatarFallback className="rounded-md">
-                            {activeConversation.company.substring(0, 2)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <CardTitle className="text-lg">{activeConversation.company}</CardTitle>
-                          <CardDescription>{activeConversation.jobTitle}</CardDescription>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="flex-1 overflow-hidden p-0">
-                      <ScrollArea className="h-full p-4">
-                        {activeConversation.messages.map((message) => (
-                          <div
-                            key={message.id}
-                            className={`mb-4 flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}>
-                            <div
-                              className={`max-w-[80%] rounded-lg p-3 ${
-                                message.sender === "user"
-                                  ? "bg-primary text-primary-foreground"
-                                  : "bg-muted text-muted-foreground"
-                              }`}>
-                              <p className="text-sm">{message.text}</p>
-                              <p className="mt-1 text-xs opacity-70">{message.timestamp}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </ScrollArea>
-                    </CardContent>
-                    <div className="border-t p-3">
-                      <div className="flex gap-2">
-                        <Input
-                          placeholder="Type your message..."
-                          value={newMessage}
-                          onChange={(e) => setNewMessage(e.target.value)}
-                          onKeyDown={handleKeyDown}
-                          className="flex-1"
-                        />
-                        <Button onClick={handleSendMessage} disabled={!newMessage.trim()}>
-                          <Send className="h-4 w-4 mr-2" />
-                          Send
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
-                )}
-              </div>
-            ) : (
-              <EmptyMessagesState />
-            )}
-          </TabsContent>
-
-          <TabsContent value="archived" className="mt-4">
-            <EmptyMessagesState message="No archived messages" />
-          </TabsContent>
-        </Tabs>
-      </div>
-    </div>
-  );
+						{/* MESSAGE INPUT */}
+						<Separator />
+						<div className="p-4">
+							<div className="flex items-center gap-2">
+								<Button variant="ghost" size="icon">
+									<Paperclip className="h-4 w-4" />
+								</Button>
+								<Input
+									placeholder="Type your message..."
+									value={messageInput}
+									onChange={(e) => setMessageInput(e.target.value)}
+									onKeyPress={(e) => {
+										if (e.key === "Enter" && !e.shiftKey) {
+											e.preventDefault();
+											handleSendMessage();
+										}
+									}}
+								/>
+								<Button
+									onClick={handleSendMessage}
+									disabled={!messageInput.trim()}
+									className="bg-mainColor hover:bg-orange-400"
+									size="icon"
+								>
+									<Send className="h-4 w-4" />
+								</Button>
+							</div>
+						</div>
+					</Card>
+				</div>
+			)}
+		</div>
+	);
 }
 
-function EmptyMessagesState({ message = "No messages yet" }: { message?: string }) {
-  return (
-    <Card className="flex flex-col items-center justify-center p-8 text-center">
-      <MessageSquare className="h-12 w-12 text-muted-foreground/50 mb-4" />
-      <h3 className="text-lg font-medium">{message}</h3>
-      <p className="text-muted-foreground mt-1 max-w-md">
-        Messages from employers will appear here. Employers will contact you if they're interested in your application.
-      </p>
-      <Alert className="mt-6 max-w-md">
-        <Info className="h-4 w-4" />
-        <AlertTitle>How messaging works</AlertTitle>
-        <AlertDescription>
-          Employers will initiate conversations with you about job opportunities. Once they message you, you'll be able
-          to respond and continue the conversation.
-        </AlertDescription>
-      </Alert>
-    </Card>
-  );
+function EmptyMessagesState() {
+	return (
+		<Card className="flex flex-col items-center justify-center p-12 text-center">
+			<MessageSquare className="h-16 w-16 text-muted-foreground/50 mb-4" />
+			<h3 className="text-xl font-semibold mb-2">No messages yet</h3>
+			<p className="text-muted-foreground max-w-md mb-6">
+				Messages from employers will appear here. Employers will contact you if
+				they're interested in your application.
+			</p>
+			<Alert className="max-w-md">
+				<Info className="h-4 w-4" />
+				<AlertTitle>How messaging works</AlertTitle>
+				<AlertDescription>
+					Employers will initiate conversations with you about job opportunities.
+					Once they message you, you'll be able to respond and continue the
+					conversation.
+				</AlertDescription>
+			</Alert>
+		</Card>
+	);
 }

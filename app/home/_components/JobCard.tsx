@@ -25,6 +25,8 @@ type JobCardProps = {
 	isSelected: boolean;
 	onSelect: () => void;
 	onToggleSave: () => void;
+	onApply?: (data: Job) => void;
+	isLoading?: boolean;
 };
 
 export default function JobCard({
@@ -32,6 +34,8 @@ export default function JobCard({
 	isSelected,
 	onSelect,
 	onToggleSave,
+	onApply,
+	isLoading,
 }: JobCardProps) {
 	return (
 		<Card
@@ -112,7 +116,12 @@ export default function JobCard({
 					${job.salary_min.toLocaleString()} - $
 					{job.salary_max.toLocaleString()}
 				</div>
-				<Button size="sm" variant={isSelected ? "default" : "outline"}>
+				<Button
+					disabled={isLoading}
+					onClick={() => onApply && onApply(job)}
+					size="sm"
+					variant={isSelected ? "default" : "outline"}
+				>
 					Apply Now
 				</Button>
 			</CardFooter>

@@ -41,10 +41,13 @@ const SignInForm = () => {
 	const handleLogin: SubmitHandler<LoginFormSchema> = async (formData) => {
 		try {
 			const response = await login(formData);
+			console.log("Login response:", response);
 
 			if (response?.success) {
-				router.push("/home");
 				setUser(response.user as User);
+				if (response.user.user_type === "jobseeker") router.push("/home");
+				else if (response.user.user_type === "employer")
+					router.push("/employer");
 			}
 		} catch (error: unknown) {
 			console.error("Login error:", error);
@@ -149,7 +152,7 @@ const SignInForm = () => {
 						</Button>
 					</form>
 
-					<div className="relative py-2">
+					{/* <div className="relative py-2">
 						<div className="absolute inset-0 flex items-center ">
 							<div className="w-full border-t border-gray-300" />
 						</div>
@@ -165,7 +168,7 @@ const SignInForm = () => {
 						className="text-gray-600 w-full border-gray-300"
 					>
 						Continue with Google
-					</Button>
+					</Button> */}
 				</CardContent>
 
 				<CardFooter className="flex justify-center">

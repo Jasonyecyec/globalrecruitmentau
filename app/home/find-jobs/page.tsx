@@ -18,12 +18,16 @@ import { Filter, Search, MapPin } from "lucide-react";
 import { useState } from "react";
 import { useJobList } from "@/lib/hooks/use-jobs";
 import { Job } from "@/types/job";
+import { toast } from "sonner";
+import { useJobApplicationCreate } from "@/lib/hooks/use-job-application";
 
 export default function FindJobs() {
 	const { data: jobsList } = useJobList();
+	const { mutateAsync: createJobApplication, isPending } =
+		useJobApplicationCreate();
 
 	const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-	const [savedJobs, setSavedJobs] = useState(jobs.filter((job) => job.saved));
+	const [_savedJobs, setSavedJobs] = useState(jobs.filter((job) => job.saved));
 
 	const toggleSaveJob = (jobId: number) => {
 		const updatedJobs = jobs.map((job) =>
@@ -31,6 +35,23 @@ export default function FindJobs() {
 		);
 
 		setSavedJobs(updatedJobs.filter((job) => job.saved));
+	};
+
+	const handleApplyJob = async (job: Job) => {
+		try {
+			const response = await createJobApplication({
+				job_id: job.id,
+			});
+
+			if (response.success) {
+				toast.success(response.message);
+			}
+		} catch (error: unknown) {
+			const errorMessage =
+				(error as { response?: { data?: { message?: string } } })?.response
+					?.data?.message || "Login failed";
+			toast.warning(errorMessage);
+		}
 	};
 
 	return (
@@ -99,6 +120,8 @@ export default function FindJobs() {
 						isSelected={selectedJob?.id === job.id}
 						onSelect={() => setSelectedJob(job)}
 						onToggleSave={() => toggleSaveJob(job.id)}
+						onApply={handleApplyJob}
+						isLoading={isPending}
 					/>
 				))}
 			</main>
