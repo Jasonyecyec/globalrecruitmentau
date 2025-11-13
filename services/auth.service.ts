@@ -18,7 +18,7 @@ export const authService = {
 	signup: async (
 		data: SignupFormSchema,
 		resumeFile?: File | null,
-		imageFile?: File | null
+		imageFile?: File | null,
 	): Promise<LoginResponse> => {
 		try {
 			const formData = new FormData();
