@@ -31,13 +31,14 @@ const Hero = () => {
 								asChild
 								className="bg-orange-500 hover:bg-orange-600 text-white w-40 text-lg font-bold h-12"
 							>
-								<Link href="/signin">Find Jobs</Link>
+								<Link href="/signup/candidate">Find Jobs</Link>
 							</Button>
 							<Button
+								asChild
 								variant="outline"
 								className="bg-transparent text-white border-white hover:bg-white hover:text-[#1E1147] w-40 text-lg font-bold h-12"
 							>
-								For Employers
+								<Link href="/signup/employer"> For Employers</Link>
 							</Button>
 						</div>
 					</div>
