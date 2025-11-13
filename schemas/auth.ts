@@ -37,16 +37,20 @@ const baseSignupSchema = z.object({
   email: z.string().email().min(1, "Email is required"),
   contact_number: z.string().min(1, "Contact number is required"),
   password: z.string().min(8, "Password must be atleast 8 characters"),
-  confirm_password: z.string(),
+  confirm_password: z.string().min(1, "Please confirm your password"),
   user_type: z.string(),
   resume_path: z.string().nullable(),
+  image_url: z.string().nullable(),
   linked_profile: z.string().nullable(),
   portfolio_link: z.string().nullable(),
 });
 
-export const signupSchema = baseSignupSchema.refine((data) => data.password === data.confirm_password, {
-  message: "Password does not match.",
-  path: ["confirm_password"],
-});
+export const signupSchema = baseSignupSchema.refine(
+  (data) => data.password === data.confirm_password,
+  {
+    message: "Passwords do not match",
+    path: ["confirm_password"],
+  }
+);
 
 export type SignupFormSchema = z.infer<typeof signupSchema>;

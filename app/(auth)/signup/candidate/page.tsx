@@ -1,5 +1,5 @@
 "use client";
-import React, { FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import {
 	Card,
 	CardContent,
@@ -27,22 +27,29 @@ import {
 	FileText,
 	BadgeCheck,
 	LoaderCircle,
+	User,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Path, SubmitHandler, useForm } from "react-hook-form";
 import { SignupFormSchema, signupSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Item } from "@radix-ui/react-accordion";
+import { authService } from "@/services/auth.service";
 
 const Candidate = () => {
 	const [step, setStep] = useState<number>(1);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [selectedFile, setSelectedFile] = useState<File | null>(null);
+	const [selectedImage, setSelectedImage] = useState<File | null>(null);
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 		trigger,
+		getValues,
+		setError,
+		clearErrors,
+		setValue,
 	} = useForm<SignupFormSchema>({
 		resolver: zodResolver(signupSchema),
 		mode: "onChange",
@@ -67,8 +74,8 @@ const Candidate = () => {
 
 			case 2:
 				fieldsToValidate = ["password", "confirm_password"];
-
 				break;
+
 			case 3:
 				fieldsToValidate = [];
 				break;
@@ -77,8 +84,24 @@ const Candidate = () => {
 				fieldsToValidate = [];
 				break;
 		}
+
+		// Trigger field validation
 		const isValid = await trigger(fieldsToValidate);
-		console.log("Validation result:", isValid, errors);
+
+		// For step 2, manually check if passwords match (since .refine() doesn't run on trigger)
+		if (step === 2 && isValid) {
+			const { password, confirm_password } = getValues();
+
+			if (password !== confirm_password) {
+				setError("confirm_password", {
+					type: "manual",
+					message: "Passwords do not match",
+				});
+				return;
+			} else {
+				clearErrors("confirm_password");
+			}
+		}
 
 		if (isValid) {
 			setStep((prev) => prev + 1);
@@ -90,39 +113,82 @@ const Candidate = () => {
 		setStep((prev) => prev - 1);
 	};
 
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			// Validate file size (5MB max)
+			if (file.size > 5 * 1024 * 1024) {
+				toast.error("File size must be less than 5MB");
+				return;
+			}
+
+			// Validate file type
+			const allowedTypes = [
+				"application/pdf",
+				"application/msword",
+				"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+				"text/plain",
+			];
+			if (!allowedTypes.includes(file.type)) {
+				toast.error("Please upload a PDF, DOC, DOCX, or TXT file");
+				return;
+			}
+
+			setSelectedFile(file);
+			setValue("resume_path", file.name);
+		}
+	};
+
+	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			// Validate file size (5MB max)
+			if (file.size > 5 * 1024 * 1024) {
+				toast.error("Image size must be less than 5MB");
+				return;
+			}
+
+			// Validate file type (images only)
+			const allowedTypes = [
+				"image/jpeg",
+				"image/png",
+				"image/jpg",
+				"image/webp",
+			];
+			if (!allowedTypes.includes(file.type)) {
+				toast.error("Please upload a JPG, PNG, or WEBP image");
+				return;
+			}
+
+			setSelectedImage(file);
+			setValue("image_url", file.name);
+		}
+	};
+
 	const progressBar = ["Basic info", "Security", "Profile", "Preference"];
 
 	const handleForm: SubmitHandler<SignupFormSchema> = async (data) => {
 		setIsLoading(true);
-		const formData = new FormData();
-		formData.append("first_name", data.first_name);
-		formData.append("last_name", data.last_name);
-		formData.append("email", data.email);
-		formData.append("contact_number", data.contact_number);
-		formData.append("password", data.password);
-		formData.append("user_type", data.user_type);
-		if (data.resume_path) {
-			formData.append("resume_path", data.resume_path);
-		} else {
-			formData.append("resume_path", "");
-		}
-
-		if (data.linked_profile) {
-			formData.append("linked_profile", data.linked_profile);
-		}
-
-		if (data.portfolio_link) {
-			formData.append("portfolio_link", data.portfolio_link);
-		}
 
 		try {
-			// const result = await signupUser(formData);
-			// if (result.message) {
-			//   router.push("/signup/account_success");
-			// }
-			await new Promise((resolve) => setTimeout(resolve, 2000));
-		} catch (error: any) {
-			toast.error(error.response?.data?.message || "Error sign up.");
+			const result = await authService.signup(
+				data,
+				selectedFile,
+				selectedImage,
+			);
+
+			if (result.success || result.message) {
+				toast.success(
+					result.message ||
+						"Account created successfully! Please check your email to verify your account.",
+				);
+				router.push("/signup/account_success");
+			}
+		} catch (error: unknown) {
+			const errorMessage =
+				(error as { response?: { data?: { message?: string } } })?.response
+					?.data?.message || "Error during sign up. Please try again.";
+			toast.error(errorMessage);
 		} finally {
 			setIsLoading(false);
 		}
@@ -329,21 +395,63 @@ const Candidate = () => {
 										<p className="text-xs text-gray-500">
 											PDF, DOCX or TXT (Max 5mb)
 										</p>
+										{selectedFile && (
+											<p className="text-xs text-green-600 font-medium">
+												Selected: {selectedFile.name}
+											</p>
+										)}
 										<label
 											htmlFor="resume_path"
 											className="relative cursor-pointer text-xs bg-mainColor hover:bg-mainColor/90 text-white py-2 px-4 rounded-md font-medium inline-block"
 										>
-											<span>Browse files</span>
+											<span>
+												{selectedFile ? "Change file" : "Browse files"}
+											</span>
 											<input
 												id="resume_path"
-												type="text"
-												// type="file"
-												// className="sr-only"
-												// accept=".pdf,.docx,.doc"
-												required
-												{...register("resume_path")}
+												type="file"
+												className="sr-only"
+												accept=".pdf,.docx,.doc,.txt"
+												onChange={handleFileChange}
 											/>
 										</label>
+										{/* Hidden input to store file name/path in form data */}
+										<input type="hidden" {...register("resume_path")} />
+									</div>
+								</div>
+
+								<div className="space-y-1">
+									<Label htmlFor="upload_image">Upload Profile Picture</Label>
+								</div>
+
+								<div className="border-2 border-dashed border-gray-300 rounded-md p-6 text-center hover:border-mainColor transition-colors">
+									<User className="h-6 w-6 mx-auto text-gray-400 mb-2" />
+									<div className="space-y-1">
+										<p className="text-xs text-gray-500">
+											JPG, PNG, or WEBP (Max 5mb)
+										</p>
+										{selectedImage && (
+											<p className="text-xs text-green-600 font-medium">
+												Selected: {selectedImage.name}
+											</p>
+										)}
+										<label
+											htmlFor="image_url"
+											className="relative cursor-pointer text-xs bg-mainColor hover:bg-mainColor/90 text-white py-2 px-4 rounded-md font-medium inline-block"
+										>
+											<span>
+												{selectedImage ? "Change image" : "Browse images"}
+											</span>
+											<input
+												id="image_url"
+												type="file"
+												className="sr-only"
+												accept="image/jpeg,image/png,image/jpg,image/webp"
+												onChange={handleImageChange}
+											/>
+										</label>
+										{/* Hidden input to store file name/path in form data */}
+										<input type="hidden" {...register("image_url")} />
 									</div>
 								</div>
 

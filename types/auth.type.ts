@@ -10,3 +10,8 @@ export interface LoginResponse {
 		user_type: string;
 	};
 }
+
+export interface VerifyEmailResponse {
+	success: boolean;
+	message: string;
+}
