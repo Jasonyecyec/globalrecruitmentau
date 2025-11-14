@@ -23,10 +23,12 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { User as UserIcon, Settings, LogOut } from "lucide-react";
-import Link from "next/link";
 import { User } from "@/types/user";
+import { useLogout } from "@/lib/hooks/use-auth";
 
 export default function UserNav({ user }: { user?: User | null }) {
+	const handleLogout = useLogout();
+
 	return (
 		<>
 			{/* User Navigation Menu */}
@@ -87,10 +89,10 @@ export default function UserNav({ user }: { user?: User | null }) {
 								<AlertDialogCancel>Cancel</AlertDialogCancel>
 
 								<AlertDialogAction
-									asChild
+									onClick={handleLogout}
 									className="bg-red-500 text-white hover:bg-red-600"
 								>
-									<Link href="/"> Confirm </Link>
+									Confirm
 								</AlertDialogAction>
 							</AlertDialogFooter>
 						</AlertDialogContent>

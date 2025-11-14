@@ -13,7 +13,7 @@ export const {
 // Get Public Jobs
 export const getPublicJobs = async () => {
 	try {
-		const response = await http.get("/job");
+		const response = await http.get("/job?limit=6");
 		return response.data;
 	} catch (error) {
 		throw error;

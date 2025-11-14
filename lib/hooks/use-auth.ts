@@ -1,9 +1,13 @@
 // Services
 import { authService } from "@/services/auth.service";
+import { logout as clearAuthData } from "@/services/http";
 // Externals
-import { setCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
+import { useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { useUserStore } from "@/stores/user.store";
 
 export const useLogin = () => {
 	return useMutation({
@@ -30,4 +34,24 @@ export const useLogin = () => {
 			toast.error(errorMessage);
 		},
 	});
+};
+
+export const useLogout = () => {
+	const router = useRouter();
+	const { clearUser } = useUserStore();
+
+	const handleLogout = useCallback(() => {
+		// Clear cookies and localStorage (from http.ts)
+		clearAuthData();
+
+		// Clear Zustand store
+		clearUser();
+
+		// Redirect to home page
+		router.push("/");
+
+		toast.success("Logged out successfully");
+	}, [clearUser, router]);
+
+	return handleLogout;
 };

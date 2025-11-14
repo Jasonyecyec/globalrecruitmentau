@@ -35,7 +35,7 @@ export default function Home() {
 			{/* <JobCategories jobCategories={jobCategoriesList} /> */}
 			<ChoosePath />
 
-			<FindJobs jobList={findJobList} />
+			<FindJobs />
 
 			<FeaturedIndustries featuredIndustries={featuredIndustriesList} />
 
