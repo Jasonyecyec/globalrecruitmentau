@@ -26,3 +26,32 @@ export interface JobseekerDashboard {
 	application_status: JobSeekerAplicationStatus[];
 	metrics: JobSeekerMetrics;
 }
+
+export interface EmployerRecentApplication {
+	id: number;
+	candidate_name: string;
+	position: string;
+	applied_date: string;
+	avatar: string | null;
+	status: string;
+}
+
+export interface EmployerApplicationTrend {
+	month: string;
+	applications: number;
+}
+
+export interface EmployerDashboard {
+	overview: {
+		active_jobs: number;
+		active_jobs_change_from_last_month: number;
+		total_applicants: number;
+		total_applicants_change_from_last_week: number;
+		pending_applications: number;
+		pending_applications_this_week: number;
+		shortlisted: number;
+		shortlisted_change_from_last_month: number;
+	};
+	application_trends: EmployerApplicationTrend[];
+	recent_applications: EmployerRecentApplication[];
+}

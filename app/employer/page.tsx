@@ -38,15 +38,7 @@ import {
 import { Line, LineChart, CartesianGrid, XAxis } from "recharts";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-
-const applicationsChartData = [
-	{ month: "Jan", applications: 45 },
-	{ month: "Feb", applications: 52 },
-	{ month: "Mar", applications: 61 },
-	{ month: "Apr", applications: 58 },
-	{ month: "May", applications: 73 },
-	{ month: "Jun", applications: 89 },
-];
+import { useEmployerDashboard } from "@/lib/hooks/use-dashboard";
 
 const chartConfig = {
 	applications: {
@@ -54,41 +46,6 @@ const chartConfig = {
 		color: "hsl(var(--chart-1))",
 	},
 } satisfies ChartConfig;
-
-const recentApplications = [
-	{
-		id: 1,
-		candidateName: "Sarah Johnson",
-		position: "Senior Frontend Developer",
-		appliedDate: "2 hours ago",
-		avatar: "https://github.com/shadcn.png",
-		status: "new",
-	},
-	{
-		id: 2,
-		candidateName: "Michael Chen",
-		position: "UX/UI Designer",
-		appliedDate: "5 hours ago",
-		avatar: "https://github.com/shadcn.png",
-		status: "new",
-	},
-	{
-		id: 3,
-		candidateName: "Emily Rodriguez",
-		position: "Backend Engineer",
-		appliedDate: "1 day ago",
-		avatar: "https://github.com/shadcn.png",
-		status: "reviewed",
-	},
-	{
-		id: 4,
-		candidateName: "David Kim",
-		position: "Product Manager",
-		appliedDate: "2 days ago",
-		avatar: "https://github.com/shadcn.png",
-		status: "interview",
-	},
-];
 
 const activeJobs = [
 	{
@@ -118,6 +75,8 @@ const activeJobs = [
 ];
 
 export default function EmployerDashboard() {
+	const { data: dashboardData } = useEmployerDashboard();
+
 	return (
 		<div className="p-4 sm:px-6 md:py-8">
 			<div className="flex flex-col gap-4">
@@ -160,9 +119,12 @@ export default function EmployerDashboard() {
 						</div>
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">5</div>
+						<div className="text-2xl font-bold">
+							{dashboardData?.overview.active_jobs || 0}
+						</div>
 						<p className="text-xs text-muted-foreground">
-							+2 from last month
+							+{dashboardData?.overview.active_jobs_change_from_last_month || 0}{" "}
+							from last month
 						</p>
 					</CardContent>
 				</Card>
@@ -177,9 +139,14 @@ export default function EmployerDashboard() {
 						</div>
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">89</div>
+						<div className="text-2xl font-bold">
+							{dashboardData?.overview.total_applicants || 0}
+						</div>
 						<p className="text-xs text-muted-foreground">
-							+12 from last week
+							+
+							{dashboardData?.overview.total_applicants_change_from_last_week ||
+								0}{" "}
+							from last week
 						</p>
 					</CardContent>
 				</Card>
@@ -187,29 +154,37 @@ export default function EmployerDashboard() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between pb-2 relative">
 						<CardTitle className="text-sm font-medium">
-							Interviews Scheduled
+							Pending applications
 						</CardTitle>
 						<div className="rounded-full absolute p-3 top-3 right-5 bg-purple-100">
 							<Calendar className="h-4 w-4 text-purple-600" />
 						</div>
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">7</div>
-						<p className="text-xs text-muted-foreground">3 this week</p>
+						<div className="text-2xl font-bold">
+							{dashboardData?.overview.pending_applications || 0}
+						</div>
+						<p className="text-xs text-muted-foreground">
+							{dashboardData?.overview.pending_applications_this_week || 0} this
+							week
+						</p>
 					</CardContent>
 				</Card>
 
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between pb-2 relative">
-						<CardTitle className="text-sm font-medium">Profile Views</CardTitle>
+						<CardTitle className="text-sm font-medium">Shortlisted</CardTitle>
 						<div className="rounded-full absolute p-3 top-3 right-5 bg-green-100">
 							<Eye className="h-4 w-4 text-green-600" />
 						</div>
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">1,234</div>
+						<div className="text-2xl font-bold">
+							{dashboardData?.overview.shortlisted || 0}
+						</div>
 						<p className="text-xs text-muted-foreground">
-							+18% from last month
+							+{dashboardData?.overview.shortlisted_change_from_last_month || 0}
+							% from last month
 						</p>
 					</CardContent>
 				</Card>
@@ -228,7 +203,7 @@ export default function EmployerDashboard() {
 						<ChartContainer config={chartConfig}>
 							<LineChart
 								accessibilityLayer
-								data={applicationsChartData}
+								data={dashboardData?.application_trends || []}
 								margin={{
 									left: 12,
 									right: 12,
@@ -257,7 +232,7 @@ export default function EmployerDashboard() {
 					</CardContent>
 					<CardFooter className="flex-col items-start gap-2 text-sm">
 						<div className="flex gap-2 font-medium leading-none">
-							Trending up by 22% this month <TrendingUp className="h-4 w-4" />
+							Trending up by 0% this month <TrendingUp className="h-4 w-4" />
 						</div>
 						<div className="leading-none text-muted-foreground">
 							Showing application trends for the last 6 months
@@ -272,16 +247,16 @@ export default function EmployerDashboard() {
 					</CardHeader>
 					<CardContent>
 						<div className="space-y-4">
-							{recentApplications.map((application) => (
+							{(dashboardData?.recent_applications || []).map((application) => (
 								<div
 									key={application.id}
 									className="flex items-center justify-between"
 								>
 									<div className="flex items-center space-x-4">
 										<Avatar>
-											<AvatarImage src={application.avatar} />
+											<AvatarImage src={application.avatar || undefined} />
 											<AvatarFallback>
-												{application.candidateName
+												{application.candidate_name
 													.split(" ")
 													.map((n) => n[0])
 													.join("")}
@@ -289,13 +264,13 @@ export default function EmployerDashboard() {
 										</Avatar>
 										<div>
 											<p className="text-sm font-medium leading-none">
-												{application.candidateName}
+												{application.candidate_name}
 											</p>
 											<p className="text-sm text-muted-foreground mt-1">
 												{application.position}
 											</p>
 											<p className="text-xs text-muted-foreground mt-1">
-												{application.appliedDate}
+												{application.applied_date}
 											</p>
 										</div>
 									</div>

@@ -1,6 +1,6 @@
 import http from "@/services/http";
 import { ActionResponse } from "@/types/ActionResponse";
-import { JobseekerDashboard } from "@/types/dashboard";
+import { JobseekerDashboard, EmployerDashboard } from "@/types/dashboard";
 import { useQuery } from "@tanstack/react-query";
 
 export const useJobSeekerDashboard = () =>
@@ -15,5 +15,20 @@ export const useJobSeekerDashboard = () =>
 				throw new Error("Invalid dashboard overview response");
 			}
 			return overview;
+		},
+	});
+
+export const useEmployerDashboard = () =>
+	useQuery<EmployerDashboard>({
+		queryKey: ["employer-dashboard"],
+		queryFn: async () => {
+			const response = await http.get<ActionResponse<EmployerDashboard>>(
+				"/dashboard/employer",
+			);
+			const dashboard = response.data.data;
+			if (!dashboard || typeof dashboard === "boolean") {
+				throw new Error("Invalid dashboard response");
+			}
+			return dashboard;
 		},
 	});
