@@ -72,9 +72,10 @@ export const authService = {
 		//Company
 		formData.append("industry", data.industry);
 		formData.append("location", data.location);
-		formData.append("size", data.company_size);
-		formData.append("name", data.company_name);
-		formData.append("about", data.about_company);
+		formData.append("company_size", data.company_size);
+		formData.append("company_name", data.company_name);
+		formData.append("about_company", data.about_company);
+
 		// Append logo if provided
 		if (logoFile) {
 			formData.append("company_image_url", logoFile);

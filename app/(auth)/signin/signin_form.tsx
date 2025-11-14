@@ -41,7 +41,6 @@ const SignInForm = () => {
 	const handleLogin: SubmitHandler<LoginFormSchema> = async (formData) => {
 		try {
 			const response = await login(formData);
-			console.log("Login response:", response);
 
 			if (response?.success) {
 				setUser(response.user as User);

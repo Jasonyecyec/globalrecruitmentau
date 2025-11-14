@@ -302,11 +302,26 @@ export default function Employer() {
 												<SelectValue placeholder="Select industry" />
 											</SelectTrigger>
 											<SelectContent>
-												<SelectItem value="tech">Technology</SelectItem>
-												<SelectItem value="finance">Finance</SelectItem>
-												<SelectItem value="healthcare">Healthcare</SelectItem>
-												<SelectItem value="education">Education</SelectItem>
-												<SelectItem value="other">Other</SelectItem>
+												<SelectItem value="Information Technology">
+													Information Technology
+												</SelectItem>
+												<SelectItem value="Design Services">
+													Design Services
+												</SelectItem>
+												<SelectItem value="Software Development">
+													Software Development
+												</SelectItem>
+												<SelectItem value="Cloud Services">
+													Cloud Services
+												</SelectItem>
+												<SelectItem value="Finance">Finance</SelectItem>
+												<SelectItem value="Healthcare">Healthcare</SelectItem>
+												<SelectItem value="Education">Education</SelectItem>
+												<SelectItem value="Manufacturing">
+													Manufacturing
+												</SelectItem>
+												<SelectItem value="Retail">Retail</SelectItem>
+												<SelectItem value="Other">Other</SelectItem>
 											</SelectContent>
 										</Select>
 										{errors.industry && (

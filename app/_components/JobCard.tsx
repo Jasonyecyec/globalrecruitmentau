@@ -28,8 +28,8 @@ const JobCard = ({ data }: JobCardProps) => {
 		<Card className="p-4 space-y-4 cursor-pointer">
 			<div className="flex justify-between items-center">
 				<p className="text-lg font-semibold">{data.title}</p>
-				<p className="rounded-full bg-green-100 text-green-600 px-3 py-1 text-xs">
-					Active
+				<p className="rounded-full bg-green-100 text-green-600 px-3 py-1 text-xs capitalize font-semibold">
+					{data.status}
 				</p>
 			</div>
 

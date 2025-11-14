@@ -66,4 +66,5 @@ export interface Job {
 	employer: Employer;
 	total_applications: number;
 	date_created: string;
+	status: string;
 }
