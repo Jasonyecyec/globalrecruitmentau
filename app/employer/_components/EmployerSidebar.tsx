@@ -103,7 +103,7 @@ export default function EmployerSidebar() {
 							</SidebarMenuItem>
 							<SidebarMenuItem>
 								<SidebarMenuButton
-									isActive={pathname === "/employer/applicants"}
+									isActive={pathname?.startsWith("/employer/applicants") ?? false}
 									tooltip="Applicants"
 									asChild
 								>

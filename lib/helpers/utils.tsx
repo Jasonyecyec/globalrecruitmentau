@@ -1,4 +1,5 @@
 import { getCookie } from "cookies-next";
+import { format, parseISO } from "date-fns";
 
 const OTP_EXPIRATION_TIME = 5 * 60 * 1000; // 5 minutes
 
@@ -85,3 +86,7 @@ export const isAuthenticated = () => {
 
 	return !!token && !!role && !!email;
 };
+
+export function formatDate(date: string) {
+	return format(parseISO(date), "MMMM dd, yyyy h:mm a");
+}

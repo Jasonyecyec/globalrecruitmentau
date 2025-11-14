@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
 	Card,
 	CardContent,
@@ -32,7 +32,6 @@ import {
 	MoreVertical,
 	Eye,
 	FileText,
-	Clock,
 	MapPin,
 	Briefcase,
 	DollarSign,
@@ -43,90 +42,39 @@ import {
 	PlusCircle,
 } from "lucide-react";
 import Link from "next/link";
+import { useJobPostedList } from "@/lib/hooks/use-jobs";
+import { formatDate } from "@/lib/helpers/utils";
 
-const jobListings = [
-	{
-		id: 1,
-		title: "Senior Frontend Developer",
-		department: "Engineering",
-		location: "Remote",
-		type: "Full-time",
-		salary: "$120k - $150k",
-		posted: "2 weeks ago",
-		expires: "15 days",
-		applications: 23,
-		views: 145,
-		status: "active",
-	},
-	{
-		id: 2,
-		title: "UX/UI Designer",
-		department: "Design",
-		location: "Sydney, AU",
-		type: "Full-time",
-		salary: "$90k - $120k",
-		posted: "1 week ago",
-		expires: "22 days",
-		applications: 18,
-		views: 112,
-		status: "active",
-	},
-	{
-		id: 3,
-		title: "Backend Engineer",
-		department: "Engineering",
-		location: "Melbourne, AU",
-		type: "Full-time",
-		salary: "$110k - $140k",
-		posted: "3 weeks ago",
-		expires: "8 days",
-		applications: 31,
-		views: 198,
-		status: "active",
-	},
-	{
-		id: 4,
-		title: "Product Manager",
-		department: "Product",
-		location: "Hybrid",
-		type: "Full-time",
-		salary: "$130k - $160k",
-		posted: "1 month ago",
-		expires: "Expired",
-		applications: 45,
-		views: 267,
-		status: "closed",
-	},
-	{
-		id: 5,
-		title: "Marketing Specialist",
-		department: "Marketing",
-		location: "Brisbane, AU",
-		type: "Contract",
-		salary: "$80k - $100k",
-		posted: "5 days ago",
-		expires: "Draft",
-		applications: 0,
-		views: 0,
-		status: "draft",
-	},
-];
+type TabValue = "all" | "active" | "closed";
 
 export default function MyJobs() {
 	const [searchQuery, setSearchQuery] = useState("");
-	const [activeTab, setActiveTab] = useState("all");
-
-	const filteredJobs = jobListings.filter((job) => {
-		const matchesSearch = job.title
-			.toLowerCase()
-			.includes(searchQuery.toLowerCase());
-		const matchesTab =
-			activeTab === "all" ||
-			(activeTab === "active" && job.status === "active") ||
-			(activeTab === "closed" && job.status === "closed") ||
-			(activeTab === "draft" && job.status === "draft");
-		return matchesSearch && matchesTab;
+	const [activeTab, setActiveTab] = useState<TabValue>("all");
+	const [jobCounts, setJobCounts] = useState<Record<TabValue, number>>({
+		all: 0,
+		active: 0,
+		closed: 0,
 	});
+	const jobPostedFilters = useMemo(
+		() => (activeTab === "all" ? undefined : { status: activeTab }),
+		[activeTab],
+	);
+
+	const {
+		data: jobPostedData,
+		isLoading,
+		isError,
+		isFetching,
+	} = useJobPostedList(jobPostedFilters);
+	const isInitialLoading = !jobPostedData && isLoading;
+	const jobs = jobPostedData?.data ?? [];
+
+	useEffect(() => {
+		setJobCounts((prev) => ({
+			...prev,
+			[activeTab]: jobs.length,
+		}));
+	}, [jobs.length, activeTab]);
 
 	const getStatusBadge = (status: string) => {
 		switch (status) {
@@ -142,16 +90,19 @@ export default function MyJobs() {
 						Closed
 					</Badge>
 				);
-			case "draft":
-				return (
-					<Badge variant="outline" className="bg-yellow-50 text-yellow-700">
-						Draft
-					</Badge>
-				);
+
 			default:
 				return <Badge variant="outline">{status}</Badge>;
 		}
 	};
+
+	if (isInitialLoading) {
+		return <div className="p-4">Loading...</div>;
+	}
+
+	if (isError) {
+		return <div className="p-4">Error loading jobs.</div>;
+	}
 
 	return (
 		<div className="p-4 sm:px-6 md:py-8">
@@ -204,26 +155,28 @@ export default function MyJobs() {
 
 				{/* TABS */}
 				<Tabs
-					defaultValue="all"
+					value={activeTab}
 					className="w-full"
-					onValueChange={setActiveTab}
+					onValueChange={(value) => setActiveTab(value as TabValue)}
 				>
 					<TabsList>
-						<TabsTrigger value="all">All ({jobListings.length})</TabsTrigger>
+						<TabsTrigger value="all">All ({jobCounts.all})</TabsTrigger>
 						<TabsTrigger value="active">
-							Active ({jobListings.filter((j) => j.status === "active").length})
+							Active ({jobCounts.active})
 						</TabsTrigger>
 						<TabsTrigger value="closed">
-							Closed ({jobListings.filter((j) => j.status === "closed").length})
-						</TabsTrigger>
-						<TabsTrigger value="draft">
-							Draft ({jobListings.filter((j) => j.status === "draft").length})
+							Closed ({jobCounts.closed})
 						</TabsTrigger>
 					</TabsList>
 
 					<TabsContent value={activeTab} className="mt-6">
+						{isFetching && (
+							<p className="text-sm text-muted-foreground mb-4">
+								Updating jobs…
+							</p>
+						)}
 						<div className="grid gap-4">
-							{filteredJobs.length === 0 ? (
+							{jobs.length === 0 ? (
 								<Card>
 									<CardContent className="pt-6">
 										<div className="text-center py-12">
@@ -245,7 +198,7 @@ export default function MyJobs() {
 									</CardContent>
 								</Card>
 							) : (
-								filteredJobs.map((job) => (
+								jobs.map((job) => (
 									<Card
 										key={job.id}
 										className="hover:shadow-md transition-shadow"
@@ -259,7 +212,8 @@ export default function MyJobs() {
 																{job.title}
 															</CardTitle>
 															<CardDescription className="mt-1">
-																{job.department} • Posted {job.posted}
+																{job.company?.industry} • Posted{" "}
+																{formatDate(job.date_created)}
 															</CardDescription>
 														</div>
 													</div>
@@ -275,7 +229,10 @@ export default function MyJobs() {
 														</div>
 														<div className="flex items-center gap-1 text-muted-foreground">
 															<DollarSign className="h-4 w-4" />
-															<span>{job.salary}</span>
+															<span>
+																${job.salary_min.toLocaleString()} - $
+																{job.salary_max.toLocaleString()}
+															</span>
 														</div>
 													</div>
 												</div>
@@ -326,7 +283,7 @@ export default function MyJobs() {
 													<div className="flex items-center gap-2">
 														<FileText className="h-4 w-4 text-mainColor" />
 														<p className="text-2xl font-bold">
-															{job.applications}
+															{job.total_applications}
 														</p>
 													</div>
 												</div>
@@ -334,20 +291,12 @@ export default function MyJobs() {
 													<p className="text-xs text-muted-foreground">Views</p>
 													<div className="flex items-center gap-2">
 														<Eye className="h-4 w-4 text-blue-500" />
-														<p className="text-2xl font-bold">{job.views}</p>
-													</div>
-												</div>
-												<div className="space-y-1">
-													<p className="text-xs text-muted-foreground">
-														Expires in
-													</p>
-													<div className="flex items-center gap-2">
-														<Clock className="h-4 w-4 text-purple-500" />
-														<p className="text-sm font-semibold">
-															{job.expires}
+														<p className="text-2xl font-bold">
+															{job?.views || 0}
 														</p>
 													</div>
 												</div>
+
 												<div className="flex items-end">
 													<Button
 														variant="outline"
@@ -355,7 +304,7 @@ export default function MyJobs() {
 														size="sm"
 														asChild
 													>
-														<Link href="/employer/applicants">
+														<Link href={`/employer/applicants/${job.id}`}>
 															View Applicants
 														</Link>
 													</Button>

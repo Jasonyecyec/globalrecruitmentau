@@ -67,4 +67,5 @@ export interface Job {
 	total_applications: number;
 	date_created: string;
 	status: string;
+	views: number;
 }

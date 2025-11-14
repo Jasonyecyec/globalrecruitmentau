@@ -64,7 +64,7 @@ export default function FindJobs() {
 		if (isLoading) {
 			return (
 				<p className="text-center text-sm text-muted-foreground">
-					Loading available roles...
+					Loading available jobs...
 				</p>
 			);
 		}
