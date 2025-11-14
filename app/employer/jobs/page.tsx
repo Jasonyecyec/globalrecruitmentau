@@ -203,11 +203,13 @@ export default function MyJobs() {
 				</div>
 
 				{/* TABS */}
-				<Tabs defaultValue="all" className="w-full" onValueChange={setActiveTab}>
+				<Tabs
+					defaultValue="all"
+					className="w-full"
+					onValueChange={setActiveTab}
+				>
 					<TabsList>
-						<TabsTrigger value="all">
-							All ({jobListings.length})
-						</TabsTrigger>
+						<TabsTrigger value="all">All ({jobListings.length})</TabsTrigger>
 						<TabsTrigger value="active">
 							Active ({jobListings.filter((j) => j.status === "active").length})
 						</TabsTrigger>
@@ -244,7 +246,10 @@ export default function MyJobs() {
 								</Card>
 							) : (
 								filteredJobs.map((job) => (
-									<Card key={job.id} className="hover:shadow-md transition-shadow">
+									<Card
+										key={job.id}
+										className="hover:shadow-md transition-shadow"
+									>
 										<CardHeader>
 											<div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
 												<div className="flex-1">

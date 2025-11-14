@@ -3,7 +3,7 @@ import { createCrudHooks } from "./use-crud-hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import http from "@/services/http";
 import { ActionResponse } from "@/types/ActionResponse";
-import type { CompanyFormSchema } from "@/schemas/company";
+import { CompanyFormSchema } from "@/schemas/company";
 
 const baseCrudHooks = createCrudHooks<Company>("/company", "companies");
 
