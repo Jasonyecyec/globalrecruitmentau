@@ -1,5 +1,5 @@
 "use client";
-import React, { FormEvent, useState } from "react";
+import { type FormEvent, useState } from "react";
 import {
 	Card,
 	CardContent,
@@ -15,9 +15,6 @@ import { Progress } from "@/components/ui/progress";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
 	Select,
 	SelectContent,
@@ -25,38 +22,103 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-
+import { Textarea } from "@/components/ui/textarea";
 import {
 	Lock,
 	Mail,
 	ChevronRight,
 	ChevronLeft,
-	Phone,
-	MapPin,
-	FileText,
-	User,
 	Building,
 	BadgeCheck,
+	LoaderCircle,
+	Upload,
+	MapPin,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-
-type FormDatatype = {
-	industry: string;
-};
+import { type Path, type SubmitHandler, useForm } from "react-hook-form";
+import {
+	type EmployerSignupFormSchema,
+	employerSignupSchema,
+} from "@/schemas/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { authService } from "@/services/auth.service";
 
 export default function Employer() {
 	const router = useRouter();
 	const [step, setStep] = useState<number>(1);
-	const totalSteps: number = 4;
-	const progress: number = (step / totalSteps) * 100;
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [selectedLogo, setSelectedLogo] = useState<File | null>(null);
 
-	const [formData, setFormData] = useState<FormDatatype>({
-		industry: "",
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		trigger,
+		getValues,
+		setError,
+		clearErrors,
+		setValue,
+		watch,
+	} = useForm<EmployerSignupFormSchema>({
+		resolver: zodResolver(employerSignupSchema),
+		mode: "onChange",
 	});
 
-	const handleNextStep = (e: FormEvent<HTMLButtonElement>) => {
+	const totalSteps: number = 3;
+	const progress: number = (step / totalSteps) * 100;
+
+	// Watch industry value to show "Other" input
+	const industryValue = watch("industry");
+
+	const handleNextStep = async (e: FormEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		setStep((prev) => prev + 1);
+		let fieldsToValidate: Array<Path<EmployerSignupFormSchema>> = [];
+
+		switch (step) {
+			case 1:
+				fieldsToValidate = [
+					"company_name",
+					"about_company",
+					"industry",
+					"location",
+					"company_size",
+				];
+				break;
+			case 2:
+				fieldsToValidate = [
+					"first_name",
+					"last_name",
+					"job_title",
+					"contact_number",
+				];
+				break;
+			case 3:
+				fieldsToValidate = ["email", "password", "confirm_password"];
+				break;
+		}
+
+		// Trigger field validation
+		const isValid = await trigger(fieldsToValidate);
+
+		// For step 3, manually check if passwords match
+		if (step === 3 && isValid) {
+			const { password, confirm_password } = getValues();
+
+			if (password !== confirm_password) {
+				setError("confirm_password", {
+					type: "manual",
+					message: "Passwords do not match",
+				});
+				return;
+			} else {
+				clearErrors("confirm_password");
+			}
+		}
+
+		if (isValid) {
+			setStep((prev) => prev + 1);
+		}
 	};
 
 	const handlePrevStep = (e: FormEvent<HTMLButtonElement>) => {
@@ -64,16 +126,56 @@ export default function Employer() {
 		setStep((prev) => prev - 1);
 	};
 
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			// Validate file size (5MB max)
+			if (file.size > 5 * 1024 * 1024) {
+				toast.error("Image size must be less than 5MB");
+				return;
+			}
 
-		console.log("submit");
-		router.push("/signup/account_success");
+			// Validate file type (images only)
+			const allowedTypes = [
+				"image/jpeg",
+				"image/png",
+				"image/jpg",
+				"image/webp",
+			];
+			if (!allowedTypes.includes(file.type)) {
+				toast.error("Please upload a JPG, PNG, or WEBP image");
+				return;
+			}
+
+			setSelectedLogo(file);
+			setValue("company_logo", file.name);
+		}
 	};
 
-	const handleSelectChange = (name: string, value: string = "test") => {
-		setFormData((prev) => ({ ...prev, [name]: value }));
+	const handleForm: SubmitHandler<EmployerSignupFormSchema> = async (data) => {
+		setIsLoading(true);
+
+		try {
+			const result = await authService.employerSignup(data, selectedLogo);
+
+			if (result.success || result.message) {
+				toast.success(
+					result.message ||
+						"Account created successfully! Please check your email to verify your account.",
+				);
+				router.push("/signup/employer/account_success");
+			}
+		} catch (error: unknown) {
+			const errorMessage =
+				(error as { response?: { data?: { message?: string } } })?.response
+					?.data?.message || "Error during sign up. Please try again.";
+			toast.error(errorMessage);
+		} finally {
+			setIsLoading(false);
+		}
 	};
+
+	const progressSteps = ["Company", "Your Profile", "Account"];
 
 	return (
 		<div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-5 md:p-0">
@@ -86,7 +188,7 @@ export default function Employer() {
 								alt="Recruitment Placement Global"
 								width={280}
 								height={80}
-								className="object-contain  h-28 w-28"
+								className="object-contain h-28 w-28"
 							/>
 						</Link>
 						<span className="text-xl text-secondaryColor font-bold text-center">
@@ -96,189 +198,352 @@ export default function Employer() {
 
 					<CardDescription className="text-center">
 						{step === 1 && "Let's start with your company information"}
-						{step === 2 && "Tell us more about your hiring needs"}
+						{step === 2 && "Tell us about yourself"}
 						{step === 3 && "Set up your account details"}
 					</CardDescription>
 
 					<div className="pt-2">
-						<Progress value={progress} className="text-mainColor h-[2.5px] " />
+						<Progress value={progress} className="text-mainColor h-[2.5px]" />
 						<div className="flex justify-between text-xs text-gray-400 mt-2 px-1">
-							<span
-								className={step === 1 ? "font-medium text-secondaryColor" : ""}
-							>
-								Company
-							</span>
-
-							<span
-								className={step === 2 ? "font-medium text-secondaryColor" : ""}
-							>
-								Hiring Needs
-							</span>
-
-							<span
-								className={step === 3 ? "font-medium text-secondaryColor" : ""}
-							>
-								Account
-							</span>
+							{progressSteps.map((item, index) => (
+								<span
+									key={item}
+									className={
+										step === index + 1 ? "font-medium text-secondaryColor" : ""
+									}
+								>
+									{item}
+								</span>
+							))}
 						</div>
 					</div>
 				</CardHeader>
 
 				<CardContent>
-					<form action="" className="space-y-4" onSubmit={handleSubmit}>
+					<form
+						onKeyDown={(e) => {
+							if (e.key === "Enter") e.preventDefault();
+						}}
+						onSubmit={handleSubmit(handleForm)}
+						className="space-y-4"
+					>
+						<input type="hidden" value="employer" {...register("user_type")} />
+
 						{step === 1 && (
 							<>
 								<div className="space-y-2">
-									<Label htmlFor="companyName">Company Name *</Label>
+									<Label htmlFor="company_name">
+										Company Name <span className="text-destructive">*</span>
+									</Label>
 									<div className="relative">
 										<Building className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
 										<Input
-											id="companyName"
-											name="companyName"
-											//   value={formData.companyName}
-											//   onChange={handleChange}
+											id="company_name"
 											placeholder="Acme Inc."
-											required
 											className="pl-10"
+											{...register("company_name")}
 										/>
+										{errors.company_name && (
+											<p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+												{errors.company_name.message}
+											</p>
+										)}
 									</div>
 								</div>
-								<div className="space-y-2">
-									<Label htmlFor="industry">Industry *</Label>
-									<Select
-										onValueChange={(value) =>
-											handleSelectChange("industry", value)
-										}
-										// defaultValue={formData.industry}
-										name="industry"
-									>
-										<SelectTrigger>
-											<SelectValue placeholder="Select industry" />
-										</SelectTrigger>
-										<SelectContent>
-											<SelectItem value="tech">Technology</SelectItem>
-											<SelectItem value="finance">Finance</SelectItem>
-											<SelectItem value="healthcare">Healthcare</SelectItem>
-											<SelectItem value="education">Education</SelectItem>
-											<SelectItem value="other">Other</SelectItem>
-										</SelectContent>
-									</Select>
 
-									{formData.industry === "other" && (
-										<Input placeholder="Specify Industtry" />
+								<div className="space-y-2">
+									<Label htmlFor="about_company">
+										About Company <span className="text-destructive">*</span>
+									</Label>
+									<Textarea
+										id="about_company"
+										placeholder="Briefly describe your company"
+										className="h-32"
+										{...register("about_company")}
+									/>
+									{errors.about_company && (
+										<p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+											{errors.about_company.message}
+										</p>
 									)}
 								</div>
+
 								<div className="space-y-2">
-									<Label htmlFor="companySize">Company Size *</Label>
-									<Select
-									// onValueChange={(value) => handleSelectChange("companySize", value)}
-									// defaultValue={formData.companySize}
-									>
-										<SelectTrigger>
-											<SelectValue placeholder="Select company size" />
-										</SelectTrigger>
-										<SelectContent>
-											<SelectItem value="1-10">1-10 employees</SelectItem>
-											<SelectItem value="11-50">11-50 employees</SelectItem>
-											<SelectItem value="51-200">51-200 employees</SelectItem>
-											<SelectItem value="201-500">201-500 employees</SelectItem>
-											<SelectItem value="501+">501+ employees</SelectItem>
-										</SelectContent>
-									</Select>
+									<Label htmlFor="company_name">
+										Location <span className="text-destructive">*</span>
+									</Label>
+									<div className="relative">
+										<MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+										<Input
+											id="location"
+											placeholder="123 Main St, City, Country"
+											className="pl-10"
+											required
+											{...register("location")}
+										/>
+										{errors.location && (
+											<p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+												{errors.location.message}
+											</p>
+										)}
+									</div>
 								</div>
-								{/* Add more company-related fields as needed */}
+
+								<div className="grid grid-cols-2 gap-5">
+									<div className="space-y-2">
+										<Label htmlFor="industry">
+											Industry <span className="text-destructive">*</span>
+										</Label>
+										<Select
+											onValueChange={(value) => setValue("industry", value)}
+											defaultValue={getValues("industry")}
+										>
+											<SelectTrigger className="w-full">
+												<SelectValue placeholder="Select industry" />
+											</SelectTrigger>
+											<SelectContent>
+												<SelectItem value="tech">Technology</SelectItem>
+												<SelectItem value="finance">Finance</SelectItem>
+												<SelectItem value="healthcare">Healthcare</SelectItem>
+												<SelectItem value="education">Education</SelectItem>
+												<SelectItem value="other">Other</SelectItem>
+											</SelectContent>
+										</Select>
+										{errors.industry && (
+											<p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+												{errors.industry.message}
+											</p>
+										)}
+
+										{industryValue === "other" && (
+											<Input
+												placeholder="Specify Industry"
+												{...register("industry_other")}
+											/>
+										)}
+									</div>
+
+									<div className="space-y-2">
+										<Label htmlFor="company_size">
+											Company Size <span className="text-destructive">*</span>
+										</Label>
+										<Select
+											onValueChange={(value) => setValue("company_size", value)}
+											defaultValue={getValues("company_size")}
+										>
+											<SelectTrigger className="w-full">
+												<SelectValue placeholder="Select company size" />
+											</SelectTrigger>
+											<SelectContent>
+												<SelectItem value="1-10">1-10 employees</SelectItem>
+												<SelectItem value="11-50">11-50 employees</SelectItem>
+												<SelectItem value="51-200">51-200 employees</SelectItem>
+												<SelectItem value="201-500">
+													201-500 employees
+												</SelectItem>
+												<SelectItem value="501+">501+ employees</SelectItem>
+											</SelectContent>
+										</Select>
+										{errors.company_size && (
+											<p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+												{errors.company_size.message}
+											</p>
+										)}
+									</div>
+								</div>
+
+								<div className="space-y-2">
+									<Label htmlFor="company_logo">Company Logo (Optional)</Label>
+									<div className="border-2 border-dashed border-gray-300 rounded-md p-6 text-center hover:border-mainColor transition-colors">
+										<Upload className="h-6 w-6 mx-auto text-gray-400 mb-2" />
+										<div className="space-y-1">
+											<p className="text-xs text-gray-500">
+												JPG, PNG, or WEBP (Max 5mb)
+											</p>
+											{selectedLogo && (
+												<p className="text-xs text-green-600 font-medium">
+													Selected: {selectedLogo.name}
+												</p>
+											)}
+											<label
+												htmlFor="company_logo"
+												className="relative cursor-pointer text-xs bg-mainColor hover:bg-mainColor/90 text-white py-2 px-4 rounded-md font-medium inline-block"
+											>
+												<span>
+													{selectedLogo ? "Change logo" : "Browse files"}
+												</span>
+												<input
+													id="company_logo"
+													type="file"
+													className="sr-only"
+													accept="image/jpeg,image/png,image/jpg,image/webp"
+													onChange={handleLogoChange}
+												/>
+											</label>
+											<input type="hidden" {...register("company_logo")} />
+										</div>
+									</div>
+								</div>
 							</>
 						)}
 
 						{step === 2 && (
 							<>
-								<div className="space-y-2">
-									<Label htmlFor="hiringNeeds">
-										What positions are you hiring for? *
-									</Label>
-									<Textarea
-										id="hiringNeeds"
-										name="hiringNeeds"
-										//  value={formData.hiringNeeds}
-										//  onChange={handleChange}
-										placeholder="e.g., Software Engineer, Marketing Manager, Sales Representative"
-										required
-										className="min-h-[100px]"
-									/>
+								<div className="grid grid-cols-2 gap-4">
+									<div className="space-y-2">
+										<Label htmlFor="first_name">
+											First Name <span className="text-destructive">*</span>
+										</Label>
+										<Input
+											id="first_name"
+											placeholder="John"
+											{...register("first_name")}
+										/>
+										{errors.first_name && (
+											<p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+												{errors.first_name.message}
+											</p>
+										)}
+									</div>
+
+									<div className="space-y-2">
+										<Label htmlFor="last_name">
+											Last Name <span className="text-destructive">*</span>
+										</Label>
+										<Input
+											id="last_name"
+											placeholder="Doe"
+											{...register("last_name")}
+										/>
+										{errors.last_name && (
+											<p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+												{errors.last_name.message}
+											</p>
+										)}
+									</div>
 								</div>
-								{/* Add more hiring-related fields as needed */}
+
+								<div className="space-y-2">
+									<Label htmlFor="job_title">
+										Job Title <span className="text-destructive">*</span>
+									</Label>
+									<Input
+										id="job_title"
+										placeholder="e.g., HR Manager, Recruiter, CEO"
+										{...register("job_title")}
+									/>
+									{errors.job_title && (
+										<p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+											{errors.job_title.message}
+										</p>
+									)}
+								</div>
+
+								<div className="space-y-2">
+									<Label htmlFor="contact_number">
+										Contact Number <span className="text-destructive">*</span>
+									</Label>
+									<Input
+										id="contact_number"
+										type="tel"
+										placeholder="+61 XXX XXX XXX"
+										{...register("contact_number")}
+									/>
+									{errors.contact_number && (
+										<p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+											{errors.contact_number.message}
+										</p>
+									)}
+								</div>
 							</>
 						)}
 
 						{step === 3 && (
 							<>
 								<div className="space-y-2">
-									<Label htmlFor="email">Work Email *</Label>
+									<Label htmlFor="email">
+										Work Email <span className="text-destructive">*</span>
+									</Label>
 									<div className="relative">
 										<Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
 										<Input
 											id="email"
-											name="email"
-											// value={formData.email}
-											// onChange={handleChange}
 											placeholder="name@company.com"
 											type="email"
-											required
 											className="pl-10"
+											{...register("email")}
 										/>
+										{errors.email && (
+											<p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+												{errors.email.message}
+											</p>
+										)}
 									</div>
 								</div>
+
 								<div className="space-y-2">
-									<Label htmlFor="password">Password *</Label>
+									<Label htmlFor="password">
+										Password <span className="text-destructive">*</span>
+									</Label>
 									<div className="relative">
 										<Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
 										<Input
 											id="password"
-											name="password"
-											// value={formData.password}
-											// onChange={handleChange}
 											type="password"
-											required
+											placeholder="••••••••"
 											className="pl-10"
+											{...register("password")}
 										/>
+										{errors.password && (
+											<p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+												{errors.password.message}
+											</p>
+										)}
 									</div>
-									<div className="text-xs text-gray-500">
+									<p className="text-xs text-gray-500">
 										Password must be at least 8 characters long
-									</div>
+									</p>
 								</div>
 
 								<div className="space-y-2">
-									<Label htmlFor="confirm_password">Confirm Password *</Label>
+									<Label htmlFor="confirm_password">
+										Confirm Password <span className="text-destructive">*</span>
+									</Label>
 									<div className="relative">
 										<Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
 										<Input
 											id="confirm_password"
-											name="confirm_password"
-											// value={formData.password}
-											// onChange={handleChange}
 											type="password"
-											required
+											placeholder="••••••••"
 											className="pl-10"
+											{...register("confirm_password")}
 										/>
+										{errors.confirm_password && (
+											<p className="text-red-500 text-xs mt-1 pl-1 font-semibold">
+												{errors.confirm_password.message}
+											</p>
+										)}
 									</div>
 								</div>
-								{/* Add more account-related fields as needed */}
 							</>
 						)}
 
-						<div className={`flex justify-between items-center pt-2`}>
-							{step != 1 ? (
+						<div className="flex justify-between items-center pt-2">
+							{step !== 1 ? (
 								<Button
 									onClick={handlePrevStep}
 									className="border items-center justify-center flex border-mainColor text-gray-500 hover:text-mainColor h-8"
 									variant="outline"
 								>
-									<ChevronLeft className=" h-4 w-4" />
+									<ChevronLeft className="h-4 w-4" />
 									Back
 								</Button>
 							) : (
 								<Button
-									onClick={() => router.back()}
+									onClick={(e) => {
+										e.preventDefault();
+										router.back();
+									}}
 									className="border border-mainColor text-gray-500 hover:text-secondaryColor h-8"
 									variant="outline"
 								>
@@ -295,14 +560,35 @@ export default function Employer() {
 									<ChevronRight className="h-4 w-4" />
 								</Button>
 							) : (
-								<Button className="bg-mainColor hover:bg-main/90 text-white">
-									Complete Registration
-									<BadgeCheck className="h-4 w-4" />
+								<Button
+									type="submit"
+									className="bg-mainColor hover:bg-mainColor/90 text-white w-48"
+									disabled={isLoading}
+								>
+									{isLoading ? (
+										<LoaderCircle className="h-5 w-5 animate-spin" />
+									) : (
+										<>
+											Complete Registration
+											<BadgeCheck className="h-4 w-4 ml-1" />
+										</>
+									)}
 								</Button>
 							)}
 						</div>
 					</form>
 				</CardContent>
+
+				<CardFooter className="w-full flex justify-center">
+					<p className="text-center text-sm text-gray-600">
+						Already have an account?{" "}
+						<Link href="/signin">
+							<span className="font-medium hover:text-mainColor transition-all duration-250">
+								Login
+							</span>
+						</Link>
+					</p>
+				</CardFooter>
 			</Card>
 		</div>
 	);
