@@ -37,45 +37,64 @@ import {
 	Star,
 	TrendingUp,
 	Users,
+	XCircle,
 } from "lucide-react";
-import { Pie, PieChart } from "recharts";
+import { Pie, PieChart, Cell } from "recharts";
 import { User } from "@/lib/types/user";
-
-const chartData = [
-	{ browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-	{ browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-	{ browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-	{ browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-	{ browser: "other", visitors: 90, fill: "var(--color-other)" },
-];
+import { useJobSeekerDashboard } from "@/lib/hooks/use-dashboard";
 
 const chartConfig = {
-	visitors: {
-		label: "Visitors",
+	count: {
+		label: "Applications",
 	},
-	chrome: {
-		label: "Chrome",
-		color: "hsl(var(--chart-1))",
+	pending: {
+		label: "Pending",
+		color: "#3b82f6", // blue-500
 	},
-	safari: {
-		label: "Safari",
-		color: "hsl(var(--chart-2))",
+	under_review: {
+		label: "Under Review",
+		color: "#eab308", // yellow-500
 	},
-	firefox: {
-		label: "Firefox",
-		color: "hsl(var(--chart-3))",
+	shortlisted: {
+		label: "Shortlisted",
+		color: "#a855f7", // purple-500
 	},
-	edge: {
-		label: "Edge",
-		color: "hsl(var(--chart-4))",
+	accept: {
+		label: "Accepted",
+		color: "#22c55e", // green-500
 	},
-	other: {
-		label: "Other",
-		color: "hsl(var(--chart-5))",
+	reject: {
+		label: "Rejected",
+		color: "#ef4444", // red-500
+	},
+	on_hold: {
+		label: "On Hold",
+		color: "#f97316", // orange-500
 	},
 } satisfies ChartConfig;
 
 export default function Home() {
+	const { data: dashboardData } = useJobSeekerDashboard();
+	console.log("Dashboard Data:", dashboardData);
+
+	// Transform application status data for the pie chart
+	const chartData =
+		dashboardData?.application_status.map((status) => ({
+			status: status.status,
+			count: status.count,
+			fill: `var(--color-${status.status})`,
+		})) || [];
+
+	// Calculate totals for the legend
+	const statusCounts =
+		dashboardData?.application_status.reduce(
+			(acc, curr) => {
+				acc[curr.status] = curr.count;
+				return acc;
+			},
+			{} as Record<string, number>,
+		) || {};
+
 	return (
 		<div className=" p-4 sm:px-6 md:py-8">
 			<div className="flex flex-col gap-4">
@@ -113,47 +132,65 @@ export default function Home() {
 						</div>
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">0</div>
-						<p className="text-xs text-muted-foreground">0 from last week</p>
+						<div className="text-2xl font-bold">
+							{dashboardData?.overview.total_applications}
+						</div>
+						<p className="text-xs text-muted-foreground">
+							{dashboardData?.overview.applications_from_last_week} from last
+							week
+						</p>
 					</CardContent>
 				</Card>
 
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between pb-2 relative">
-						<CardTitle className="text-sm font-medium">Interviews</CardTitle>
+						<CardTitle className="text-sm font-medium">Shorlisted</CardTitle>
 						<div className="rounded-full absolute p-3 top-3 right-5 bg-blue-100">
 							<Users className="h-4 w-4 text-blue-600" />
 						</div>
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">0</div>
-						<p className="text-xs text-muted-foreground">0 from last week</p>
+						<div className="text-2xl font-bold">
+							{dashboardData?.overview.shortlisted}
+						</div>
+						<p className="text-xs text-muted-foreground">
+							{dashboardData?.overview.shortlisted_from_last_week} from last
+							week
+						</p>
 					</CardContent>
 				</Card>
 
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between pb-2 relative">
-						<CardTitle className="text-sm font-medium">Saved Jobs</CardTitle>
+						<CardTitle className="text-sm font-medium">Accepted Jobs</CardTitle>
 						<div className="rounded-full absolute p-3 top-3 right-5 bg-green-100">
 							<Star className="h-4 w-4 text-green-500" />
 						</div>
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">0</div>
-						<p className="text-xs text-muted-foreground">0 from last week</p>
+						<div className="text-2xl font-bold">
+							{dashboardData?.overview.accepted}
+						</div>
+						<p className="text-xs text-muted-foreground">
+							{dashboardData?.overview.accepted_from_last_week} from last week
+						</p>
 					</CardContent>
 				</Card>
 
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between pb-2 relative">
-						<CardTitle className="text-sm font-medium">Profile Views</CardTitle>
-						<div className="rounded-full absolute p-3 top-3 right-5 bg-violet-100">
-							<TrendingUp className="h-4 w-4 text-violet-500" />
+						<CardTitle className="text-sm font-medium">Rejects</CardTitle>
+						<div className="rounded-full absolute p-3 top-3 right-5 bg-red-100">
+							<XCircle className="h-4 w-4 text-destructive" />
 						</div>
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">0</div>
-						<p className="text-xs text-muted-foreground">0 from last week</p>
+						<div className="text-2xl font-bold">
+							{dashboardData?.overview.rejected}
+						</div>
+						<p className="text-xs text-muted-foreground">
+							{dashboardData?.overview.rejected_from_last_week} from last week
+						</p>
 					</CardContent>
 				</Card>
 			</div>
@@ -179,31 +216,39 @@ export default function Home() {
 									cursor={false}
 									content={<ChartTooltipContent hideLabel />}
 								/>
-								<Pie data={chartData} dataKey="visitors" nameKey="browser" />
+								<Pie data={chartData} dataKey="count" nameKey="status" />
 							</PieChart>
 						</ChartContainer>
 					</CardContent>
 					<CardFooter className="flex-col gap-2 text-sm space-y-2">
 						<div className="flex items-center gap-2 font-medium leading-none">
-							Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+							Trending up by 0% this month <TrendingUp className="h-4 w-4" />
 						</div>
 
 						<div className="grid grid-cols-2 gap-4 w-full">
 							<div className="flex items-center justify-center">
 								<div className="mr-2 h-3 w-3 rounded-full bg-blue-500" />
-								<span className="text-sm">Applied: 0</span>
+								<span className="text-sm">
+									Pending: {statusCounts.pending || 0}
+								</span>
 							</div>
 							<div className="flex items-center justify-center">
 								<div className="mr-2 h-3 w-3 rounded-full bg-yellow-500" />
-								<span className="text-sm">In Review: 0</span>
+								<span className="text-sm">
+									Under Review: {statusCounts.under_review || 0}
+								</span>
 							</div>
 							<div className="flex items-center justify-center">
 								<div className="mr-2 h-3 w-3 rounded-full bg-purple-500" />
-								<span className="text-sm">Interview: 0</span>
+								<span className="text-sm">
+									Shortlisted: {statusCounts.shortlisted || 0}
+								</span>
 							</div>
 							<div className="flex items-center justify-center">
 								<div className="mr-2 h-3 w-3 rounded-full bg-green-500" />
-								<span className="text-sm">Offer: 0</span>
+								<span className="text-sm">
+									Accepted: {statusCounts.accept || 0}
+								</span>
 							</div>
 						</div>
 					</CardFooter>
@@ -220,51 +265,66 @@ export default function Home() {
 						<div className="space-y-6">
 							<div>
 								<div className="flex items-center justify-between mb-2">
-									<div className="text-sm font-medium">Response Rate</div>
-									<div className="text-sm font-medium">0%</div>
+									<div className="text-sm font-medium">Under Review Rate</div>
+									<div className="text-sm font-medium">
+										{dashboardData?.metrics.under_review_rate || 0}%
+									</div>
 								</div>
 								<div className="h-2 w-full bg-blue-100 rounded-full">
 									<div
 										className="h-2 bg-blue-500 rounded-full"
-										style={{ width: "0%" }}
+										style={{
+											width: `${dashboardData?.metrics.under_review_rate || 0}%`,
+										}}
 									></div>
 								</div>
 								<div className="text-xs text-muted-foreground mt-1">
-									0 responses from 0 applications
+									{dashboardData?.metrics.under_review_text ||
+										"0 responses from 0 applications"}
 								</div>
 							</div>
 
 							<div>
 								<div className="flex items-center justify-between mb-2">
 									<div className="text-sm font-medium">
-										Interview Conversion
+										Shortlisted Conversion
 									</div>
-									<div className="text-sm font-medium">0%</div>
+									<div className="text-sm font-medium">
+										{dashboardData?.metrics.shortlisted_conversion || 0}%
+									</div>
 								</div>
 								<div className="h-2 w-full bg-purple-100 rounded-full">
 									<div
 										className="h-2 bg-purple-500 rounded-full"
-										style={{ width: "0%" }}
+										style={{
+											width: `${dashboardData?.metrics.shortlisted_conversion || 0}%`,
+										}}
 									></div>
 								</div>
 								<div className="text-xs text-muted-foreground mt-1">
-									0 interviews from 0 responses
+									{dashboardData?.metrics.shortlisted_text ||
+										"0 shortlisted from 0 responses"}
 								</div>
 							</div>
 
 							<div>
 								<div className="flex items-center justify-between mb-2">
 									<div className="text-sm font-medium">Offer Rate</div>
-									<div className="text-sm font-medium">50%</div>
+									<div className="text-sm font-medium">
+										{dashboardData?.metrics.offer_rate || 0}%
+									</div>
 								</div>
 								<div className="h-2 w-full bg-green-100 rounded-full">
 									<div
 										className="h-2 bg-green-500 rounded-full"
-										style={{ width: "0%" }}
+										style={{
+											width: `${dashboardData?.metrics.offer_rate || 0}%`,
+										}}
 									></div>
 								</div>
 								<div className="text-xs text-muted-foreground mt-1">
-									0 offers from 0 interviews
+									{dashboardData?.metrics.offer_text ||
+										"0 offers from 0 interviews"}
 								</div>
 							</div>
 						</div>
